@@ -1,0 +1,91 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="LibrarySystem_Main.SiteMaster" %>
+
+<!DOCTYPE html>
+<html id="htmlTag" runat="server">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - Library System</title>
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+    <webopt:BundleReference runat="server" Path="~/Content/css" />
+    <link id="styleSheetLink" runat="server" rel="stylesheet" />
+</head>
+<body id="body" runat="server">
+    <form runat="server">
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="bootstrap" />
+            </Scripts>
+        </asp:ScriptManager>
+
+        <script>
+            $(function () {
+                $(".datepicker").datepicker({
+                    dateFormat: 'yy-mm-dd'
+                });
+            });
+        </script>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3 sidebar" id="sidebar" runat="server">
+                    <div class="sidebar-header">
+                        <h3>Library System</h3>
+                    </div>
+                    
+                    <div id="adminMenu" runat="server" visible="false">
+                        <ul class="main-menu">
+                           
+                            <li><asp:HyperLink runat="server" NavigateUrl="~/Admin/AdminDefault"><asp:Literal runat="server" Text="<%$ Resources:Resources, Dashboard%>" /></asp:HyperLink></li>
+                            <li><asp:HyperLink runat="server" NavigateUrl="~/Admin/ManageUsers"><asp:Literal runat="server" Text="<%$ Resources:Resources, ManageUsers%>" /></asp:HyperLink></li>
+                            <li><asp:HyperLink runat="server" NavigateUrl="~/Admin/ManageBooks"><asp:Literal runat="server" Text="<%$ Resources:Resources, ManageBooks%>" /></asp:HyperLink></li>
+                            <li><asp:HyperLink runat="server" NavigateUrl="~/Admin/Return"><asp:Literal runat="server" Text="<%$ Resources:Resources, Returns%>" /></asp:HyperLink></li>
+                            <li><asp:HyperLink runat="server" NavigateUrl="~/Admin/Reports"><asp:Literal runat="server" Text="<%$ Resources:Resources, Reports%>" /></asp:HyperLink></li>
+                            <li><asp:HyperLink runat="server" NavigateUrl="~/General/Borrow"><asp:Literal runat="server" Text="<%$ Resources:Resources, BorrowBooks%>" /></asp:HyperLink></li>
+                            <li><asp:HyperLink runat="server" NavigateUrl="~/General/MyBooks"><asp:Literal runat="server" Text="<%$ Resources:Resources, MyBooks%>" /></asp:HyperLink></li>
+                            <li><asp:HyperLink runat="server" NavigateUrl="~/General/Account.aspx"><asp:Literal runat="server" Text="<%$ Resources:Resources, MyAccount%>" /></asp:HyperLink></li>
+                        </ul>
+                    </div>
+
+                    <div id="teacherMenu" runat="server" visible="false">
+                        <ul class="main-menu">
+                            <li><asp:HyperLink runat="server" NavigateUrl="~/Teacher/TeacherDefault"><asp:Literal runat="server" Text="<%$ Resources:Resources, Dashboard%>" /></asp:HyperLink></li>
+                            <li><asp:HyperLink runat="server" NavigateUrl="~/General/Borrow"><asp:Literal runat="server" Text="<%$ Resources:Resources, BorrowBooks%>" /></asp:HyperLink></li>
+                            <li><asp:HyperLink runat="server" NavigateUrl="~/General/MyBooks"><asp:Literal runat="server" Text="<%$ Resources:Resources, MyBooks%>" /></asp:HyperLink></li>
+                            <li><asp:HyperLink runat="server" NavigateUrl="~/General/Account.aspx"><asp:Literal runat="server" Text="<%$ Resources:Resources, MyAccount%>" /></asp:HyperLink></li>
+
+                        </ul>
+                    </div>
+
+                    <div id="studentMenu" runat="server" visible="false">
+                        <ul class="main-menu">
+                            <li><asp:HyperLink runat="server" NavigateUrl="~/Student/StudentDefault"><asp:Literal runat="server" Text="<%$ Resources:Resources, Dashboard%>" /></asp:HyperLink></li>
+                            <li><asp:HyperLink runat="server" NavigateUrl="~/General/Borrow"><asp:Literal runat="server" Text="<%$ Resources:Resources, BorrowBooks%>" /></asp:HyperLink></li>
+                            <li><asp:HyperLink runat="server" NavigateUrl="~/General/MyBooks"><asp:Literal runat="server" Text="<%$ Resources:Resources, MyBooks%>" /></asp:HyperLink></li>
+                            <li><asp:HyperLink runat="server" NavigateUrl="~/General/Account.aspx"><asp:Literal runat="server" Text="<%$ Resources:Resources, MyAccount%>" /></asp:HyperLink></li>
+                        </ul>
+                    </div>
+                    
+                </div>
+
+                <div class="main-content" id="mainCont" runat="server">
+                    <div class="page-header">
+                        <h1><%: Page.Title %></h1>
+                        <asp:Literal ID="WelcomeMessage" runat="server" />
+                    </div>
+
+                    <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                    </asp:ContentPlaceHolder>
+
+                    <footer class="footer">
+                        <p>5/4/2025 - Library Management System</p>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</body>
+</html>

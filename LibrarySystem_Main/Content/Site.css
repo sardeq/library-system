@@ -1,0 +1,286 @@
+﻿:root {
+    --primary-color: #2c3e50;
+    --accent-color: #3498db;
+    --text-color: #333;
+    --sidebar-width: 250px;
+}
+
+.overdue-user {
+    color: #ff0000 !important;
+    animation: blink 1s linear infinite;
+}
+
+.due-soon-user {
+    color: #ffa500 !important;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* Account Page */
+#MainContent .card {
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#MainContent .form-group label {
+    font-weight: 500;
+}
+
+#MainContent .readonly-field {
+    background-color: #f8f9fa;
+    cursor: not-allowed;
+}
+
+#passwordModal .modal-content {
+    padding: 20px;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-content: center;
+}
+
+.modal-backdrop {
+    z-index: 999;
+}
+
+#sidebar {
+    width: 250px;
+    background: #2c3e50;
+    color: white;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1000;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.main-content {
+    margin-left: 250px;
+    flex: 1;
+    padding: 30px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #f5f6fa;
+}
+
+.footer {
+    margin-top: auto;
+    padding: 20px;
+    background: white;
+    border-top: 1px solid #ddd;
+}
+
+main {
+    margin-left: var(--sidebar-width);
+    flex: 1;
+    padding: 30px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    font-size: 1.8em;
+    margin: 0 0 30px 0;
+    color: white;
+}
+
+.main-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+    .main-menu li {
+        margin: 10px 0;
+    }
+
+    .main-menu a {
+        color: white;
+        text-decoration: none;
+        padding: 12px;
+        display: block;
+        border-radius: 4px;
+        transition: all 0.3s;
+    }
+
+        .main-menu a:hover {
+            background: var(--accent-color);
+            transform: translateX(5px);
+        }
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #eee;
+}
+
+.user-info {
+    font-size: 1.1em;
+    color: var(--primary-color);
+}
+
+.logBtn {
+    z-index: 1001;
+    width: 100%;
+    padding: 10px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin: 5px;
+}
+
+    .logBtn:hover {
+        background: #c0392b;
+    }
+
+#btnLogout {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+    z-index: 1001;
+}
+
+    #btnLogout:hover {
+        background: #c0392b;
+    }
+
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background: #f5f6fa;
+}
+
+.login-card {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+    .login-header h2 {
+        color: var(--primary-color);
+        margin: 0 0 10px 0;
+    }
+
+    .login-header p {
+        color: #666;
+        margin: 0;
+    }
+
+.login-input {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+    .login-input:focus {
+        border-color: var(--accent-color);
+        outline: none;
+    }
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin: 20px;
+}
+
+    .login-btn:hover {
+        background: #2980b9;
+    }
+
+.p-btn {
+    width: 100%;
+    padding: 10px;
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin: 5px;
+}
+
+    .p-btn:hover {
+        background: #2980b9;
+    }
+
+.error-message {
+    color: #e74c3c;
+    font-size: 0.9em;
+    margin-top: 5px;
+    display: block;
+}
+
+.suc-message {
+    color: lawngreen;
+    font-size: 0.9em;
+    margin-top: 5px;
+    display: block;
+}
+
+.error-message-main {
+    color: #e74c3c;
+    margin-top: 15px;
+    display: block;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    #sidebar {
+        width: 100%;
+        height: auto;
+    }
+
+    main {
+        padding: 20px;
+    }
+}
