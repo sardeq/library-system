@@ -5,5 +5,8 @@
     <Setting Name="LibrarySystem_API_LibraryWebServiceRef_WebService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">https://localhost:44342/WebService.asmx</Value>
     </Setting>
+    <Setting Name="LibrarySystem_API_Shared_WebService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://localhost:44319/WebService.asmx</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

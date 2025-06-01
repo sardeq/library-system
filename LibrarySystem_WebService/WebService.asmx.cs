@@ -402,11 +402,11 @@ namespace LibrarySystem_WebService
         #region Reviews
 
         [WebMethod]
-        public ReviewResult ProcessReview(int userId, string bookId, string reviewText)
+        public async Task<ReviewResult> ProcessReview(int userId, string bookId, string reviewText)
         {
             try
             {
-                var sentiment = ReviewManagement.GetSentimentFromChatGPT(reviewText).Result;
+                var sentiment = await ReviewManagement.GetSentimentFromChatGPT(reviewText);
                 var details = ReviewManagement.GetUserDetails(userId);
 
                 bool savedToDb = ReviewManagement.SaveReviewToDatabase(userId, reviewText, sentiment);
@@ -420,10 +420,6 @@ namespace LibrarySystem_WebService
                     Sentiment = savedToDb && csvUpdated ? sentiment : null,
                     Error = (!savedToDb || !csvUpdated) ? "Database/CSV update failed" : null
                 };
-            }
-            catch (AggregateException ex)
-            {
-                return new ReviewResult { Success = false, Error = "Error: " + ex.InnerException?.Message };
             }
             catch (Exception ex)
             {

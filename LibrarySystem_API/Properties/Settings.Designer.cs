@@ -32,5 +32,15 @@ namespace LibrarySystem_API.Properties {
                 return ((string)(this["LibrarySystem_API_LibraryWebServiceRef_WebService"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://localhost:44319/WebService.asmx")]
+        public string LibrarySystem_API_Shared_WebService {
+            get {
+                return ((string)(this["LibrarySystem_API_Shared_WebService"]));
+            }
+        }
     }
 }
