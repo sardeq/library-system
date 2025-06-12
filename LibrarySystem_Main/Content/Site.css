@@ -14,6 +14,68 @@
     color: #ffa500 !important;
 }
 
+.bg-primary-light {
+    background-color: #e0f2f7;
+}
+/* Light blue */
+.bg-success-light {
+    background-color: #d4edda;
+}
+/* Light green */
+.bg-danger-light {
+    background-color: #f8d7da;
+}
+/* Light red */
+.bg-warning-light {
+    background-color: #fff3cd;
+}
+/* Light yellow */
+.bg-info-light {
+    background-color: #d1ecf1;
+}
+/* Light cyan */
+.bg-secondary-light {
+    background-color: #e2e3e5;
+}
+/* Light gray */
+
+/* Flexbox utilities for centering chart content within cards */
+.card-body.d-flex { /* Bootstrap's d-flex for flex container */
+    display: flex;
+    align-items: center; /* Vertically center items */
+    justify-content: center; /* Horizontally center items */
+    position: relative; /* Needed for absolute positioning of messages */
+}
+
+.card-body canvas {
+    max-width: 100%; /* Ensure canvas scales within its container */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.chart-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the message */
+    margin: 0;
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly opaque background for readability */
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.hidden {
+    display: none !important; /* Utility class to hide elements */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 767.98px) {
+    .col-md-3, .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
 @keyframes blink {
     50% {
         opacity: 0;

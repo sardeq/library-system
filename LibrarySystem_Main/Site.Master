@@ -44,6 +44,7 @@
                             <li><asp:HyperLink runat="server" NavigateUrl="~/Admin/Return"><asp:Literal runat="server" Text="<%$ Resources:Resources, Returns%>" /></asp:HyperLink></li>
                             <li><asp:HyperLink runat="server" NavigateUrl="~/Admin/Reports"><asp:Literal runat="server" Text="<%$ Resources:Resources, Reports%>" /></asp:HyperLink></li>
                             <li><asp:HyperLink runat="server" NavigateUrl="~/Admin/Analysis"><asp:Literal runat="server" Text="<%$ Resources:Resources, Analysis%>" /></asp:HyperLink></li>
+                            <li><asp:HyperLink runat="server" NavigateUrl="~/General/Borrow"><asp:Literal runat="server" Text="<%$ Resources:Resources, BorrowBooks%>" /></asp:HyperLink></li>
                             <li><asp:HyperLink runat="server" NavigateUrl="~/General/MyBooks"><asp:Literal runat="server" Text="<%$ Resources:Resources, MyBooks%>" /></asp:HyperLink></li>
                             <li><asp:HyperLink runat="server" NavigateUrl="~/General/Account.aspx"><asp:Literal runat="server" Text="<%$ Resources:Resources, MyAccount%>" /></asp:HyperLink></li>
                         </ul>

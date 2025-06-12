@@ -43,10 +43,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LibrarySystem_Shared">
+    <Reference Include="LibrarySystem_Shared, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\LibrarySystem.Shared\bin\LibrarySystem_Shared.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -96,6 +100,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Fakes Include="Fakes\LibrarySystem_Shared.fakes" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -106,6 +111,7 @@
   <ItemGroup>
     <Compile Include="Admin\ManageUser.cs" />
     <Compile Include="Auth\Login.cs" />
+    <Compile Include="Books\AnalysisManagement.cs" />
     <Compile Include="Books\BookManagement.cs" />
     <Compile Include="Books\ReviewManagement.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

@@ -442,5 +442,53 @@ namespace LibrarySystem_WebService
 
         #endregion
 
+
+        #region Analysis
+
+        [WebMethod]
+        public ReviewSummary GetReviewSentimentSummary()
+        {
+            try
+            {
+                var analysisService = new AnalysisManagement();
+                return analysisService.GetReviewSentimentSummary();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error getting review sentiment summary: " + ex.Message);
+            }
+        }
+
+        [WebMethod]
+        public List<AgeGroupReview> GetReviewsByAgeGroup()
+        {
+            try
+            {
+                var analysisService = new AnalysisManagement();
+                return analysisService.GetReviewsByAgeGroup();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error getting age group reviews: " + ex.Message);
+            }
+        }
+
+        [WebMethod]
+        public List<BorrowedCountReview> GetReviewsByBorrowedCount()
+        {
+            try
+            {
+                var analysisService = new AnalysisManagement();
+                return analysisService.GetReviewsByBorrowedCount();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error getting reviews by borrowed count: " + ex.Message);
+            }
+        }
+
+        #endregion
+
+
     }
 }

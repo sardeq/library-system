@@ -485,6 +485,68 @@
           <s:element minOccurs="0" maxOccurs="1" name="Error" type="s:string" />
         </s:sequence>
       </s:complexType>
+      <s:element name="GetReviewSentimentSummary">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetReviewSentimentSummaryResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetReviewSentimentSummaryResult" type="tns:ReviewSummary" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ReviewSummary">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="TotalPositive" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="TotalNegative" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="TotalMixed" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="TotalUnknown" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="OverallSentiment" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="MostCommonSentiment" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetReviewsByAgeGroup">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetReviewsByAgeGroupResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetReviewsByAgeGroupResult" type="tns:ArrayOfAgeGroupReview" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfAgeGroupReview">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="AgeGroupReview" nillable="true" type="tns:AgeGroupReview" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AgeGroupReview">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="AgeGroup" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ReviewCount" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetReviewsByBorrowedCount">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetReviewsByBorrowedCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetReviewsByBorrowedCountResult" type="tns:ArrayOfBorrowedCountReview" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfBorrowedCountReview">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="BorrowedCountReview" nillable="true" type="tns:BorrowedCountReview" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BorrowedCountReview">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="BorrowedRange" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ReviewCount" type="s:int" />
+        </s:sequence>
+      </s:complexType>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="LoginSoapIn">
@@ -649,6 +711,24 @@
   <wsdl:message name="ProcessReviewSoapOut">
     <wsdl:part name="parameters" element="tns:ProcessReviewResponse" />
   </wsdl:message>
+  <wsdl:message name="GetReviewSentimentSummarySoapIn">
+    <wsdl:part name="parameters" element="tns:GetReviewSentimentSummary" />
+  </wsdl:message>
+  <wsdl:message name="GetReviewSentimentSummarySoapOut">
+    <wsdl:part name="parameters" element="tns:GetReviewSentimentSummaryResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetReviewsByAgeGroupSoapIn">
+    <wsdl:part name="parameters" element="tns:GetReviewsByAgeGroup" />
+  </wsdl:message>
+  <wsdl:message name="GetReviewsByAgeGroupSoapOut">
+    <wsdl:part name="parameters" element="tns:GetReviewsByAgeGroupResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetReviewsByBorrowedCountSoapIn">
+    <wsdl:part name="parameters" element="tns:GetReviewsByBorrowedCount" />
+  </wsdl:message>
+  <wsdl:message name="GetReviewsByBorrowedCountSoapOut">
+    <wsdl:part name="parameters" element="tns:GetReviewsByBorrowedCountResponse" />
+  </wsdl:message>
   <wsdl:portType name="WebServiceSoap">
     <wsdl:operation name="Login">
       <wsdl:input message="tns:LoginSoapIn" />
@@ -757,6 +837,18 @@
     <wsdl:operation name="ProcessReview">
       <wsdl:input message="tns:ProcessReviewSoapIn" />
       <wsdl:output message="tns:ProcessReviewSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetReviewSentimentSummary">
+      <wsdl:input message="tns:GetReviewSentimentSummarySoapIn" />
+      <wsdl:output message="tns:GetReviewSentimentSummarySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetReviewsByAgeGroup">
+      <wsdl:input message="tns:GetReviewsByAgeGroupSoapIn" />
+      <wsdl:output message="tns:GetReviewsByAgeGroupSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetReviewsByBorrowedCount">
+      <wsdl:input message="tns:GetReviewsByBorrowedCountSoapIn" />
+      <wsdl:output message="tns:GetReviewsByBorrowedCountSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebServiceSoap" type="tns:WebServiceSoap">
@@ -1004,6 +1096,33 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="GetReviewSentimentSummary">
+      <soap:operation soapAction="http://tempuri.org/GetReviewSentimentSummary" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetReviewsByAgeGroup">
+      <soap:operation soapAction="http://tempuri.org/GetReviewsByAgeGroup" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetReviewsByBorrowedCount">
+      <soap:operation soapAction="http://tempuri.org/GetReviewsByBorrowedCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WebServiceSoap12" type="tns:WebServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -1243,6 +1362,33 @@
     </wsdl:operation>
     <wsdl:operation name="ProcessReview">
       <soap12:operation soapAction="http://tempuri.org/ProcessReview" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetReviewSentimentSummary">
+      <soap12:operation soapAction="http://tempuri.org/GetReviewSentimentSummary" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetReviewsByAgeGroup">
+      <soap12:operation soapAction="http://tempuri.org/GetReviewsByAgeGroup" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetReviewsByBorrowedCount">
+      <soap12:operation soapAction="http://tempuri.org/GetReviewsByBorrowedCount" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

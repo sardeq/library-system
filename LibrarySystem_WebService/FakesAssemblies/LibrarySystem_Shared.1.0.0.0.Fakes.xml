@@ -1,0 +1,470 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LibrarySystem_Shared.1.0.0.0.Fakes</name>
+    </assembly>
+    <members>
+        <member name="T:LibrarySystem_Shared.Models.Fakes.ShimAgeGroupReview">
+            <summary>Shim type of LibrarySystem_Shared.Models.AgeGroupReview</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.ShimAgeGroupReview.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.ShimAgeGroupReview.#ctor(LibrarySystem_Shared.Models.AgeGroupReview)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimAgeGroupReview.AgeGroupGet">
+            <summary>Sets the shim of AgeGroupReview.get_AgeGroup()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimAgeGroupReview.AgeGroupSetString">
+            <summary>Sets the shim of AgeGroupReview.set_AgeGroup(String value)</summary>
+        </member>
+        <member name="T:LibrarySystem_Shared.Models.Fakes.ShimAgeGroupReview.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimAgeGroupReview.AllInstances.AgeGroupGet">
+            <summary>Sets the shim of AgeGroupReview.get_AgeGroup()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimAgeGroupReview.AllInstances.AgeGroupSetString">
+            <summary>Sets the shim of AgeGroupReview.set_AgeGroup(String value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimAgeGroupReview.AllInstances.ReviewCountGet">
+            <summary>Sets the shim of AgeGroupReview.get_ReviewCount()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimAgeGroupReview.AllInstances.ReviewCountSetInt32">
+            <summary>Sets the shim of AgeGroupReview.set_ReviewCount(Int32 value)</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.ShimAgeGroupReview.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.ShimAgeGroupReview.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimAgeGroupReview.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimAgeGroupReview.Constructor">
+            <summary>Sets the shim of AgeGroupReview.AgeGroupReview()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimAgeGroupReview.ReviewCountGet">
+            <summary>Sets the shim of AgeGroupReview.get_ReviewCount()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimAgeGroupReview.ReviewCountSetInt32">
+            <summary>Sets the shim of AgeGroupReview.set_ReviewCount(Int32 value)</summary>
+        </member>
+        <member name="T:LibrarySystem_Shared.Models.Fakes.ShimBorrowedCountReview">
+            <summary>Shim type of LibrarySystem_Shared.Models.BorrowedCountReview</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.ShimBorrowedCountReview.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.ShimBorrowedCountReview.#ctor(LibrarySystem_Shared.Models.BorrowedCountReview)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="T:LibrarySystem_Shared.Models.Fakes.ShimBorrowedCountReview.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimBorrowedCountReview.AllInstances.BorrowedRangeGet">
+            <summary>Sets the shim of BorrowedCountReview.get_BorrowedRange()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimBorrowedCountReview.AllInstances.BorrowedRangeSetString">
+            <summary>Sets the shim of BorrowedCountReview.set_BorrowedRange(String value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimBorrowedCountReview.AllInstances.ReviewCountGet">
+            <summary>Sets the shim of BorrowedCountReview.get_ReviewCount()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimBorrowedCountReview.AllInstances.ReviewCountSetInt32">
+            <summary>Sets the shim of BorrowedCountReview.set_ReviewCount(Int32 value)</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.ShimBorrowedCountReview.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.ShimBorrowedCountReview.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimBorrowedCountReview.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimBorrowedCountReview.BorrowedRangeGet">
+            <summary>Sets the shim of BorrowedCountReview.get_BorrowedRange()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimBorrowedCountReview.BorrowedRangeSetString">
+            <summary>Sets the shim of BorrowedCountReview.set_BorrowedRange(String value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimBorrowedCountReview.Constructor">
+            <summary>Sets the shim of BorrowedCountReview.BorrowedCountReview()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimBorrowedCountReview.ReviewCountGet">
+            <summary>Sets the shim of BorrowedCountReview.get_ReviewCount()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimBorrowedCountReview.ReviewCountSetInt32">
+            <summary>Sets the shim of BorrowedCountReview.set_ReviewCount(Int32 value)</summary>
+        </member>
+        <member name="T:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry">
+            <summary>Shim type of LibrarySystem_Shared.Models.ReviewDataEntry</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.#ctor(LibrarySystem_Shared.Models.ReviewDataEntry)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.AgeGet">
+            <summary>Sets the shim of ReviewDataEntry.get_Age()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.AgeSetInt32">
+            <summary>Sets the shim of ReviewDataEntry.set_Age(Int32 value)</summary>
+        </member>
+        <member name="T:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.AllInstances.AgeGet">
+            <summary>Sets the shim of ReviewDataEntry.get_Age()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.AllInstances.AgeSetInt32">
+            <summary>Sets the shim of ReviewDataEntry.set_Age(Int32 value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.AllInstances.BorrowedCountGet">
+            <summary>Sets the shim of ReviewDataEntry.get_BorrowedCount()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.AllInstances.BorrowedCountSetInt32">
+            <summary>Sets the shim of ReviewDataEntry.set_BorrowedCount(Int32 value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.AllInstances.MixedGet">
+            <summary>Sets the shim of ReviewDataEntry.get_Mixed()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.AllInstances.MixedSetInt32">
+            <summary>Sets the shim of ReviewDataEntry.set_Mixed(Int32 value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.AllInstances.NegativeGet">
+            <summary>Sets the shim of ReviewDataEntry.get_Negative()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.AllInstances.NegativeSetInt32">
+            <summary>Sets the shim of ReviewDataEntry.set_Negative(Int32 value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.AllInstances.PositiveGet">
+            <summary>Sets the shim of ReviewDataEntry.get_Positive()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.AllInstances.PositiveSetInt32">
+            <summary>Sets the shim of ReviewDataEntry.set_Positive(Int32 value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.AllInstances.ReviewDescGet">
+            <summary>Sets the shim of ReviewDataEntry.get_ReviewDesc()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.AllInstances.ReviewDescSetString">
+            <summary>Sets the shim of ReviewDataEntry.set_ReviewDesc(String value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.AllInstances.UnknownGet">
+            <summary>Sets the shim of ReviewDataEntry.get_Unknown()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.AllInstances.UnknownSetInt32">
+            <summary>Sets the shim of ReviewDataEntry.set_Unknown(Int32 value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.AllInstances.UserIDGet">
+            <summary>Sets the shim of ReviewDataEntry.get_UserID()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.AllInstances.UserIDSetInt32">
+            <summary>Sets the shim of ReviewDataEntry.set_UserID(Int32 value)</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.BorrowedCountGet">
+            <summary>Sets the shim of ReviewDataEntry.get_BorrowedCount()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.BorrowedCountSetInt32">
+            <summary>Sets the shim of ReviewDataEntry.set_BorrowedCount(Int32 value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.Constructor">
+            <summary>Sets the shim of ReviewDataEntry.ReviewDataEntry()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.MixedGet">
+            <summary>Sets the shim of ReviewDataEntry.get_Mixed()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.MixedSetInt32">
+            <summary>Sets the shim of ReviewDataEntry.set_Mixed(Int32 value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.NegativeGet">
+            <summary>Sets the shim of ReviewDataEntry.get_Negative()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.NegativeSetInt32">
+            <summary>Sets the shim of ReviewDataEntry.set_Negative(Int32 value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.PositiveGet">
+            <summary>Sets the shim of ReviewDataEntry.get_Positive()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.PositiveSetInt32">
+            <summary>Sets the shim of ReviewDataEntry.set_Positive(Int32 value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.ReviewDescGet">
+            <summary>Sets the shim of ReviewDataEntry.get_ReviewDesc()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.ReviewDescSetString">
+            <summary>Sets the shim of ReviewDataEntry.set_ReviewDesc(String value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.UnknownGet">
+            <summary>Sets the shim of ReviewDataEntry.get_Unknown()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.UnknownSetInt32">
+            <summary>Sets the shim of ReviewDataEntry.set_Unknown(Int32 value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.UserIDGet">
+            <summary>Sets the shim of ReviewDataEntry.get_UserID()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry.UserIDSetInt32">
+            <summary>Sets the shim of ReviewDataEntry.set_UserID(Int32 value)</summary>
+        </member>
+        <member name="T:LibrarySystem_Shared.Models.Fakes.ShimReviewResult">
+            <summary>Shim type of LibrarySystem_Shared.Models.ReviewResult</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.ShimReviewResult.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.ShimReviewResult.#ctor(LibrarySystem_Shared.Models.ReviewResult)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="T:LibrarySystem_Shared.Models.Fakes.ShimReviewResult.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewResult.AllInstances.ErrorGet">
+            <summary>Sets the shim of ReviewResult.get_Error()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewResult.AllInstances.ErrorSetString">
+            <summary>Sets the shim of ReviewResult.set_Error(String value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewResult.AllInstances.SentimentGet">
+            <summary>Sets the shim of ReviewResult.get_Sentiment()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewResult.AllInstances.SentimentSetString">
+            <summary>Sets the shim of ReviewResult.set_Sentiment(String value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewResult.AllInstances.SuccessGet">
+            <summary>Sets the shim of ReviewResult.get_Success()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewResult.AllInstances.SuccessSetBoolean">
+            <summary>Sets the shim of ReviewResult.set_Success(Boolean value)</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.ShimReviewResult.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.ShimReviewResult.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewResult.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewResult.Constructor">
+            <summary>Sets the shim of ReviewResult.ReviewResult()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewResult.ErrorGet">
+            <summary>Sets the shim of ReviewResult.get_Error()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewResult.ErrorSetString">
+            <summary>Sets the shim of ReviewResult.set_Error(String value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewResult.SentimentGet">
+            <summary>Sets the shim of ReviewResult.get_Sentiment()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewResult.SentimentSetString">
+            <summary>Sets the shim of ReviewResult.set_Sentiment(String value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewResult.SuccessGet">
+            <summary>Sets the shim of ReviewResult.get_Success()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewResult.SuccessSetBoolean">
+            <summary>Sets the shim of ReviewResult.set_Success(Boolean value)</summary>
+        </member>
+        <member name="T:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary">
+            <summary>Shim type of LibrarySystem_Shared.Models.ReviewSummary</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.#ctor(LibrarySystem_Shared.Models.ReviewSummary)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="T:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.AllInstances.MostCommonSentimentGet">
+            <summary>Sets the shim of ReviewSummary.get_MostCommonSentiment()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.AllInstances.MostCommonSentimentSetString">
+            <summary>Sets the shim of ReviewSummary.set_MostCommonSentiment(String value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.AllInstances.OverallSentimentGet">
+            <summary>Sets the shim of ReviewSummary.get_OverallSentiment()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.AllInstances.OverallSentimentSetString">
+            <summary>Sets the shim of ReviewSummary.set_OverallSentiment(String value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.AllInstances.TotalMixedGet">
+            <summary>Sets the shim of ReviewSummary.get_TotalMixed()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.AllInstances.TotalMixedSetInt32">
+            <summary>Sets the shim of ReviewSummary.set_TotalMixed(Int32 value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.AllInstances.TotalNegativeGet">
+            <summary>Sets the shim of ReviewSummary.get_TotalNegative()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.AllInstances.TotalNegativeSetInt32">
+            <summary>Sets the shim of ReviewSummary.set_TotalNegative(Int32 value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.AllInstances.TotalPositiveGet">
+            <summary>Sets the shim of ReviewSummary.get_TotalPositive()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.AllInstances.TotalPositiveSetInt32">
+            <summary>Sets the shim of ReviewSummary.set_TotalPositive(Int32 value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.AllInstances.TotalUnknownGet">
+            <summary>Sets the shim of ReviewSummary.get_TotalUnknown()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.AllInstances.TotalUnknownSetInt32">
+            <summary>Sets the shim of ReviewSummary.set_TotalUnknown(Int32 value)</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.Constructor">
+            <summary>Sets the shim of ReviewSummary.ReviewSummary()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.MostCommonSentimentGet">
+            <summary>Sets the shim of ReviewSummary.get_MostCommonSentiment()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.MostCommonSentimentSetString">
+            <summary>Sets the shim of ReviewSummary.set_MostCommonSentiment(String value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.OverallSentimentGet">
+            <summary>Sets the shim of ReviewSummary.get_OverallSentiment()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.OverallSentimentSetString">
+            <summary>Sets the shim of ReviewSummary.set_OverallSentiment(String value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.TotalMixedGet">
+            <summary>Sets the shim of ReviewSummary.get_TotalMixed()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.TotalMixedSetInt32">
+            <summary>Sets the shim of ReviewSummary.set_TotalMixed(Int32 value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.TotalNegativeGet">
+            <summary>Sets the shim of ReviewSummary.get_TotalNegative()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.TotalNegativeSetInt32">
+            <summary>Sets the shim of ReviewSummary.set_TotalNegative(Int32 value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.TotalPositiveGet">
+            <summary>Sets the shim of ReviewSummary.get_TotalPositive()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.TotalPositiveSetInt32">
+            <summary>Sets the shim of ReviewSummary.set_TotalPositive(Int32 value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.TotalUnknownGet">
+            <summary>Sets the shim of ReviewSummary.get_TotalUnknown()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimReviewSummary.TotalUnknownSetInt32">
+            <summary>Sets the shim of ReviewSummary.set_TotalUnknown(Int32 value)</summary>
+        </member>
+        <member name="T:LibrarySystem_Shared.Models.Fakes.StubAgeGroupReview">
+            <summary>Stub type of LibrarySystem_Shared.Models.AgeGroupReview</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.StubAgeGroupReview.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.StubAgeGroupReview.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.StubAgeGroupReview.InitializeStub">
+            <summary>Initializes a new instance of type StubAgeGroupReview</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.StubAgeGroupReview.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.StubAgeGroupReview.InstanceObserver">
+            <summary>Gets or sets the instance observer.</summary>
+        </member>
+        <member name="T:LibrarySystem_Shared.Models.Fakes.StubBorrowedCountReview">
+            <summary>Stub type of LibrarySystem_Shared.Models.BorrowedCountReview</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.StubBorrowedCountReview.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.StubBorrowedCountReview.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.StubBorrowedCountReview.InitializeStub">
+            <summary>Initializes a new instance of type StubBorrowedCountReview</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.StubBorrowedCountReview.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.StubBorrowedCountReview.InstanceObserver">
+            <summary>Gets or sets the instance observer.</summary>
+        </member>
+        <member name="T:LibrarySystem_Shared.Models.Fakes.StubReviewDataEntry">
+            <summary>Stub type of LibrarySystem_Shared.Models.ReviewDataEntry</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.StubReviewDataEntry.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.StubReviewDataEntry.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.StubReviewDataEntry.InitializeStub">
+            <summary>Initializes a new instance of type StubReviewDataEntry</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.StubReviewDataEntry.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.StubReviewDataEntry.InstanceObserver">
+            <summary>Gets or sets the instance observer.</summary>
+        </member>
+        <member name="T:LibrarySystem_Shared.Models.Fakes.StubReviewResult">
+            <summary>Stub type of LibrarySystem_Shared.Models.ReviewResult</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.StubReviewResult.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.StubReviewResult.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.StubReviewResult.InitializeStub">
+            <summary>Initializes a new instance of type StubReviewResult</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.StubReviewResult.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.StubReviewResult.InstanceObserver">
+            <summary>Gets or sets the instance observer.</summary>
+        </member>
+        <member name="T:LibrarySystem_Shared.Models.Fakes.StubReviewSummary">
+            <summary>Stub type of LibrarySystem_Shared.Models.ReviewSummary</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.StubReviewSummary.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.StubReviewSummary.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.StubReviewSummary.InitializeStub">
+            <summary>Initializes a new instance of type StubReviewSummary</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.StubReviewSummary.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.StubReviewSummary.InstanceObserver">
+            <summary>Gets or sets the instance observer.</summary>
+        </member>
+    </members>
+</doc>
