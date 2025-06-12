@@ -189,4 +189,7 @@
   <data name="Returns" xml:space="preserve">
     <value>Returns</value>
   </data>
+  <data name="Analysis" xml:space="preserve">
+    <value>Analysis</value>
+  </data>
 </root>

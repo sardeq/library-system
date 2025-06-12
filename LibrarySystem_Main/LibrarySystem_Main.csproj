@@ -133,6 +133,7 @@
     <Content Include="AccessDenied.aspx" />
     <Content Include="Admin\Reports.aspx" />
     <Content Include="Admin\Return.aspx" />
+    <Content Include="Admin\Analysis.aspx" />
     <Content Include="BasePage.aspx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -244,6 +245,13 @@
     </Compile>
     <Compile Include="Admin\Return.aspx.designer.cs">
       <DependentUpon>Return.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Analysis.aspx.cs">
+      <DependentUpon>Analysis.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Analysis.aspx.designer.cs">
+      <DependentUpon>Analysis.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\Resources.ar.designer.cs">
       <AutoGen>True</AutoGen>

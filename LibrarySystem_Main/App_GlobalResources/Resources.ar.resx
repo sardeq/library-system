@@ -189,4 +189,7 @@
   <data name="Returns" xml:space="preserve">
     <value>المرتجعات</value>
   </data>
+  <data name="Analysis" xml:space="preserve">
+    <value>تحليل</value>
+  </data>
 </root>
