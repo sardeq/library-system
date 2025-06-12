@@ -117,7 +117,7 @@ namespace LibrarySystem_Main.General
 
                 if (!reviewResponse.IsSuccessStatusCode)
                 {
-                    ShowErrorMessage("Review submission failed.");
+                    ShowErrorMessage("Review submission failed." + reviewResponse.StatusCode + reviewResponse.Content);
                     return;
                 }
             }

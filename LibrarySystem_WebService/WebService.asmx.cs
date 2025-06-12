@@ -11,6 +11,7 @@ using LibrarySystem_WebService.Books;
 using LibrarySystem_WebService.Report;
 using System.Threading.Tasks;
 using System.Net.Http;
+using LibrarySystem_Shared.Models;
 
 namespace LibrarySystem_WebService
 {
@@ -18,12 +19,6 @@ namespace LibrarySystem_WebService
     /// Summary description for WebService
     /// </summary>
     /// 
-    public class ReviewResult
-    {
-        public bool Success { get; set; }
-        public string Sentiment { get; set; }
-        public string Error { get; set; }
-    }
 
     [WebService(Namespace = "http://tempuri.org/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
@@ -402,29 +397,45 @@ namespace LibrarySystem_WebService
         #region Reviews
 
         [WebMethod]
-        public async Task<ReviewResult> ProcessReview(int userId, string bookId, string reviewText)
+        public ReviewResult ProcessReview(int userId, string bookId, string reviewText)
         {
             try
             {
-                var sentiment = await ReviewManagement.GetSentimentFromChatGPT(reviewText);
-                var details = ReviewManagement.GetUserDetails(userId);
-
-                bool savedToDb = ReviewManagement.SaveReviewToDatabase(userId, reviewText, sentiment);
-                bool csvUpdated = ReviewManagement.UpdateReviewDataCSV(
-                    userId, reviewText, sentiment, details.Age, details.BorrowedCount
-                );
-
+                return Task.Run(() => ProcessReviewAsync(userId, bookId, reviewText)).Result; // Temporary bridge
+            }
+            catch (AggregateException ae)
+            {
                 return new ReviewResult
                 {
-                    Success = savedToDb && csvUpdated,
-                    Sentiment = savedToDb && csvUpdated ? sentiment : null,
-                    Error = (!savedToDb || !csvUpdated) ? "Database/CSV update failed" : null
+                    Success = false,
+                    Error = ae.Flatten().InnerException?.Message ?? "Unknown error"
                 };
             }
             catch (Exception ex)
             {
-                return new ReviewResult { Success = false, Error = "Error: " + ex.Message };
+                return new ReviewResult
+                {
+                    Success = false,
+                    Error = ex.Message
+                };
             }
+        }
+
+        private async Task<ReviewResult> ProcessReviewAsync(int userId, string bookId, string reviewText)
+        {
+            var sentiment = await ReviewManagement.GetSentimentFromChatGPT(reviewText);
+            var details = ReviewManagement.GetUserDetails(userId);
+            bool savedToDb = ReviewManagement.SaveReviewToDatabase(userId, reviewText, sentiment);
+            bool csvUpdated = ReviewManagement.UpdateReviewDataCSV(
+                userId, reviewText, sentiment, details.Age, details.BorrowedCount
+            );
+
+            return new ReviewResult
+            {
+                Success = savedToDb && csvUpdated,
+                Sentiment = savedToDb && csvUpdated ? sentiment : null,
+                Error = (!savedToDb || !csvUpdated) ? "Database/CSV update failed" : null
+            };
         }
 
 

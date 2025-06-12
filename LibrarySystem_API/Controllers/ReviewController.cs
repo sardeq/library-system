@@ -1,4 +1,4 @@
-﻿using LibrarySystem_API.LibraryWebServiceRef;
+﻿using LibrarySystem_API.LibraryWebServiceRef; // Use ReviewResult from web reference
 using LibrarySystem_API.Models;
 using System;
 using System.Net;
@@ -12,11 +12,11 @@ namespace LibrarySystem_API.Controllers
     {
         [HttpPost]
         [Route("submit")]
-        public IHttpActionResult SubmitReview([FromBody] ReviewRequest request)
+        public async Task<IHttpActionResult> SubmitReview([FromBody] ReviewRequest request)
         {
             try
             {
-                ReviewResult response = WebServiceClient.ProcessReview(
+                var response = await WebServiceClient.ProcessReviewAsync(
                     request.UserID,
                     request.BookID,
                     request.ReviewText

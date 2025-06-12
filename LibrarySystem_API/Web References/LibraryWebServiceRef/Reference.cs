@@ -28,7 +28,6 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="WebServiceSoap", Namespace="http://tempuri.org/")]
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Task))]
     public partial class WebService : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
         private System.Threading.SendOrPostCallback LoginOperationCompleted;
@@ -970,12 +969,12 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/ProcessReview", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public TaskOfReviewResult ProcessReview(int userId, string bookId, string reviewText) {
+        public ReviewResult ProcessReview(int userId, string bookId, string reviewText) {
             object[] results = this.Invoke("ProcessReview", new object[] {
                         userId,
                         bookId,
                         reviewText});
-            return ((TaskOfReviewResult)(results[0]));
+            return ((ReviewResult)(results[0]));
         }
         
         /// <remarks/>
@@ -1079,22 +1078,48 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
     }
     
     /// <remarks/>
-    [System.Xml.Serialization.XmlIncludeAttribute(typeof(TaskOfReviewResult))]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9037.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
-    public partial class Task {
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9037.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
-    public partial class TaskOfReviewResult : Task {
+    public partial class ReviewResult {
+        
+        private bool successField;
+        
+        private string sentimentField;
+        
+        private string errorField;
+        
+        /// <remarks/>
+        public bool Success {
+            get {
+                return this.successField;
+            }
+            set {
+                this.successField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Sentiment {
+            get {
+                return this.sentimentField;
+            }
+            set {
+                this.sentimentField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Error {
+            get {
+                return this.errorField;
+            }
+            set {
+                this.errorField = value;
+            }
+        }
     }
     
     /// <remarks/>
@@ -2270,10 +2295,10 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
         }
         
         /// <remarks/>
-        public TaskOfReviewResult Result {
+        public ReviewResult Result {
             get {
                 this.RaiseExceptionIfNecessary();
-                return ((TaskOfReviewResult)(this.results[0]));
+                return ((ReviewResult)(this.results[0]));
             }
         }
     }

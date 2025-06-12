@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Configuration;
 using System.Threading.Tasks;
-using LibrarySystem_API.LibraryWebServiceRef;
-using Task = System.Threading.Tasks.Task;
+using LibrarySystem_API.LibraryWebServiceRef; // Contains WebService and its ReviewResult
 
 namespace LibrarySystem_API.Models
 {
@@ -16,5 +16,12 @@ namespace LibrarySystem_API.Models
         {
             return Instance.ProcessReview(userId, bookId, reviewText);
         }
+
+        public static async Task<ReviewResult> ProcessReviewAsync(int userId, string bookId, string reviewText)
+        {
+            return await Task.Run(() => Instance.ProcessReview(userId, bookId, reviewText));
+        }
+
+      
     }
 }

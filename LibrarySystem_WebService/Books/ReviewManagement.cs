@@ -22,68 +22,65 @@ namespace LibrarySystem_WebService.Books
 
         public static async Task<string> GetSentimentFromChatGPT(string review)
         {
-            var apiKey = ConfigurationManager.AppSettings["OpenRouter_ApiKey"];
-
-            ServicePointManager.ServerCertificateValidationCallback +=
-                 (sender, cert, chain, sslPolicyErrors) => true;
+            var apiKey = ConfigurationManager.AppSettings["OpenRouter_ApiKey"]?.Trim();
+            var logPath = "C:\\Users\\sodeh\\logs.txt";
 
             using (var client = new HttpClient())
             {
                 try
                 {
-                    client.Timeout = TimeSpan.FromSeconds(60);
-
                     client.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Bearer", apiKey);
 
                     client.DefaultRequestHeaders.Add("X-Title", "Library System");
-
                     client.DefaultRequestHeaders.Add("User-Agent", "LibrarySystem/1.0");
 
                     var prompt = @"Classify this book review in exactly one word: 
-            'positive', 'negative', 'mixed', or 'unknown'. 
+                        'positive', 'negative', 'mixed', or 'unknown'. 
 
-            Review: """ + review + @""" 
-            Classification:";
+                        Review: """ + review + @""" 
+                        Classification:";
 
                     var requestBody = new
                     {
                         model = "google/gemma-3n-e4b-it:free",
-                        messages = new[]
-                        {
-                    new { role = "user", content = prompt }
-                },
-                        max_tokens = 8,
+                        messages = new[] { new { role = "user", content = prompt } },
+                        max_tokens = 50,
                         temperature = 0.1
                     };
 
-                    //File.WriteAllText("C:\\temp\\openrouter_request.txt",
-                    //JsonConvert.SerializeObject(requestBody));
+                    // Write request to log (append mode)
+                    File.AppendAllText(logPath, $"{DateTime.UtcNow} - Request:\n{JsonConvert.SerializeObject(requestBody)}\n\n");
 
-                    using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(55)))
+                    using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(120)))
                     {
                         var response = await client.PostAsync(
                             "https://openrouter.ai/api/v1/chat/completions",
-                            new StringContent(JsonConvert.SerializeObject(requestBody),
+                            new StringContent(
+                                JsonConvert.SerializeObject(requestBody),
                                 Encoding.UTF8,
                                 "application/json"),
                             cts.Token
                         );
 
-                        //File.WriteAllText("C:\\temp\\openrouter_response.txt",
-                        //$"{DateTime.UtcNow} - Status: {response.StatusCode}\n{response.Content}");
+                        // Read response as string first
+                        var responseContent = await response.Content.ReadAsStringAsync();
+
+                        // Complete log entry with timestamp and full response
+                        File.AppendAllText(logPath,
+                            $"{DateTime.UtcNow} - Status: {response.StatusCode}\n" +
+                            $"Response: {responseContent}\n\n");
 
                         if (response.IsSuccessStatusCode)
                         {
-                            var responseContent = await response.Content.ReadAsStringAsync();
-                            System.IO.File.WriteAllText("C:\\temp\\openrouter_response.txt", responseContent);
                             var result = JsonConvert.DeserializeObject<OpenRouterResponse>(responseContent);
 
-                            if (result?.choices?.Count > 0 && !string.IsNullOrEmpty(result.choices[0]?.message?.content))
+                            if (result?.choices?.Count > 0 &&
+                                !string.IsNullOrEmpty(result.choices[0]?.message?.content))
                             {
                                 var classification = result.choices[0].message.content
                                     .Trim()
-                                    .Split(' ')[0]
+                                    .Split(new[] { ' ', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)[0]
                                     .ToLower()
                                     .Replace(".", "");
 
@@ -95,30 +92,17 @@ namespace LibrarySystem_WebService.Books
                         }
                         else
                         {
-                            // Log the error response for debugging
-                            var errorContent = await response.Content.ReadAsStringAsync();
-                            throw new HttpRequestException($"API returned {response.StatusCode}: {errorContent}");
+                            throw new HttpRequestException(
+                                $"API returned {response.StatusCode}: {responseContent}");
                         }
                     }
                 }
-                catch (TaskCanceledException ex) when (ex.InnerException is TimeoutException)
-                {
-                    throw new TaskCanceledException("Request to OpenRouter API timed out", ex);
-                }
-                catch (TaskCanceledException ex)
-                {
-                    throw new TaskCanceledException("Request was canceled", ex);
-                }
-                catch (HttpRequestException ex)
-                {
-                    throw new HttpRequestException("Network error calling OpenRouter API", ex);
-                }
                 catch (Exception ex)
                 {
-                    throw new Exception($"Unexpected error calling OpenRouter API: {ex.Message}", ex);
+                    File.AppendAllText(logPath, $"{DateTime.UtcNow} - ERROR: {ex}\n\n");
+                    throw;
                 }
             }
-
             return "unknown";
         }
 
