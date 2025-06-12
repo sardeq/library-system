@@ -49,7 +49,6 @@ namespace LibrarySystem_WebService.Books
                         temperature = 0.1
                     };
 
-                    // Write request to log (append mode)
                     File.AppendAllText(logPath, $"{DateTime.UtcNow} - Request:\n{JsonConvert.SerializeObject(requestBody)}\n\n");
 
                     using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(120)))
@@ -63,10 +62,8 @@ namespace LibrarySystem_WebService.Books
                             cts.Token
                         );
 
-                        // Read response as string first
                         var responseContent = await response.Content.ReadAsStringAsync();
 
-                        // Complete log entry with timestamp and full response
                         File.AppendAllText(logPath,
                             $"{DateTime.UtcNow} - Status: {response.StatusCode}\n" +
                             $"Response: {responseContent}\n\n");
@@ -76,18 +73,28 @@ namespace LibrarySystem_WebService.Books
                             var result = JsonConvert.DeserializeObject<OpenRouterResponse>(responseContent);
 
                             if (result?.choices?.Count > 0 &&
-                                !string.IsNullOrEmpty(result.choices[0]?.message?.content))
+                            !string.IsNullOrEmpty(result.choices[0]?.message?.content))
                             {
-                                var classification = result.choices[0].message.content
+                                var rawContent = result.choices[0].message.content;
+                                var classification = rawContent
                                     .Trim()
-                                    .Split(new[] { ' ', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)[0]
-                                    .ToLower()
-                                    .Replace(".", "");
+                                    .Split(new[] { ' ', '\n', '\r', '.', ':', ';', '!', '?' },
+                                          StringSplitOptions.RemoveEmptyEntries)
+                                    .FirstOrDefault()?
+                                    .ToLower();
+
+                                File.AppendAllText(logPath,
+                                    $"{DateTime.UtcNow} - Raw: '{rawContent}' | Cleaned: '{classification}'\n");
 
                                 var validSentiments = new[] { "positive", "negative", "mixed", "unknown" };
                                 return validSentiments.Contains(classification)
                                     ? classification
                                     : "unknown";
+                            }
+                            else
+                            {
+                                File.AppendAllText(logPath,
+                                    $"{DateTime.UtcNow} - ERROR: Empty API response\n");
                             }
                         }
                         else
@@ -108,8 +115,16 @@ namespace LibrarySystem_WebService.Books
 
         public static bool SaveReviewToDatabase(int userId, string reviewDesc, string sentiment)
         {
+            var logPath = "C:\\Users\\sodeh\\logs.txt";
+
             try
             {
+                if (string.IsNullOrEmpty(reviewDesc))
+                {
+                    File.AppendAllText(logPath, $"{DateTime.UtcNow} - Empty review detected\n");
+                    return false;
+                }
+
                 string query = @"INSERT INTO Reviews (UserID, ReviewDesc, ReviewFeeling) VALUES (@UserID, @ReviewDesc, @ReviewFeeling)";
                 SqlParameter[] insertParams = {
                     new SqlParameter("@UserID", userId),
@@ -119,8 +134,9 @@ namespace LibrarySystem_WebService.Books
                 _db.ExecuteNonQuery(query, insertParams);
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                File.AppendAllText(logPath, $"{DateTime.UtcNow} - DB ERROR: {ex.Message}\n");
                 return false;
             }
         }
@@ -154,17 +170,24 @@ namespace LibrarySystem_WebService.Books
             try
             {
                 var csvPath = System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/ReviewData.csv");
-                var line = $"{userId},{(sentiment == "positive" ? 1 : 0)},{(sentiment == "negative" ? 1 : 0)},{(sentiment == "mixed" ? 1 : 0)},{(sentiment == "unknown" ? 1 : 0)},\"{reviewDesc.Replace("\"", "\"\"")}\",{age},{borrowedCount}";
-
                 var dir = Path.GetDirectoryName(csvPath);
                 if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
 
+                // Create file with headers if it doesn't exist
+                if (!File.Exists(csvPath))
+                {
+                    var headers = "UserID,Positive,Negative,Mixed,Unknown,ReviewDesc,Age,BorrowedCount";
+                    File.WriteAllText(csvPath, headers + Environment.NewLine);
+                }
+
+                var line = $"{userId},{(sentiment == "positive" ? 1 : 0)},{(sentiment == "negative" ? 1 : 0)},{(sentiment == "mixed" ? 1 : 0)},{(sentiment == "unknown" ? 1 : 0)},\"{reviewDesc.Replace("\"", "\"\"")}\",{age},{borrowedCount}";
                 File.AppendAllText(csvPath, line + Environment.NewLine);
+
                 return true;
             }
             catch (Exception ex)
             {
-                File.WriteAllText("C:\\temp\\csv_error.txt", ex.ToString());
+                File.WriteAllText("C:\\Users\\sodeh\\csv.txt", ex.ToString());
                 return false;
             }
         }

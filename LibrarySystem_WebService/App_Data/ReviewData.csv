@@ -1,1 +1,7 @@
-UserID,Positive Reviews,Negative Reviews,Mixed Reviews,Unknown Reviews,Review Description,Age,Borrowed Books Count2,1,0,0,0,"good experience",0,60
+UserID,Positive,Negative,Mixed,Unknown,ReviewDesc,Age,BorrowedCount
+2,0,0,1,0,"alright",0,71
+1003,0,0,1,0,"it was decent but i didnt like the return time",0,10
+1003,1,0,0,0,"good book",0,10
+1003,1,0,0,0,"good",0,10
+1002,1,0,0,0,"good book and i like that there is a teacher only book",0,3
+2,0,1,0,0,"bad",0,72
