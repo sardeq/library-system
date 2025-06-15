@@ -150,6 +150,7 @@
     <Content Include="General\Account.aspx" />
     <Content Include="General\Borrow.aspx" />
     <Content Include="Admin\ManageBooks.aspx" />
+    <Content Include="General\Chatbot.aspx" />
     <Content Include="General\MyBooks.aspx" />
     <Content Include="Global.asax" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -214,11 +215,26 @@
     <Content Include="Web References\LibraryWebServiceRef\DeleteBookResult.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
+    <Content Include="Web References\LibraryWebServiceRef\AgeGroupReview.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\LibraryWebServiceRef\BorrowedCountReview.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\LibraryWebServiceRef\ChatbotResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
     <None Include="Web References\LibraryWebServiceRef\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
     <Content Include="Web References\LibraryWebServiceRef\User.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\LibraryWebServiceRef\ReviewResult.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\LibraryWebServiceRef\ReviewSummary.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <None Include="Web References\LibraryWebServiceRef\WebService.disco" />
@@ -296,6 +312,13 @@
     </Compile>
     <Compile Include="Admin\ManageBooks.aspx.designer.cs">
       <DependentUpon>ManageBooks.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="General\Chatbot.aspx.cs">
+      <DependentUpon>Chatbot.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="General\Chatbot.aspx.designer.cs">
+      <DependentUpon>Chatbot.aspx</DependentUpon>
     </Compile>
     <Compile Include="General\MyBooks.aspx.cs">
       <DependentUpon>MyBooks.aspx</DependentUpon>

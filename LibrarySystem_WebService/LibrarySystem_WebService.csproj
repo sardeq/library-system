@@ -100,7 +100,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Fakes Include="Fakes\LibrarySystem_Shared.fakes" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -114,6 +113,7 @@
     <Compile Include="Books\AnalysisManagement.cs" />
     <Compile Include="Books\BookManagement.cs" />
     <Compile Include="Books\ReviewManagement.cs" />
+    <Compile Include="Chatbot\ChatbotManagement.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>

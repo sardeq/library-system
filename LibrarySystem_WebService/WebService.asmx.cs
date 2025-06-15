@@ -12,6 +12,7 @@ using LibrarySystem_WebService.Report;
 using System.Threading.Tasks;
 using System.Net.Http;
 using LibrarySystem_Shared.Models;
+using LibrarySystem_WebService.Chatbot;
 
 namespace LibrarySystem_WebService
 {
@@ -489,6 +490,46 @@ namespace LibrarySystem_WebService
 
         #endregion
 
+        #region Chatbot
 
+
+        [WebMethod]
+        public ChatbotResponse GetChatbotResponse(string message)
+        {
+            try
+            {
+                return Task.Run(() => GetChatbotResponseAsync(message)).Result;
+            }
+            catch (AggregateException ae)
+            {
+                return new ChatbotResponse
+                {
+                    Success = false,
+                    Message = ae.Flatten().InnerException?.Message ?? "Unknown error"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ChatbotResponse
+                {
+                    Success = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        private async Task<ChatbotResponse> GetChatbotResponseAsync(string message)
+        {
+            var response = await ChatbotManagement.GetChatbotResponse(message);
+            return new ChatbotResponse { Success = true, Message = response };
+        }
+
+        public class ChatbotResponse
+        {
+            public bool Success { get; set; }
+            public string Message { get; set; }
+        }
+
+        #endregion
     }
 }

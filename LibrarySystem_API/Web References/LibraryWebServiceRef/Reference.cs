@@ -90,6 +90,8 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
         
         private System.Threading.SendOrPostCallback GetReviewsByBorrowedCountOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetChatbotResponseOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -217,6 +219,9 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
         
         /// <remarks/>
         public event GetReviewsByBorrowedCountCompletedEventHandler GetReviewsByBorrowedCountCompleted;
+        
+        /// <remarks/>
+        public event GetChatbotResponseCompletedEventHandler GetChatbotResponseCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/Login", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -1097,6 +1102,35 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetChatbotResponse", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public ChatbotResponse GetChatbotResponse(string message) {
+            object[] results = this.Invoke("GetChatbotResponse", new object[] {
+                        message});
+            return ((ChatbotResponse)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetChatbotResponseAsync(string message) {
+            this.GetChatbotResponseAsync(message, null);
+        }
+        
+        /// <remarks/>
+        public void GetChatbotResponseAsync(string message, object userState) {
+            if ((this.GetChatbotResponseOperationCompleted == null)) {
+                this.GetChatbotResponseOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetChatbotResponseOperationCompleted);
+            }
+            this.InvokeAsync("GetChatbotResponse", new object[] {
+                        message}, this.GetChatbotResponseOperationCompleted, userState);
+        }
+        
+        private void OnGetChatbotResponseOperationCompleted(object arg) {
+            if ((this.GetChatbotResponseCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetChatbotResponseCompleted(this, new GetChatbotResponseCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -1169,6 +1203,39 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
             }
             set {
                 this.userTypeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9037.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
+    public partial class ChatbotResponse {
+        
+        private bool successField;
+        
+        private string messageField;
+        
+        /// <remarks/>
+        public bool Success {
+            get {
+                return this.successField;
+            }
+            set {
+                this.successField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Message {
+            get {
+                return this.messageField;
+            }
+            set {
+                this.messageField = value;
             }
         }
     }
@@ -2620,6 +2687,32 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((BorrowedCountReview[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9037.0")]
+    public delegate void GetChatbotResponseCompletedEventHandler(object sender, GetChatbotResponseCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9037.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetChatbotResponseCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetChatbotResponseCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public ChatbotResponse Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((ChatbotResponse)(this.results[0]));
             }
         }
     }

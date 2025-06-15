@@ -100,6 +100,54 @@
         <member name="P:LibrarySystem_Shared.Models.Fakes.ShimBorrowedCountReview.ReviewCountSetInt32">
             <summary>Sets the shim of BorrowedCountReview.set_ReviewCount(Int32 value)</summary>
         </member>
+        <member name="T:LibrarySystem_Shared.Models.Fakes.ShimChatbotResponse">
+            <summary>Shim type of LibrarySystem_Shared.Models.ChatbotResponse</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.ShimChatbotResponse.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.ShimChatbotResponse.#ctor(LibrarySystem_Shared.Models.ChatbotResponse)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="T:LibrarySystem_Shared.Models.Fakes.ShimChatbotResponse.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimChatbotResponse.AllInstances.MessageGet">
+            <summary>Sets the shim of ChatbotResponse.get_Message()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimChatbotResponse.AllInstances.MessageSetString">
+            <summary>Sets the shim of ChatbotResponse.set_Message(String value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimChatbotResponse.AllInstances.SuccessGet">
+            <summary>Sets the shim of ChatbotResponse.get_Success()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimChatbotResponse.AllInstances.SuccessSetBoolean">
+            <summary>Sets the shim of ChatbotResponse.set_Success(Boolean value)</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.ShimChatbotResponse.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.ShimChatbotResponse.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimChatbotResponse.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimChatbotResponse.Constructor">
+            <summary>Sets the shim of ChatbotResponse.ChatbotResponse()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimChatbotResponse.MessageGet">
+            <summary>Sets the shim of ChatbotResponse.get_Message()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimChatbotResponse.MessageSetString">
+            <summary>Sets the shim of ChatbotResponse.set_Message(String value)</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimChatbotResponse.SuccessGet">
+            <summary>Sets the shim of ChatbotResponse.get_Success()</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.ShimChatbotResponse.SuccessSetBoolean">
+            <summary>Sets the shim of ChatbotResponse.set_Success(Boolean value)</summary>
+        </member>
         <member name="T:LibrarySystem_Shared.Models.Fakes.ShimReviewDataEntry">
             <summary>Shim type of LibrarySystem_Shared.Models.ReviewDataEntry</summary>
         </member>
@@ -410,6 +458,24 @@
             <summary>Gets or sets the instance behavior.</summary>
         </member>
         <member name="P:LibrarySystem_Shared.Models.Fakes.StubBorrowedCountReview.InstanceObserver">
+            <summary>Gets or sets the instance observer.</summary>
+        </member>
+        <member name="T:LibrarySystem_Shared.Models.Fakes.StubChatbotResponse">
+            <summary>Stub type of LibrarySystem_Shared.Models.ChatbotResponse</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.StubChatbotResponse.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.StubChatbotResponse.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="M:LibrarySystem_Shared.Models.Fakes.StubChatbotResponse.InitializeStub">
+            <summary>Initializes a new instance of type StubChatbotResponse</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.StubChatbotResponse.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="P:LibrarySystem_Shared.Models.Fakes.StubChatbotResponse.InstanceObserver">
             <summary>Gets or sets the instance observer.</summary>
         </member>
         <member name="T:LibrarySystem_Shared.Models.Fakes.StubReviewDataEntry">

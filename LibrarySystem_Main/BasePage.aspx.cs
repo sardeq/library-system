@@ -147,4 +147,11 @@ namespace LibrarySystem_Main
         public int ClientId { get; set; }
         public int LanguageId { get; set; }
     }
+
+    public class ChatMessage
+    {
+        public string Sender { get; set; }
+        public string Text { get; set; }
+        public string CssClass { get; set; }
+    }
 }

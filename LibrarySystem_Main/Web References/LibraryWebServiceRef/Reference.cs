@@ -80,6 +80,18 @@ namespace LibrarySystem_Main.LibraryWebServiceRef {
         
         private System.Threading.SendOrPostCallback GetAllBooksOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetBorrowReportOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback ProcessReviewOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetReviewSentimentSummaryOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetReviewsByAgeGroupOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetReviewsByBorrowedCountOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback GetChatbotResponseOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -192,6 +204,24 @@ namespace LibrarySystem_Main.LibraryWebServiceRef {
         
         /// <remarks/>
         public event GetAllBooksCompletedEventHandler GetAllBooksCompleted;
+        
+        /// <remarks/>
+        public event GetBorrowReportCompletedEventHandler GetBorrowReportCompleted;
+        
+        /// <remarks/>
+        public event ProcessReviewCompletedEventHandler ProcessReviewCompleted;
+        
+        /// <remarks/>
+        public event GetReviewSentimentSummaryCompletedEventHandler GetReviewSentimentSummaryCompleted;
+        
+        /// <remarks/>
+        public event GetReviewsByAgeGroupCompletedEventHandler GetReviewsByAgeGroupCompleted;
+        
+        /// <remarks/>
+        public event GetReviewsByBorrowedCountCompletedEventHandler GetReviewsByBorrowedCountCompleted;
+        
+        /// <remarks/>
+        public event GetChatbotResponseCompletedEventHandler GetChatbotResponseCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/Login", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -919,6 +949,188 @@ namespace LibrarySystem_Main.LibraryWebServiceRef {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetBorrowReport", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public BorrowInfo[] GetBorrowReport([System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] System.Nullable<int> userId, string bookId, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] System.Nullable<System.DateTime> fromDate, [System.Xml.Serialization.XmlElementAttribute(IsNullable=true)] System.Nullable<System.DateTime> toDate, bool dueSoon, bool overdue) {
+            object[] results = this.Invoke("GetBorrowReport", new object[] {
+                        userId,
+                        bookId,
+                        fromDate,
+                        toDate,
+                        dueSoon,
+                        overdue});
+            return ((BorrowInfo[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetBorrowReportAsync(System.Nullable<int> userId, string bookId, System.Nullable<System.DateTime> fromDate, System.Nullable<System.DateTime> toDate, bool dueSoon, bool overdue) {
+            this.GetBorrowReportAsync(userId, bookId, fromDate, toDate, dueSoon, overdue, null);
+        }
+        
+        /// <remarks/>
+        public void GetBorrowReportAsync(System.Nullable<int> userId, string bookId, System.Nullable<System.DateTime> fromDate, System.Nullable<System.DateTime> toDate, bool dueSoon, bool overdue, object userState) {
+            if ((this.GetBorrowReportOperationCompleted == null)) {
+                this.GetBorrowReportOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetBorrowReportOperationCompleted);
+            }
+            this.InvokeAsync("GetBorrowReport", new object[] {
+                        userId,
+                        bookId,
+                        fromDate,
+                        toDate,
+                        dueSoon,
+                        overdue}, this.GetBorrowReportOperationCompleted, userState);
+        }
+        
+        private void OnGetBorrowReportOperationCompleted(object arg) {
+            if ((this.GetBorrowReportCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetBorrowReportCompleted(this, new GetBorrowReportCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/ProcessReview", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public ReviewResult ProcessReview(int userId, string bookId, string reviewText) {
+            object[] results = this.Invoke("ProcessReview", new object[] {
+                        userId,
+                        bookId,
+                        reviewText});
+            return ((ReviewResult)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ProcessReviewAsync(int userId, string bookId, string reviewText) {
+            this.ProcessReviewAsync(userId, bookId, reviewText, null);
+        }
+        
+        /// <remarks/>
+        public void ProcessReviewAsync(int userId, string bookId, string reviewText, object userState) {
+            if ((this.ProcessReviewOperationCompleted == null)) {
+                this.ProcessReviewOperationCompleted = new System.Threading.SendOrPostCallback(this.OnProcessReviewOperationCompleted);
+            }
+            this.InvokeAsync("ProcessReview", new object[] {
+                        userId,
+                        bookId,
+                        reviewText}, this.ProcessReviewOperationCompleted, userState);
+        }
+        
+        private void OnProcessReviewOperationCompleted(object arg) {
+            if ((this.ProcessReviewCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ProcessReviewCompleted(this, new ProcessReviewCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetReviewSentimentSummary", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public ReviewSummary GetReviewSentimentSummary() {
+            object[] results = this.Invoke("GetReviewSentimentSummary", new object[0]);
+            return ((ReviewSummary)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetReviewSentimentSummaryAsync() {
+            this.GetReviewSentimentSummaryAsync(null);
+        }
+        
+        /// <remarks/>
+        public void GetReviewSentimentSummaryAsync(object userState) {
+            if ((this.GetReviewSentimentSummaryOperationCompleted == null)) {
+                this.GetReviewSentimentSummaryOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetReviewSentimentSummaryOperationCompleted);
+            }
+            this.InvokeAsync("GetReviewSentimentSummary", new object[0], this.GetReviewSentimentSummaryOperationCompleted, userState);
+        }
+        
+        private void OnGetReviewSentimentSummaryOperationCompleted(object arg) {
+            if ((this.GetReviewSentimentSummaryCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetReviewSentimentSummaryCompleted(this, new GetReviewSentimentSummaryCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetReviewsByAgeGroup", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public AgeGroupReview[] GetReviewsByAgeGroup() {
+            object[] results = this.Invoke("GetReviewsByAgeGroup", new object[0]);
+            return ((AgeGroupReview[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetReviewsByAgeGroupAsync() {
+            this.GetReviewsByAgeGroupAsync(null);
+        }
+        
+        /// <remarks/>
+        public void GetReviewsByAgeGroupAsync(object userState) {
+            if ((this.GetReviewsByAgeGroupOperationCompleted == null)) {
+                this.GetReviewsByAgeGroupOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetReviewsByAgeGroupOperationCompleted);
+            }
+            this.InvokeAsync("GetReviewsByAgeGroup", new object[0], this.GetReviewsByAgeGroupOperationCompleted, userState);
+        }
+        
+        private void OnGetReviewsByAgeGroupOperationCompleted(object arg) {
+            if ((this.GetReviewsByAgeGroupCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetReviewsByAgeGroupCompleted(this, new GetReviewsByAgeGroupCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetReviewsByBorrowedCount", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public BorrowedCountReview[] GetReviewsByBorrowedCount() {
+            object[] results = this.Invoke("GetReviewsByBorrowedCount", new object[0]);
+            return ((BorrowedCountReview[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetReviewsByBorrowedCountAsync() {
+            this.GetReviewsByBorrowedCountAsync(null);
+        }
+        
+        /// <remarks/>
+        public void GetReviewsByBorrowedCountAsync(object userState) {
+            if ((this.GetReviewsByBorrowedCountOperationCompleted == null)) {
+                this.GetReviewsByBorrowedCountOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetReviewsByBorrowedCountOperationCompleted);
+            }
+            this.InvokeAsync("GetReviewsByBorrowedCount", new object[0], this.GetReviewsByBorrowedCountOperationCompleted, userState);
+        }
+        
+        private void OnGetReviewsByBorrowedCountOperationCompleted(object arg) {
+            if ((this.GetReviewsByBorrowedCountCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetReviewsByBorrowedCountCompleted(this, new GetReviewsByBorrowedCountCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetChatbotResponse", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public ChatbotResponse GetChatbotResponse(string message) {
+            object[] results = this.Invoke("GetChatbotResponse", new object[] {
+                        message});
+            return ((ChatbotResponse)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetChatbotResponseAsync(string message) {
+            this.GetChatbotResponseAsync(message, null);
+        }
+        
+        /// <remarks/>
+        public void GetChatbotResponseAsync(string message, object userState) {
+            if ((this.GetChatbotResponseOperationCompleted == null)) {
+                this.GetChatbotResponseOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetChatbotResponseOperationCompleted);
+            }
+            this.InvokeAsync("GetChatbotResponse", new object[] {
+                        message}, this.GetChatbotResponseOperationCompleted, userState);
+        }
+        
+        private void OnGetChatbotResponseOperationCompleted(object arg) {
+            if ((this.GetChatbotResponseCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetChatbotResponseCompleted(this, new GetChatbotResponseCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -1001,6 +1213,231 @@ namespace LibrarySystem_Main.LibraryWebServiceRef {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
+    public partial class ChatbotResponse {
+        
+        private bool successField;
+        
+        private string messageField;
+        
+        /// <remarks/>
+        public bool Success {
+            get {
+                return this.successField;
+            }
+            set {
+                this.successField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Message {
+            get {
+                return this.messageField;
+            }
+            set {
+                this.messageField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9037.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
+    public partial class BorrowedCountReview {
+        
+        private string borrowedRangeField;
+        
+        private int reviewCountField;
+        
+        /// <remarks/>
+        public string BorrowedRange {
+            get {
+                return this.borrowedRangeField;
+            }
+            set {
+                this.borrowedRangeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int ReviewCount {
+            get {
+                return this.reviewCountField;
+            }
+            set {
+                this.reviewCountField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9037.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
+    public partial class AgeGroupReview {
+        
+        private string ageGroupField;
+        
+        private int reviewCountField;
+        
+        /// <remarks/>
+        public string AgeGroup {
+            get {
+                return this.ageGroupField;
+            }
+            set {
+                this.ageGroupField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int ReviewCount {
+            get {
+                return this.reviewCountField;
+            }
+            set {
+                this.reviewCountField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9037.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
+    public partial class ReviewSummary {
+        
+        private int totalPositiveField;
+        
+        private int totalNegativeField;
+        
+        private int totalMixedField;
+        
+        private int totalUnknownField;
+        
+        private string overallSentimentField;
+        
+        private string mostCommonSentimentField;
+        
+        /// <remarks/>
+        public int TotalPositive {
+            get {
+                return this.totalPositiveField;
+            }
+            set {
+                this.totalPositiveField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int TotalNegative {
+            get {
+                return this.totalNegativeField;
+            }
+            set {
+                this.totalNegativeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int TotalMixed {
+            get {
+                return this.totalMixedField;
+            }
+            set {
+                this.totalMixedField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public int TotalUnknown {
+            get {
+                return this.totalUnknownField;
+            }
+            set {
+                this.totalUnknownField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string OverallSentiment {
+            get {
+                return this.overallSentimentField;
+            }
+            set {
+                this.overallSentimentField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string MostCommonSentiment {
+            get {
+                return this.mostCommonSentimentField;
+            }
+            set {
+                this.mostCommonSentimentField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9037.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
+    public partial class ReviewResult {
+        
+        private bool successField;
+        
+        private string sentimentField;
+        
+        private string errorField;
+        
+        /// <remarks/>
+        public bool Success {
+            get {
+                return this.successField;
+            }
+            set {
+                this.successField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Sentiment {
+            get {
+                return this.sentimentField;
+            }
+            set {
+                this.sentimentField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Error {
+            get {
+                return this.errorField;
+            }
+            set {
+                this.errorField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9037.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
     public partial class DeleteBookResult {
         
         private bool successField;
@@ -1069,6 +1506,8 @@ namespace LibrarySystem_Main.LibraryWebServiceRef {
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
     public partial class BorrowInfo {
         
+        private int borrowIDField;
+        
         private int clientIDField;
         
         private string clientNameField;
@@ -1082,6 +1521,18 @@ namespace LibrarySystem_Main.LibraryWebServiceRef {
         private System.Nullable<System.DateTime> returnDateField;
         
         private bool pendingConfirmationField;
+        
+        private bool returnedField;
+        
+        /// <remarks/>
+        public int BorrowID {
+            get {
+                return this.borrowIDField;
+            }
+            set {
+                this.borrowIDField = value;
+            }
+        }
         
         /// <remarks/>
         public int ClientID {
@@ -1151,6 +1602,16 @@ namespace LibrarySystem_Main.LibraryWebServiceRef {
             }
             set {
                 this.pendingConfirmationField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public bool Returned {
+            get {
+                return this.returnedField;
+            }
+            set {
+                this.returnedField = value;
             }
         }
     }
@@ -2096,6 +2557,162 @@ namespace LibrarySystem_Main.LibraryWebServiceRef {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((Book[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9037.0")]
+    public delegate void GetBorrowReportCompletedEventHandler(object sender, GetBorrowReportCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9037.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetBorrowReportCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetBorrowReportCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public BorrowInfo[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((BorrowInfo[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9037.0")]
+    public delegate void ProcessReviewCompletedEventHandler(object sender, ProcessReviewCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9037.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ProcessReviewCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ProcessReviewCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public ReviewResult Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((ReviewResult)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9037.0")]
+    public delegate void GetReviewSentimentSummaryCompletedEventHandler(object sender, GetReviewSentimentSummaryCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9037.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetReviewSentimentSummaryCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetReviewSentimentSummaryCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public ReviewSummary Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((ReviewSummary)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9037.0")]
+    public delegate void GetReviewsByAgeGroupCompletedEventHandler(object sender, GetReviewsByAgeGroupCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9037.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetReviewsByAgeGroupCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetReviewsByAgeGroupCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public AgeGroupReview[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((AgeGroupReview[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9037.0")]
+    public delegate void GetReviewsByBorrowedCountCompletedEventHandler(object sender, GetReviewsByBorrowedCountCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9037.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetReviewsByBorrowedCountCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetReviewsByBorrowedCountCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public BorrowedCountReview[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((BorrowedCountReview[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9037.0")]
+    public delegate void GetChatbotResponseCompletedEventHandler(object sender, GetChatbotResponseCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9037.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetChatbotResponseCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetChatbotResponseCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public ChatbotResponse Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((ChatbotResponse)(this.results[0]));
             }
         }
     }

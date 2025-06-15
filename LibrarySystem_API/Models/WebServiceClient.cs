@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Threading.Tasks;
-using LibrarySystem_API.LibraryWebServiceRef; // Contains WebService and its ReviewResult
+using LibrarySystem_API.LibraryWebServiceRef;
 
 namespace LibrarySystem_API.Models
 {
@@ -19,9 +19,15 @@ namespace LibrarySystem_API.Models
 
         public static async Task<ReviewResult> ProcessReviewAsync(int userId, string bookId, string reviewText)
         {
-            return await Task.Run(() => Instance.ProcessReview(userId, bookId, reviewText));
+            return await System.Threading.Tasks.Task.Run(() => Instance.ProcessReview(userId, bookId, reviewText));
         }
 
-      
+
+        public static async Task<string> GetChatbotResponseAsync(string message)
+        {
+            var response = await Task.Run(() => Instance.GetChatbotResponse(message));
+            return response.Message;
+        }
+
     }
 }
