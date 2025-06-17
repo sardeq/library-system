@@ -493,12 +493,16 @@ namespace LibrarySystem_WebService
         #region Chatbot
 
 
-        [WebMethod]
+        // Add to WebService class
+        private static readonly DateTime _startTime = DateTime.UtcNow;
+
+        [WebMethod(EnableSession = true)]
         public ChatbotResponse GetChatbotResponse(string message)
         {
             try
             {
-                return Task.Run(() => GetChatbotResponseAsync(message)).Result;
+                string sessionId = HttpContext.Current.Session.SessionID;
+                return Task.Run(() => GetChatbotResponseAsync(message, sessionId)).Result;
             }
             catch (AggregateException ae)
             {
@@ -518,9 +522,14 @@ namespace LibrarySystem_WebService
             }
         }
 
-        private async Task<ChatbotResponse> GetChatbotResponseAsync(string message)
+        private async Task<ChatbotResponse> GetChatbotResponseAsync(string message, string sessionId)
         {
-            var response = await ChatbotManagement.GetChatbotResponse(message);
+            if ((DateTime.UtcNow - _startTime).TotalMinutes > 5)
+            {
+                ChatbotManagement.CleanOldSessions(TimeSpan.FromHours(1));
+            }
+
+            var response = await ChatbotManagement.GetChatbotResponse(message, sessionId);
             return new ChatbotResponse { Success = true, Message = response };
         }
 
