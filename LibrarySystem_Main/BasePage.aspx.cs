@@ -154,4 +154,11 @@ namespace LibrarySystem_Main
         public string Text { get; set; }
         public string CssClass { get; set; }
     }
+
+    public class ChatInfo
+    {
+        public string ChatId { get; set; }
+        public string Title { get; set; }
+        public DateTime CreatedDate { get; set; }
+    }
 }

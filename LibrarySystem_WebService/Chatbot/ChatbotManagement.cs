@@ -1,10 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using LibrarySystem_Shared.Models;
+using Newtonsoft.Json;
 using SchoolSystem.Data;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -13,15 +15,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Hosting;
+using static LibrarySystem_WebService.WebService;
 
 namespace LibrarySystem_WebService.Chatbot
 {
     public class ChatbotManagement
     {
-        private static readonly ConcurrentDictionary<string, List<Message>> _conversationHistory =
-            new ConcurrentDictionary<string, List<Message>>();
-
-        private static readonly object _historyLock = new object();
 
         public class Message
         {
@@ -29,21 +28,16 @@ namespace LibrarySystem_WebService.Chatbot
             public string Content { get; set; }
         }
 
-        public static async Task<string> GetChatbotResponse(string message, string sessionId)
+        public static async Task<string> GetChatbotResponse(string message, int clientId, Guid chatId)
         {
             var apiKey = ConfigurationManager.AppSettings["OpenRouter_ApiKey"]?.Trim();
             var logPath = HostingEnvironment.MapPath("~/App_Data/chatbot_log.txt");
 
-            // Get or create conversation history
-            var history = _conversationHistory.GetOrAdd(sessionId, new List<Message>());
+            var history = GetChatHistory(chatId.ToString());
 
-            // Add user message to history
-            lock (_historyLock)
-            {
-                history.Add(new Message { Role = "user", Content = message });
-            }
+            SaveMessageToDatabase(chatId.ToString(), "user", message);
+            history.Add(new Message { Role = "user", Content = message });
 
-            // Check for book-related queries
             string bookResults = "";
             if (IsBookRelated(message))
             {
@@ -72,7 +66,6 @@ namespace LibrarySystem_WebService.Chatbot
                 }
             }
 
-            // Build enhanced prompt
             var prompt = BuildPrompt(history, bookResults);
 
             using (var client = new HttpClient())
@@ -88,8 +81,8 @@ namespace LibrarySystem_WebService.Chatbot
                     var requestBody = new
                     {
                         //model = "google/gemma-3n-e4b-it:free",
-                        //model = "deepseek/deepseek-chat-v3-0324:free",
-                        model = "meta-llama/llama-4-maverick:free",
+                        model = "deepseek/deepseek-chat-v3-0324:free",
+                        //model = "meta-llama/llama-4-maverick:free",
                         messages = new[] { new { role = "user", content = prompt } },
                         max_tokens = 2000,
                         temperature = 0.8
@@ -122,11 +115,7 @@ namespace LibrarySystem_WebService.Chatbot
                         assistantResponse = $"Error: API returned {response.StatusCode}";
                     }
 
-                    // Add assistant response to history
-                    lock (_historyLock)
-                    {
-                        history.Add(new Message { Role = "assistant", Content = assistantResponse });
-                    }
+                    SaveMessageToDatabase(chatId.ToString(), "assistant", assistantResponse);
 
                     return assistantResponse;
                 }
@@ -138,11 +127,59 @@ namespace LibrarySystem_WebService.Chatbot
             }
         }
 
+        private static void SaveMessageToDatabase(string chatId, string role, string content)
+        {
+            try
+            {
+                Guid chatGuid = Guid.Parse(chatId); // Convert string to GUID
+
+                string query = @"
+                INSERT INTO ChatMessages (ChatID, Role, Content) 
+                VALUES (@ChatID, @Role, @Content)";
+
+                        SqlParameter[] parameters = {
+                    new SqlParameter("@ChatID", SqlDbType.UniqueIdentifier) { Value = chatGuid }, // Use Guid
+                    new SqlParameter("@Role", role),
+                    new SqlParameter("@Content", content)
+                };
+
+                var db = new DatabaseService();
+                db.ExecuteNonQuery(query, parameters);
+            }
+            catch (Exception ex)
+            {
+                // Log error here
+            }
+        }
+
+        private static List<Message> GetChatHistory(string chatId)
+        {
+            Guid chatGuid = Guid.Parse(chatId);
+
+            string query = @"
+                SELECT Role, Content 
+                FROM ChatMessages 
+                WHERE ChatID = @ChatID 
+                ORDER BY Timestamp";
+
+            SqlParameter[] parameters = {
+                new SqlParameter("@ChatID", SqlDbType.UniqueIdentifier) { Value = chatGuid } // Use Guid
+            };
+
+            var db = new DatabaseService();
+            DataTable dt = db.GetDataN(query, parameters);
+
+            return dt.AsEnumerable().Select(row => new Message
+            {
+                Role = row["Role"].ToString(),
+                Content = row["Content"].ToString()
+            }).ToList();
+        }
+
         private static bool IsGeneralBookInquiry(string message)
         {
             if (string.IsNullOrWhiteSpace(message)) return false;
 
-            // Convert message to lowercase for easier matching
             var lowerMessage = message.ToLower();
 
             var generalPhrases = new[] {
@@ -154,7 +191,6 @@ namespace LibrarySystem_WebService.Chatbot
                 "can i check it out", "don't worry about the genre"
             };
 
-            // Check if the message contains any of the general inquiry phrases
             return generalPhrases.Any(phrase => lowerMessage.Contains(phrase));
         }
 
@@ -191,15 +227,14 @@ namespace LibrarySystem_WebService.Chatbot
             prompt.AppendLine("- When asked about books from our database, just give some answers first then ask about specifics if needed");
             prompt.AppendLine("- Dont ask for specifics immediately, give a few books from the database then ask if the user wants anything specific.");
             prompt.AppendLine("- When asked about a book always assume the user means in the database first, unless the user specifies");
+            prompt.AppendLine("Always prioritise giving the answer from the database.");
 
-            // Add conversation history (last 4 exchanges)
             int startIndex = Math.Max(0, history.Count - 8);
             for (int i = startIndex; i < history.Count; i++)
             {
                 prompt.AppendLine($"{history[i].Role}: {history[i].Content}");
             }
 
-            // Append book data if available
             if (!string.IsNullOrEmpty(bookData))
             {
                 prompt.AppendLine($"system: {bookData}");
@@ -209,18 +244,96 @@ namespace LibrarySystem_WebService.Chatbot
             return prompt.ToString();
         }
 
-        // Clean up old sessions (call periodically)
-        public static void CleanOldSessions(TimeSpan maxAge)
+        public static bool IsFirstUserMessage(string chatId)
         {
-            var cutoff = DateTime.UtcNow - maxAge;
-            var oldSessions = _conversationHistory.Where(kvp =>
-                kvp.Value.LastOrDefault()?.Role == "assistant" &&
-                kvp.Value.Last().Content.Contains(cutoff.ToString("O"))).ToList();
+            Guid chatGuid = Guid.Parse(chatId); // Convert to GUID
 
-            foreach (var session in oldSessions)
+            string query = @"
+                SELECT COUNT(*) 
+                FROM ChatMessages 
+                WHERE ChatID = @ChatID AND Role = 'user'";
+
+                    SqlParameter[] parameters = {
+                new SqlParameter("@ChatID", SqlDbType.UniqueIdentifier) { Value = chatGuid } // Use Guid
+            };
+
+            var db = new DatabaseService();
+            int count = Convert.ToInt32(db.ExecuteScalar(query, parameters));
+            return count == 1;
+        }
+
+        public static Guid CreateNewChat(int clientId)
+        {
+            try
             {
-                _conversationHistory.TryRemove(session.Key, out _);
+                string query = @"
+                    INSERT INTO Chats (ClientID, ChatTitle) 
+                    OUTPUT INSERTED.ChatID
+                    VALUES (@ClientID, 'New Chat')";
+
+                        SqlParameter[] parameters = {
+                    new SqlParameter("@ClientID", clientId)
+                };
+
+                var db = new DatabaseService();
+                return (Guid)db.ExecuteScalar(query, parameters);
             }
+            catch (Exception ex)
+            {
+                throw new Exception("Chat creation failed in database", ex);
+            }
+        }
+
+        public static List<ChatInfo> GetChatSessions(int clientId)
+        {
+            string query = @"
+                SELECT c.ChatID, c.ChatTitle, c.CreatedDate
+                FROM Chats c
+                WHERE c.ClientID = @ClientID
+                ORDER BY c.CreatedDate DESC";
+
+            SqlParameter[] parameters = {
+                new SqlParameter("@ClientID", clientId)
+            };
+
+            var db = new DatabaseService();
+            DataTable dt = db.GetDataN(query, parameters);
+
+            return dt.AsEnumerable().Select(row => new ChatInfo
+            {
+                ChatId = row["ChatID"].ToString(),
+                Title = row["ChatTitle"].ToString(),
+                CreatedDate = Convert.ToDateTime(row["CreatedDate"])
+            }).ToList();
+        }
+
+        public static void UpdateChatTitle(string chatId, string title)
+        {
+            string query = @"
+                UPDATE Chats 
+                SET ChatTitle = @Title 
+                WHERE ChatID = @ChatID";
+
+            SqlParameter[] parameters = {
+                new SqlParameter("@ChatID", chatId),
+                new SqlParameter("@Title", title)
+            };
+
+            var db = new DatabaseService();
+            db.ExecuteNonQuery(query, parameters);
+        }
+
+
+        private static DateTime GetChatCreatedDate(List<Message> chat)
+        {
+            return chat.Count > 0 ? DateTime.UtcNow.AddMinutes(-chat.Count) : DateTime.UtcNow;
+        }
+
+        private static string Truncate(string value, int maxLength)
+        {
+            return string.IsNullOrEmpty(value)
+                ? value
+                : value.Length <= maxLength ? value : value.Substring(0, maxLength) + "...";
         }
     }
 

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s1="http://microsoft.com/wsdl/types/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:import namespace="http://microsoft.com/wsdl/types/" />
       <s:element name="Login">
         <s:complexType>
           <s:sequence>
@@ -551,6 +552,8 @@
         <s:complexType>
           <s:sequence>
             <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="chatId" type="s1:guid" />
+            <s:element minOccurs="1" maxOccurs="1" name="clientId" type="s:int" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -567,6 +570,53 @@
           <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
         </s:sequence>
       </s:complexType>
+      <s:element name="CreateNewChat">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="clientId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateNewChatResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="CreateNewChatResult" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetChatSessions">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="clientId" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetChatSessionsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetChatSessionsResult" type="tns:ArrayOfChatInfo" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfChatInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ChatInfo" nillable="true" type="tns:ChatInfo" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ChatInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ChatId" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CreatedDate" type="s:dateTime" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
+      <s:simpleType name="guid">
+        <s:restriction base="s:string">
+          <s:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
+        </s:restriction>
+      </s:simpleType>
     </s:schema>
   </wsdl:types>
   <wsdl:message name="LoginSoapIn">
@@ -755,6 +805,18 @@
   <wsdl:message name="GetChatbotResponseSoapOut">
     <wsdl:part name="parameters" element="tns:GetChatbotResponseResponse" />
   </wsdl:message>
+  <wsdl:message name="CreateNewChatSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateNewChat" />
+  </wsdl:message>
+  <wsdl:message name="CreateNewChatSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateNewChatResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetChatSessionsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetChatSessions" />
+  </wsdl:message>
+  <wsdl:message name="GetChatSessionsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetChatSessionsResponse" />
+  </wsdl:message>
   <wsdl:portType name="WebServiceSoap">
     <wsdl:operation name="Login">
       <wsdl:input message="tns:LoginSoapIn" />
@@ -879,6 +941,14 @@
     <wsdl:operation name="GetChatbotResponse">
       <wsdl:input message="tns:GetChatbotResponseSoapIn" />
       <wsdl:output message="tns:GetChatbotResponseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateNewChat">
+      <wsdl:input message="tns:CreateNewChatSoapIn" />
+      <wsdl:output message="tns:CreateNewChatSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetChatSessions">
+      <wsdl:input message="tns:GetChatSessionsSoapIn" />
+      <wsdl:output message="tns:GetChatSessionsSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebServiceSoap" type="tns:WebServiceSoap">
@@ -1162,6 +1232,24 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="CreateNewChat">
+      <soap:operation soapAction="http://tempuri.org/CreateNewChat" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetChatSessions">
+      <soap:operation soapAction="http://tempuri.org/GetChatSessions" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WebServiceSoap12" type="tns:WebServiceSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
@@ -1437,6 +1525,24 @@
     </wsdl:operation>
     <wsdl:operation name="GetChatbotResponse">
       <soap12:operation soapAction="http://tempuri.org/GetChatbotResponse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateNewChat">
+      <soap12:operation soapAction="http://tempuri.org/CreateNewChat" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetChatSessions">
+      <soap12:operation soapAction="http://tempuri.org/GetChatSessions" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

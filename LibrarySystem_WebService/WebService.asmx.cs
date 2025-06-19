@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using LibrarySystem_Shared.Models;
 using LibrarySystem_WebService.Chatbot;
+using System.Collections.Concurrent;
 
 namespace LibrarySystem_WebService
 {
@@ -493,24 +494,12 @@ namespace LibrarySystem_WebService
         #region Chatbot
 
 
-        // Add to WebService class
-        private static readonly DateTime _startTime = DateTime.UtcNow;
-
         [WebMethod(EnableSession = true)]
-        public ChatbotResponse GetChatbotResponse(string message)
+        public ChatbotResponse GetChatbotResponse(string message, Guid chatId, int clientId)
         {
             try
             {
-                string sessionId = HttpContext.Current.Session.SessionID;
-                return Task.Run(() => GetChatbotResponseAsync(message, sessionId)).Result;
-            }
-            catch (AggregateException ae)
-            {
-                return new ChatbotResponse
-                {
-                    Success = false,
-                    Message = ae.Flatten().InnerException?.Message ?? "Unknown error"
-                };
+                return Task.Run(() => GetChatbotResponseAsync(message, clientId, chatId)).Result;
             }
             catch (Exception ex)
             {
@@ -522,15 +511,40 @@ namespace LibrarySystem_WebService
             }
         }
 
-        private async Task<ChatbotResponse> GetChatbotResponseAsync(string message, string sessionId)
+        private async Task<ChatbotResponse> GetChatbotResponseAsync(string message, int clientId, Guid chatId)
         {
-            if ((DateTime.UtcNow - _startTime).TotalMinutes > 5)
+            var response = await ChatbotManagement.GetChatbotResponse(
+                message,
+                clientId,
+                chatId
+            );
+
+            if (ChatbotManagement.IsFirstUserMessage(chatId.ToString()))
             {
-                ChatbotManagement.CleanOldSessions(TimeSpan.FromHours(1));
+                string title = message.Length > 20 ? message.Substring(0, 20) + "..." : message;
+                ChatbotManagement.UpdateChatTitle(chatId.ToString(), title);
             }
 
-            var response = await ChatbotManagement.GetChatbotResponse(message, sessionId);
             return new ChatbotResponse { Success = true, Message = response };
+        }
+
+        [WebMethod(EnableSession = true)]
+        public Guid CreateNewChat(int clientId)
+        {
+            try
+            {
+                return ChatbotManagement.CreateNewChat(clientId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Chat creation failed: {ex.Message}");
+            }
+        }
+
+        [WebMethod(EnableSession = true)]
+        public List<ChatInfo> GetChatSessions(int clientId)
+        {
+            return ChatbotManagement.GetChatSessions(clientId);
         }
 
         public class ChatbotResponse
@@ -538,6 +552,7 @@ namespace LibrarySystem_WebService
             public bool Success { get; set; }
             public string Message { get; set; }
         }
+
 
         #endregion
     }

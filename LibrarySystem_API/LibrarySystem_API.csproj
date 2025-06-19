@@ -43,7 +43,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LibrarySystem_Shared">
+    <Reference Include="LibrarySystem_Shared, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\LibrarySystem.Shared\bin\LibrarySystem_Shared.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -156,6 +157,9 @@
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <Content Include="Web References\LibraryWebServiceRef\LoginResult.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Content>
+    <Content Include="Web References\LibraryWebServiceRef\ChatInfo.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </Content>
     <None Include="Web References\LibraryWebServiceRef\Reference.map">

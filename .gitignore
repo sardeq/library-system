@@ -2,6 +2,7 @@
 **/bin/
 **/obj/
 **/Web.config
+Web.config
 *.user
 *.suo
 *.db

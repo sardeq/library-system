@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -17,7 +18,9 @@ namespace LibrarySystem_API.Controllers
         {
             try
             {
-                var response = await WebServiceClient.GetChatbotResponseAsync(request.Message);
+                var response = await WebServiceClient.GetChatbotResponseAsync(
+                    request.Message, request.ChatId, request.ClientId
+                );
 
                 return new HttpResponseMessage
                 {
@@ -29,10 +32,49 @@ namespace LibrarySystem_API.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
+
+        [HttpPost]
+        [Route("newchat")]
+        public HttpResponseMessage CreateNewChat(int clientId)
+        {
+            try
+            {
+                Guid chatId = WebServiceClient.CreateNewChat(clientId);
+                return Request.CreateResponse(HttpStatusCode.OK, new { ChatId = chatId });
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("chats")]
+        public HttpResponseMessage GetChatSessions(int clientId)
+        {
+            try
+            {
+                var chats = WebServiceClient.GetChatSessions(clientId);
+                return Request.CreateResponse(HttpStatusCode.OK, chats);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
     }
 
     public class ChatRequest
     {
+        public string SessionId { get; set; }
+        public Guid ChatId { get; set; }
         public string Message { get; set; }
+        public int ClientId { get; set; }
+    }
+
+    public class NewChatRequest
+    {
+        
     }
 }
