@@ -63,6 +63,22 @@ namespace LibrarySystem_API.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("history/{chatId}")]
+        public HttpResponseMessage GetChatHistory(Guid chatId)
+        {
+            try
+            {
+                var _client = WebServiceClient.Instance;
+                var history = _client.GetChatHistory(chatId.ToString());
+                return Request.CreateResponse(HttpStatusCode.OK, history);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
     }
 
     public class ChatRequest

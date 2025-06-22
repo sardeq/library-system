@@ -1448,3 +1448,201 @@ Response:
          
 {"id":"gen-1750327748-dAIds0V4m9lCVIV69rIl","provider":"Chutes","model":"deepseek/deepseek-chat-v3-0324:free","object":"chat.completion","created":1750327749,"choices":[{"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","index":0,"message":{"role":"assistant","content":"Here are some books currently available in our library:  \n\n1. **\"Book\"** by Book (16 available)  \n2. **\"Art\"** by Sadeq (1 available)  \n3. **\"Aaa\"** by Aaa (99 available)  \n4. **\"Gg\"** by Gg (6 available)  \n5. **\"Da\"** by Da (17 available)  \n6. **\"Over\"** by D (10 available)  \n7. **\"Cinema\"** by Sadeq (1 available)  \n8. **\"One Piece\"** by Sadeq (1 available)  \n\nWould you like details on a specific book or genre?","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":255,"completion_tokens":147,"total_tokens":402,"prompt_tokens_details":null}}
 
+6/19/2025 10:10:13 AM - Request:
+{"model":"deepseek/deepseek-chat-v3-0324:free","messages":[{"role":"user","content":"You are a helpful library assistant. Remember:\r\n- Maintain conversation context\r\n- Use book database when available\r\n- Keep responses concise and library-focused\r\n- When asked about books from our database, just give some answers first then ask about specifics if needed\r\n- Dont ask for specifics immediately, give a few books from the database then ask if the user wants anything specific.\r\n- When asked about a book always assume the user means in the database first, unless the user specifies\r\nAlways prioritise giving the answer from the database.\r\nuser: what books do we have in this library\r\nassistant: Here are some books currently available in our library:  \n\n1. **\"Book\"** by Book (16 available)  \n2. **\"Art\"** by Sadeq (1 available)  \n3. **\"Aaa\"** by Aaa (99 available)  \n4. **\"Gg\"** by Gg (6 available)  \n5. **\"Da\"** by Da (17 available)  \n6. **\"Over\"** by D (10 available)  \n7. **\"Cinema\"** by Sadeq (1 available)  \n8. **\"One Piece\"** by Sadeq (1 available)  \n\nWould you like details on a specific book or genre?\r\nuser: hi\r\nAssistant: "}],"max_tokens":2000,"temperature":0.8}
+
+6/19/2025 10:10:18 AM - Status: OK
+Response: 
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+{"id":"gen-1750327814-LryVzTUGoRC2nEbUmJGq","provider":"Chutes","model":"deepseek/deepseek-chat-v3-0324:free","object":"chat.completion","created":1750327815,"choices":[{"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","index":0,"message":{"role":"assistant","content":"Hello! Welcome back to the library. How can I assist you today? Are you looking for a specific book, genre, or information about our services?","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":292,"completion_tokens":32,"total_tokens":324,"prompt_tokens_details":null}}
+
+6/22/2025 6:48:37 AM - Request:
+{"model":"deepseek/deepseek-chat-v3-0324:free","messages":[{"role":"user","content":"You are a helpful library assistant. Remember:\r\n- Maintain conversation context\r\n- Use book database when available\r\n- Keep responses concise and library-focused\r\n- When asked about books from our database, just give some answers first then ask about specifics if needed\r\n- Dont ask for specifics immediately, give a few books from the database then ask if the user wants anything specific.\r\n- When asked about a book always assume the user means in the database first, unless the user specifies\r\nAlways prioritise giving the answer from the database.\r\nuser: hi\r\nAssistant: "}],"max_tokens":2000,"temperature":0.8}
+
+6/22/2025 6:48:42 AM - Status: OK
+Response: 
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+{"id":"gen-1750574922-02p6WHBWL56mIfTzGm6B","provider":"Targon","model":"deepseek/deepseek-chat-v3-0324:free","object":"chat.completion","created":1750574923,"choices":[{"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","index":0,"message":{"role":"assistant","content":"Hello! Welcome to the library. How can I assist you today? Are you looking for a specific book, topic, or author?","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":127,"completion_tokens":28,"total_tokens":155,"prompt_tokens_details":null}}
+
+6/22/2025 6:49:05 AM - Request:
+{"model":"deepseek/deepseek-chat-v3-0324:free","messages":[{"role":"user","content":"You are a helpful library assistant. Remember:\r\n- Maintain conversation context\r\n- Use book database when available\r\n- Keep responses concise and library-focused\r\n- When asked about books from our database, just give some answers first then ask about specifics if needed\r\n- Dont ask for specifics immediately, give a few books from the database then ask if the user wants anything specific.\r\n- When asked about a book always assume the user means in the database first, unless the user specifies\r\nAlways prioritise giving the answer from the database.\r\nuser: recommend me a fantasy book\r\nsystem: I found these matching books:\nNo matching books found.\n\r\nAssistant: "}],"max_tokens":2000,"temperature":0.8}
+
+6/22/2025 6:49:08 AM - Status: OK
+Response: 
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+{"id":"gen-1750574949-ZqBuN7nXTYlOt9YFZXil","provider":"Chutes","model":"deepseek/deepseek-chat-v3-0324:free","object":"chat.completion","created":1750574950,"choices":[{"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","index":0,"message":{"role":"assistant","content":"It looks like our database doesn't currently have any fantasy books available. Let me check back later if you'd like, or I can offer some general fantasy recommendations if you're interested in broader suggestions. Would you like me to do that?","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":148,"completion_tokens":49,"total_tokens":197,"prompt_tokens_details":null}}
+
+6/22/2025 6:49:42 AM - Request:
+{"model":"deepseek/deepseek-chat-v3-0324:free","messages":[{"role":"user","content":"You are a helpful library assistant. Remember:\r\n- Maintain conversation context\r\n- Use book database when available\r\n- Keep responses concise and library-focused\r\n- When asked about books from our database, just give some answers first then ask about specifics if needed\r\n- Dont ask for specifics immediately, give a few books from the database then ask if the user wants anything specific.\r\n- When asked about a book always assume the user means in the database first, unless the user specifies\r\nAlways prioritise giving the answer from the database.\r\nuser: can you give me information on all books in the library\r\nsystem: I found these matching books:\n- \"one piece\" by sadeq (1 available)\r\n\r\nAssistant: "}],"max_tokens":2000,"temperature":0.8}
+
+6/22/2025 6:49:45 AM - Status: OK
+Response: 
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+{"id":"gen-1750574986-KpWXq55trGUl6czVL3E8","provider":"Targon","model":"deepseek/deepseek-chat-v3-0324:free","object":"chat.completion","created":1750574987,"choices":[{"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","index":0,"message":{"role":"assistant","content":"The library currently has one book in its database:  \n\n- **\"One Piece\"** by Sadeq (1 copy available)  \n\nWould you like details on this book, or are you looking for something specific?","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":162,"completion_tokens":45,"total_tokens":207,"prompt_tokens_details":null}}
+
+6/22/2025 6:49:57 AM - Request:
+{"model":"deepseek/deepseek-chat-v3-0324:free","messages":[{"role":"user","content":"You are a helpful library assistant. Remember:\r\n- Maintain conversation context\r\n- Use book database when available\r\n- Keep responses concise and library-focused\r\n- When asked about books from our database, just give some answers first then ask about specifics if needed\r\n- Dont ask for specifics immediately, give a few books from the database then ask if the user wants anything specific.\r\n- When asked about a book always assume the user means in the database first, unless the user specifies\r\nAlways prioritise giving the answer from the database.\r\nuser: can you give me information on all books in the library\r\nassistant: The library currently has one book in its database:  \n\n- **\"One Piece\"** by Sadeq (1 copy available)  \n\nWould you like details on this book, or are you looking for something specific?\r\nuser: what other books do we have\r\nsystem: I found these matching books:\nNo matching books found.\n\r\nAssistant: "}],"max_tokens":2000,"temperature":0.8}
+
+6/22/2025 6:50:04 AM - Status: OK
+Response: 
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+{"id":"gen-1750575001-Rk2Un4eu8ySk510Ei8rS","provider":"Chutes","model":"deepseek/deepseek-chat-v3-0324:free","object":"chat.completion","created":1750575002,"choices":[{"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","index":0,"message":{"role":"assistant","content":"It seems the library database currently only lists **\"One Piece\" by Sadeq** as the available book.  \n\nLet me know if you'd like details about it or need help with anything else!","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":213,"completion_tokens":42,"total_tokens":255,"prompt_tokens_details":null}}
+
+6/22/2025 6:50:16 AM - Request:
+{"model":"deepseek/deepseek-chat-v3-0324:free","messages":[{"role":"user","content":"You are a helpful library assistant. Remember:\r\n- Maintain conversation context\r\n- Use book database when available\r\n- Keep responses concise and library-focused\r\n- When asked about books from our database, just give some answers first then ask about specifics if needed\r\n- Dont ask for specifics immediately, give a few books from the database then ask if the user wants anything specific.\r\n- When asked about a book always assume the user means in the database first, unless the user specifies\r\nAlways prioritise giving the answer from the database.\r\nuser: what books do we have in this library\r\nsystem: Here's a selection of books from our library:\n- \"over\" by d (10 available)\r\n- \"book\" by book (16 available)\r\n- \"aaa\" by aaa (99 available)\r\n- \"da\" by da (17 available)\r\n- \"cinema\" by sadeq (1 available)\r\n- \"gg\" by gg (6 available)\r\n- \"art\" by sadeq (1 available)\r\n- \"one piece\" by sadeq (1 available)\r\n\r\nAssistant: "}],"max_tokens":2000,"temperature":0.8}
+
+6/22/2025 6:50:26 AM - Status: OK
+Response: 
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+{"id":"gen-1750575020-rlC2tCEppGaMYC6eQjT7","provider":"Chutes","model":"deepseek/deepseek-chat-v3-0324:free","object":"chat.completion","created":1750575028,"choices":[{"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","index":0,"message":{"role":"assistant","content":"Let me know if you'd like details about any specific book or want recommendations based on a particular genre/author!","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":255,"completion_tokens":24,"total_tokens":279,"prompt_tokens_details":null}}
+
+6/22/2025 6:50:39 AM - Request:
+{"model":"deepseek/deepseek-chat-v3-0324:free","messages":[{"role":"user","content":"You are a helpful library assistant. Remember:\r\n- Maintain conversation context\r\n- Use book database when available\r\n- Keep responses concise and library-focused\r\n- When asked about books from our database, just give some answers first then ask about specifics if needed\r\n- Dont ask for specifics immediately, give a few books from the database then ask if the user wants anything specific.\r\n- When asked about a book always assume the user means in the database first, unless the user specifies\r\nAlways prioritise giving the answer from the database.\r\nuser: what books do we have in this library\r\nassistant: Let me know if you'd like details about any specific book or want recommendations based on a particular genre/author!\r\nuser: recommend me a book from the available books in the library\r\nsystem: Here's a selection of books from our library:\n- \"book\" by book (16 available)\r\n- \"over\" by d (10 available)\r\n- \"aaa\" by aaa (99 available)\r\n- \"da\" by da (17 available)\r\n- \"gg\" by gg (6 available)\r\n- \"art\" by sadeq (1 available)\r\n- \"cinema\" by sadeq (1 available)\r\n- \"one piece\" by sadeq (1 available)\r\n\r\nAssistant: "}],"max_tokens":2000,"temperature":0.8}
+
+6/22/2025 6:50:46 AM - Status: OK
+Response: 
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+{"id":"gen-1750575043-SOgsLu9afoScZaljWt8g","provider":"Targon","model":"deepseek/deepseek-chat-v3-0324:free","object":"chat.completion","created":1750575044,"choices":[{"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","index":0,"message":{"role":"assistant","content":"Here are some interesting options from our library:  \n\n- *\"One Piece\" by Sadeq* (only 1 copy, popular!)  \n- *\"Art\" by Sadeq* (great for creative minds)  \n- *\"Cinema\" by Sadeq* (if you love films)  \n- *\"GG\" by GG* (only 6 copies left)  \n\nWould you like something specific—adventure, art, or another genre?","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":296,"completion_tokens":97,"total_tokens":393,"prompt_tokens_details":null}}
+

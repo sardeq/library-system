@@ -96,6 +96,8 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
         
         private System.Threading.SendOrPostCallback GetChatSessionsOperationCompleted;
         
+        private System.Threading.SendOrPostCallback GetChatHistoryOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -232,6 +234,9 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
         
         /// <remarks/>
         public event GetChatSessionsCompletedEventHandler GetChatSessionsCompleted;
+        
+        /// <remarks/>
+        public event GetChatHistoryCompletedEventHandler GetChatHistoryCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/Login", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -1203,6 +1208,35 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetChatHistory", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public Message[] GetChatHistory(string chatId) {
+            object[] results = this.Invoke("GetChatHistory", new object[] {
+                        chatId});
+            return ((Message[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void GetChatHistoryAsync(string chatId) {
+            this.GetChatHistoryAsync(chatId, null);
+        }
+        
+        /// <remarks/>
+        public void GetChatHistoryAsync(string chatId, object userState) {
+            if ((this.GetChatHistoryOperationCompleted == null)) {
+                this.GetChatHistoryOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetChatHistoryOperationCompleted);
+            }
+            this.InvokeAsync("GetChatHistory", new object[] {
+                        chatId}, this.GetChatHistoryOperationCompleted, userState);
+        }
+        
+        private void OnGetChatHistoryOperationCompleted(object arg) {
+            if ((this.GetChatHistoryCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.GetChatHistoryCompleted(this, new GetChatHistoryCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -1275,6 +1309,39 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
             }
             set {
                 this.userTypeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9037.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://tempuri.org/")]
+    public partial class Message {
+        
+        private string roleField;
+        
+        private string contentField;
+        
+        /// <remarks/>
+        public string Role {
+            get {
+                return this.roleField;
+            }
+            set {
+                this.roleField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string Content {
+            get {
+                return this.contentField;
+            }
+            set {
+                this.contentField = value;
             }
         }
     }
@@ -2882,6 +2949,32 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((ChatInfo[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9037.0")]
+    public delegate void GetChatHistoryCompletedEventHandler(object sender, GetChatHistoryCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9037.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class GetChatHistoryCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal GetChatHistoryCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public Message[] Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((Message[])(this.results[0]));
             }
         }
     }

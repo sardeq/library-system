@@ -230,12 +230,45 @@ namespace LibrarySystem_Main.General
             }
         }
 
+        private List<ChatMessage> LoadMessagesFromDatabase(Guid chatId)
+        {
+            var messages = new List<ChatMessage>();
+            try
+            {
+                var response = APIClient.Instance.GetAsync($"api/chatbot/history/{chatId}").Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    var dbMessages = JsonConvert.DeserializeObject<List<DbMessage>>(
+                        response.Content.ReadAsStringAsync().Result
+                    );
+
+                    foreach (var msg in dbMessages)
+                    {
+                        messages.Add(new ChatMessage
+                        {
+                            Sender = msg.Role == "user" ? "You" : "Library Bot",
+                            Text = msg.Content,
+                            CssClass = msg.Role == "user" ? "user-message" : "bot-message"
+                        });
+                    }
+                }
+            }
+            catch { /* Handle error */ }
+            return messages;
+        }
+
+        public class DbMessage
+        {
+            public string Role { get; set; }
+            public string Content { get; set; }
+        }
+
         private void RenderChatHistory()
         {
-            if (!ChatHistories.ContainsKey(CurrentChatId)) return;
-
+            var messages = LoadMessagesFromDatabase(CurrentChatId);
             var sb = new StringBuilder();
-            foreach (var msg in ChatHistories[CurrentChatId])
+
+            foreach (var msg in messages)
             {
                 sb.AppendFormat(
                     @"<div class=""chat-message {0}""><strong>{1}:</strong> {2}</div>",

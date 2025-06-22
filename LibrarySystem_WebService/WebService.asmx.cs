@@ -14,6 +14,7 @@ using System.Net.Http;
 using LibrarySystem_Shared.Models;
 using LibrarySystem_WebService.Chatbot;
 using System.Collections.Concurrent;
+using static LibrarySystem_WebService.Chatbot.ChatbotManagement;
 
 namespace LibrarySystem_WebService
 {
@@ -545,6 +546,12 @@ namespace LibrarySystem_WebService
         public List<ChatInfo> GetChatSessions(int clientId)
         {
             return ChatbotManagement.GetChatSessions(clientId);
+        }
+
+        [WebMethod(EnableSession = true)]
+        public List<Message> GetChatHistory(string chatId)
+        {
+            return ChatbotManagement.GetChatHistory(chatId);
         }
 
         public class ChatbotResponse

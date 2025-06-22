@@ -146,13 +146,14 @@ namespace LibrarySystem_WebService.Chatbot
                 var db = new DatabaseService();
                 db.ExecuteNonQuery(query, parameters);
             }
-            catch (Exception ex)
+            //catch (Exception ex)
+            catch
             {
                 // Log error here
             }
         }
 
-        private static List<Message> GetChatHistory(string chatId)
+        public static List<Message> GetChatHistory(string chatId)
         {
             Guid chatGuid = Guid.Parse(chatId);
 
@@ -163,7 +164,9 @@ namespace LibrarySystem_WebService.Chatbot
                 ORDER BY Timestamp";
 
             SqlParameter[] parameters = {
-                new SqlParameter("@ChatID", SqlDbType.UniqueIdentifier) { Value = chatGuid } // Use Guid
+                new SqlParameter("@ChatID", SqlDbType.UniqueIdentifier) {
+                    Value = chatGuid
+                }
             };
 
             var db = new DatabaseService();
@@ -339,11 +342,6 @@ namespace LibrarySystem_WebService.Chatbot
 
 
 
-    public class Message
-    {
-        public string Role { get; set; }
-        public string Content { get; set; }
-    }
 
     public class OpenRouterResponse
     {
