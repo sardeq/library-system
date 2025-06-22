@@ -529,6 +529,19 @@ namespace LibrarySystem_WebService
             return new ChatbotResponse { Success = true, Message = response };
         }
 
+        [WebMethod]
+        public bool DeleteChat(Guid chatId)
+        {
+            try
+            {
+                return ChatbotManagement.DeleteChat(chatId);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         [WebMethod(EnableSession = true)]
         public Guid CreateNewChat(int clientId)
         {

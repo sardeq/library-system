@@ -64,6 +64,27 @@ namespace LibrarySystem_API.Controllers
             }
         }
 
+        [HttpDelete]
+        [Route("delete/{chatId}")]
+        public IHttpActionResult DeleteChat(Guid chatId)
+        {
+            try
+            {
+                var _client = WebServiceClient.Instance;
+                var result = _client.DeleteChat(chatId);
+
+                return Ok(new
+                {
+                    Success = true,
+                    Message = "Book deleted successfully!"
+                });
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+
         [HttpGet]
         [Route("history/{chatId}")]
         public HttpResponseMessage GetChatHistory(Guid chatId)

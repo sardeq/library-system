@@ -56,6 +56,7 @@
                             <li><asp:HyperLink runat="server" NavigateUrl="~/Teacher/TeacherDefault"><asp:Literal runat="server" Text="<%$ Resources:Resources, Dashboard%>" /></asp:HyperLink></li>
                             <li><asp:HyperLink runat="server" NavigateUrl="~/General/Borrow"><asp:Literal runat="server" Text="<%$ Resources:Resources, BorrowBooks%>" /></asp:HyperLink></li>
                             <li><asp:HyperLink runat="server" NavigateUrl="~/General/MyBooks"><asp:Literal runat="server" Text="<%$ Resources:Resources, MyBooks%>" /></asp:HyperLink></li>
+                            <li><asp:HyperLink runat="server" NavigateUrl="~/General/Chatbot"><asp:Literal runat="server" Text="<%$ Resources:Resources, Chatbot%>" /></asp:HyperLink></li>
                             <li><asp:HyperLink runat="server" NavigateUrl="~/General/Account.aspx"><asp:Literal runat="server" Text="<%$ Resources:Resources, MyAccount%>" /></asp:HyperLink></li>
 
                         </ul>
@@ -66,6 +67,7 @@
                             <li><asp:HyperLink runat="server" NavigateUrl="~/Student/StudentDefault"><asp:Literal runat="server" Text="<%$ Resources:Resources, Dashboard%>" /></asp:HyperLink></li>
                             <li><asp:HyperLink runat="server" NavigateUrl="~/General/Borrow"><asp:Literal runat="server" Text="<%$ Resources:Resources, BorrowBooks%>" /></asp:HyperLink></li>
                             <li><asp:HyperLink runat="server" NavigateUrl="~/General/MyBooks"><asp:Literal runat="server" Text="<%$ Resources:Resources, MyBooks%>" /></asp:HyperLink></li>
+                            <li><asp:HyperLink runat="server" NavigateUrl="~/General/Chatbot"><asp:Literal runat="server" Text="<%$ Resources:Resources, Chatbot%>" /></asp:HyperLink></li>
                             <li><asp:HyperLink runat="server" NavigateUrl="~/General/Account.aspx"><asp:Literal runat="server" Text="<%$ Resources:Resources, MyAccount%>" /></asp:HyperLink></li>
                         </ul>
                     </div>

@@ -570,6 +570,20 @@
           <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
         </s:sequence>
       </s:complexType>
+      <s:element name="DeleteChat">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="chatId" type="s1:guid" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteChatResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="DeleteChatResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
       <s:element name="CreateNewChat">
         <s:complexType>
           <s:sequence>
@@ -830,6 +844,12 @@
   <wsdl:message name="GetChatbotResponseSoapOut">
     <wsdl:part name="parameters" element="tns:GetChatbotResponseResponse" />
   </wsdl:message>
+  <wsdl:message name="DeleteChatSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteChat" />
+  </wsdl:message>
+  <wsdl:message name="DeleteChatSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteChatResponse" />
+  </wsdl:message>
   <wsdl:message name="CreateNewChatSoapIn">
     <wsdl:part name="parameters" element="tns:CreateNewChat" />
   </wsdl:message>
@@ -972,6 +992,10 @@
     <wsdl:operation name="GetChatbotResponse">
       <wsdl:input message="tns:GetChatbotResponseSoapIn" />
       <wsdl:output message="tns:GetChatbotResponseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteChat">
+      <wsdl:input message="tns:DeleteChatSoapIn" />
+      <wsdl:output message="tns:DeleteChatSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="CreateNewChat">
       <wsdl:input message="tns:CreateNewChatSoapIn" />
@@ -1260,6 +1284,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetChatbotResponse">
       <soap:operation soapAction="http://tempuri.org/GetChatbotResponse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteChat">
+      <soap:operation soapAction="http://tempuri.org/DeleteChat" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1569,6 +1602,15 @@
     </wsdl:operation>
     <wsdl:operation name="GetChatbotResponse">
       <soap12:operation soapAction="http://tempuri.org/GetChatbotResponse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteChat">
+      <soap12:operation soapAction="http://tempuri.org/DeleteChat" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

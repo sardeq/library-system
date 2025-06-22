@@ -7,3 +7,5 @@ UserID,Positive,Negative,Mixed,Unknown,ReviewDesc,Age,BorrowedCount
 2,0,1,0,0,"bad",0,72
 2,1,0,0,0,"good ",0,74
 2,0,0,0,1,"asdgadsgadghd",0,75
+2,0,1,0,0,"was not a fan of the book",0,4
+2,1,0,0,0,"i really liked this manga, very funny",0,4

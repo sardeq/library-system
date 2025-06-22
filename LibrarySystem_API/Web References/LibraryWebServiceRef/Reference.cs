@@ -92,6 +92,8 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
         
         private System.Threading.SendOrPostCallback GetChatbotResponseOperationCompleted;
         
+        private System.Threading.SendOrPostCallback DeleteChatOperationCompleted;
+        
         private System.Threading.SendOrPostCallback CreateNewChatOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetChatSessionsOperationCompleted;
@@ -228,6 +230,9 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
         
         /// <remarks/>
         public event GetChatbotResponseCompletedEventHandler GetChatbotResponseCompleted;
+        
+        /// <remarks/>
+        public event DeleteChatCompletedEventHandler DeleteChatCompleted;
         
         /// <remarks/>
         public event CreateNewChatCompletedEventHandler CreateNewChatCompleted;
@@ -1146,6 +1151,35 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
             if ((this.GetChatbotResponseCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.GetChatbotResponseCompleted(this, new GetChatbotResponseCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/DeleteChat", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public bool DeleteChat(System.Guid chatId) {
+            object[] results = this.Invoke("DeleteChat", new object[] {
+                        chatId});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void DeleteChatAsync(System.Guid chatId) {
+            this.DeleteChatAsync(chatId, null);
+        }
+        
+        /// <remarks/>
+        public void DeleteChatAsync(System.Guid chatId, object userState) {
+            if ((this.DeleteChatOperationCompleted == null)) {
+                this.DeleteChatOperationCompleted = new System.Threading.SendOrPostCallback(this.OnDeleteChatOperationCompleted);
+            }
+            this.InvokeAsync("DeleteChat", new object[] {
+                        chatId}, this.DeleteChatOperationCompleted, userState);
+        }
+        
+        private void OnDeleteChatOperationCompleted(object arg) {
+            if ((this.DeleteChatCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.DeleteChatCompleted(this, new DeleteChatCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -2897,6 +2931,32 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((ChatbotResponse)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9037.0")]
+    public delegate void DeleteChatCompletedEventHandler(object sender, DeleteChatCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9037.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class DeleteChatCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal DeleteChatCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
             }
         }
     }

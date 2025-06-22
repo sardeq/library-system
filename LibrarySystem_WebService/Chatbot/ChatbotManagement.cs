@@ -326,6 +326,28 @@ namespace LibrarySystem_WebService.Chatbot
             db.ExecuteNonQuery(query, parameters);
         }
 
+        public static bool DeleteChat(Guid chatId)
+        {
+            try
+            {
+                string query = @"
+                    DELETE FROM ChatMessages WHERE ChatID = @ChatID;
+                    DELETE FROM Chats WHERE ChatID = @ChatID;";
+
+                SqlParameter[] parameters = {
+                    new SqlParameter("@ChatID", chatId)
+                };
+
+                var db = new DatabaseService();
+                db.ExecuteNonQuery(query, parameters);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
 
         private static DateTime GetChatCreatedDate(List<Message> chat)
         {

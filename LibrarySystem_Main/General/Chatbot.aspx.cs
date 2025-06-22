@@ -35,10 +35,18 @@ namespace LibrarySystem_Main.General
                 InitializeChatSession();
                 LoadChatSessions();
             }
-            else
-            {
-                RenderChatHistory();
-            }
+        }
+
+        protected void Page_PreRender(object sender, EventArgs e)
+        {
+            RenderChatHistory();
+        }
+
+        public bool IsActiveChat(object chatIdObj)
+        {
+            if (chatIdObj == null) return false;
+            return Guid.TryParse(chatIdObj.ToString(), out Guid chatId) &&
+                   chatId == CurrentChatId;
         }
 
         private void InitializeChatSession()
@@ -59,7 +67,7 @@ namespace LibrarySystem_Main.General
                 $"api/chatbot/newchat?clientId={CurrentUser.ClientID}",
                 null
             ).Result;
-
+            
             if (response.IsSuccessStatusCode)
             {
                 var result = JsonConvert.DeserializeAnonymousType(
@@ -108,46 +116,53 @@ namespace LibrarySystem_Main.General
             {
                 Sender = "You",
                 Text = messageText,
-                CssClass = "user-message"
+                CssClass = "user-message",
+                Timestamp = DateTime.Now.ToString("hh:mm tt")
             });
 
             txtMessage.Text = "";
             RenderChatHistory();
+            ScriptManager.RegisterStartupScript(this, GetType(), "showTyping",
+                "showTypingIndicator();", true);
+            ScriptManager.RegisterStartupScript(this, GetType(), "focusInput",
+                "focusInput();", true);
 
             try
             {
+                // Add API call to get bot response
                 var requestData = new
                 {
-                    ChatId = CurrentChatId,
                     Message = messageText,
+                    ChatId = CurrentChatId,
                     ClientId = CurrentUser.ClientID
                 };
+
                 var content = new StringContent(
                     JsonConvert.SerializeObject(requestData),
                     Encoding.UTF8,
                     "application/json"
                 );
 
-                var response = await APIClient.Instance.PostAsync("api/chatbot/respond", content);
+                var response = await APIClient.Instance.PostAsync(
+                    "api/chatbot/respond", content
+                );
 
-                string botResponseText;
-                string cssClass = "bot-message";
-
+                string botResponseText = "";
                 if (response.IsSuccessStatusCode)
                 {
                     botResponseText = await response.Content.ReadAsStringAsync();
                 }
                 else
                 {
-                    botResponseText = $"Error: {response.StatusCode}";
-                    cssClass = "error-message";
+                    botResponseText = "Error: " + response.ReasonPhrase;
                 }
 
                 SaveMessageToHistory(new ChatMessage
                 {
                     Sender = "Library Bot",
                     Text = botResponseText,
-                    CssClass = cssClass
+                    CssClass = "bot-message",
+                    Timestamp = DateTime.Now.ToString("hh:mm tt")
                 });
             }
             catch (Exception ex)
@@ -186,9 +201,6 @@ namespace LibrarySystem_Main.General
                     );
                     CurrentChatId = result.ChatId;
                 }
-
-                LoadChatSessions();
-                RenderChatHistory();
             }
             catch
             {
@@ -197,7 +209,7 @@ namespace LibrarySystem_Main.General
 
         }
 
-        protected void rptChatSessions_ItemCommand(object source, RepeaterCommandEventArgs e)
+        protected async void rptChatSessions_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
             if (e.CommandName == "SelectChat")
             {
@@ -210,6 +222,28 @@ namespace LibrarySystem_Main.General
                     CurrentChatId = CreateNewChat();
                 }
                 RenderChatHistory();
+            }
+            else if (e.CommandName == "DeleteChat")
+            {
+                if (Guid.TryParse(e.CommandArgument.ToString(), out Guid chatId))
+                {
+                    var response = await APIClient.Instance.DeleteAsync(
+                        $"api/chatbot/delete/{chatId}"
+                    );
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        if (chatId == CurrentChatId)
+                        {
+                            CurrentChatId = CreateNewChat();
+                        }
+
+                        if (ChatHistories.ContainsKey(chatId))
+                        {
+                            ChatHistories.Remove(chatId);
+                        }
+                    }
+                }
             }
         }
 
@@ -270,19 +304,52 @@ namespace LibrarySystem_Main.General
 
             foreach (var msg in messages)
             {
-                sb.AppendFormat(
-                    @"<div class=""chat-message {0}""><strong>{1}:</strong> {2}</div>",
-                    msg.CssClass,
-                    Server.HtmlEncode(msg.Sender),
-                    Server.HtmlEncode(msg.Text ?? "").Replace("\n", "<br />")
-                );
+                string containerClass = msg.CssClass == "user-message"
+                    ? "chat-message-container user-message-container"
+                    : "chat-message-container bot-message-container";
+
+                sb.Append($@"<div class=""{containerClass}"">");
+                sb.Append($@"<div class=""chat-message {msg.CssClass}"">");
+                sb.Append($@"<div>{Server.HtmlEncode(msg.Text ?? "").Replace("\n", "<br />")}</div>");
+
+                if (!string.IsNullOrEmpty(msg.Timestamp))
+                {
+                    sb.Append($@"<div class=""message-time"">{msg.Timestamp}</div>");
+                }
+
+                sb.Append("</div></div>");
             }
+
             litChatHistory.Text = sb.ToString();
+            litActiveChatTitle.Text = GetActiveChatTitle();
 
             ScriptManager.RegisterStartupScript(this, GetType(), "scrollChat",
-                "var container = document.getElementById('chatScrollContainer');" +
-                "container.scrollTop = container.scrollHeight;", true);
+                "scrollToBottom();", true);
         }
+
+        private string GetActiveChatTitle()
+        {
+            foreach (RepeaterItem item in rptChatSessions.Items)
+            {
+                if (item.ItemType == ListItemType.Item ||
+                    item.ItemType == ListItemType.AlternatingItem)
+                {
+                    object chatIdObj = DataBinder.Eval(item.DataItem, "ChatId");
+                    if (chatIdObj != null)
+                    {
+                        string chatId = chatIdObj.ToString();
+                        if (Guid.TryParse(chatId, out Guid parsedId) &&
+                            parsedId == CurrentChatId)
+                        {
+                            object titleObj = DataBinder.Eval(item.DataItem, "Title");
+                            return titleObj?.ToString() ?? "New Chat";
+                        }
+                    }
+                }
+            }
+            return "New Chat";
+        }
+
 
         public string GetChatItemCss(object chatIdObj)
         {
