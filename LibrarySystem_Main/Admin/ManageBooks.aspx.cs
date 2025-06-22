@@ -5,6 +5,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
 using System.Web.UI;
+using System.Net;
+using System.Text;
 
 namespace LibrarySystem_Main.Admin
 {
@@ -63,7 +65,10 @@ namespace LibrarySystem_Main.Admin
 
         private async Task DeleteBook(string bookId)
         {
-            var response = await APIClient.Instance.DeleteAsync($"api/books/{bookId}");
+            var response = await APIClient.Instance.PostAsync(
+                $"api/books/delete/{bookId}",
+                null 
+            );
 
             if (response.IsSuccessStatusCode)
             {
@@ -73,18 +78,30 @@ namespace LibrarySystem_Main.Admin
                 if (result.Success)
                 {
                     await BindBooks();
-                    ShowSuccessMessage("Book deleted successfully.");
+                    ShowSuccessMessage(result.Message);
                 }
                 else
                 {
-                    ShowErrorMessage($"Failed to delete book: {result.ErrorMessage}");
+                    ShowErrorMessage(result.Message);
                 }
+            }
+            else if (response.StatusCode == HttpStatusCode.Conflict)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                var error = JsonConvert.DeserializeObject<ApiResponse>(errorContent);
+                ShowErrorMessage(error.Message);
             }
             else
             {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                ShowErrorMessage($"Failed to delete book: {errorContent}");
+                ShowErrorMessage($"Failed to delete book. Status: {response.StatusCode}");
             }
+        }
+
+        public class ApiResponse
+        {
+            public bool Success { get; set; }
+            public string Message { get; set; }
+            public string ErrorMessage { get; set; }
         }
 
         private async void LoadBookDetails(string bookId)
@@ -122,13 +139,13 @@ namespace LibrarySystem_Main.Admin
             };
 
             var content = new StringContent(JsonConvert.SerializeObject(book),
-                System.Text.Encoding.UTF8, "application/json");
+                 Encoding.UTF8, "application/json");
 
             HttpResponseMessage response;
             if (string.IsNullOrEmpty(txtBookID.Text))
                 response = await APIClient.Instance.PostAsync("api/books", content);
             else
-                response = await APIClient.Instance.PutAsync("api/books", content);
+                response = await APIClient.Instance.PostAsync("api/books/update", content);
 
             if (response.IsSuccessStatusCode)
             {

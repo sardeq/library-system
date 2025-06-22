@@ -400,20 +400,47 @@ namespace LibrarySystem_WebService.Books
 
         public (bool Success, string ErrorMessage) DeleteBook(string bookId)
         {
-            SqlParameter[] checkParams = { new SqlParameter("@BookID", bookId) };
-            int borrowedCount = Convert.ToInt32(_db.ExecuteScalar(
-                "SELECT COUNT(*) FROM Borrow WHERE BookID = @BookID", checkParams));
-
-            if (borrowedCount > 0)
+            if (!BookExists(bookId))
             {
-                return (false, "Book cannot be deleted as it is currently borrowed.");
+                return (false, "Book not found");
             }
 
-            SqlParameter[] deleteParams = { new SqlParameter("@BookID", bookId) };
-            bool success = _db.ExecuteNonQuery(
-                "DELETE FROM Books WHERE BookID = @BookID", deleteParams);
+            string activeBorrowsQuery = @"
+                SELECT COUNT(*) 
+                FROM Borrow 
+                WHERE BookID = @BookID 
+                  AND Returned = 0
+                  AND PendingConfirmation = 0";
 
-            return (success, success ? "" : "Failed to delete book.");
+            SqlParameter[] activeParams = { new SqlParameter("@BookID", bookId) };
+            int activeBorrows = Convert.ToInt32(_db.ExecuteScalar(activeBorrowsQuery, activeParams));
+
+            if (activeBorrows > 0)
+            {
+                return (false, "Book cannot be deleted as it is currently borrowed");
+            }
+
+            string deleteHistoryQuery = "DELETE FROM Borrow WHERE BookID = @BookID";
+            SqlParameter[] historyParams = { new SqlParameter("@BookID", bookId) };
+            bool historyDeleted = _db.ExecuteNonQuery(deleteHistoryQuery, historyParams);
+
+            if (!historyDeleted)
+            {
+                return (false, "Failed to clear book history");
+            }
+
+            string deleteBookQuery = "DELETE FROM Books WHERE BookID = @BookID";
+            SqlParameter[] bookParams = { new SqlParameter("@BookID", bookId) };
+            bool bookDeleted = _db.ExecuteNonQuery(deleteBookQuery, bookParams);
+
+            return (bookDeleted, bookDeleted ? "" : "Failed to delete book");
+        }
+
+        private bool BookExists(string bookId)
+        {
+            string query = "SELECT COUNT(*) FROM Books WHERE BookID = @BookID";
+            SqlParameter[] parameters = { new SqlParameter("@BookID", bookId) };
+            return Convert.ToInt32(_db.ExecuteScalar(query, parameters)) > 0;
         }
     }
 

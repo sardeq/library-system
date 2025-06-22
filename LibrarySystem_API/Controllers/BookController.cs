@@ -42,7 +42,8 @@ namespace LibrarySystem_API.Controllers
             return Ok(_client.GetBorrowedBooks(clientId));
         }
 
-        [HttpPut]
+        [HttpPost]
+        [Route("update")]
         public IHttpActionResult UpdateBook([FromBody] Book book)
         {
             var _client = WebServiceClient.Instance;
@@ -61,27 +62,33 @@ namespace LibrarySystem_API.Controllers
             return Ok(book);
         }
 
-        [HttpDelete]
-        [Route("{bookId}")]
+        [HttpPost]
+        [Route("delete/{bookId}")]
         public IHttpActionResult DeleteBook(string bookId)
         {
             try
             {
                 var _client = WebServiceClient.Instance;
                 var result = _client.DeleteBook(bookId);
+
+                if (!result.Success)
+                {
+                    return Content(HttpStatusCode.Conflict, new
+                    {
+                        Success = false,
+                        Message = result.ErrorMessage
+                    });
+                }
+
                 return Ok(new
                 {
-                    result.Success,
-                    Message = result.Success ? "Books deleted successfully!" : result.ErrorMessage,
-                    ErrorMessage = result.ErrorMessage
+                    Success = true,
+                    Message = "Book deleted successfully!"
                 });
             }
             catch (Exception ex)
             {
-                return Content(HttpStatusCode.BadRequest, new
-                {
-                    Error = ex.Message
-                });
+                return InternalServerError(ex);
             }
         }
 
