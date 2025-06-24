@@ -38,13 +38,11 @@ namespace LibrarySystem_WebService.Chatbot
             SaveMessageToDatabase(chatId.ToString(), "user", message);
             history.Add(new Message { Role = "user", Content = message });
 
+            string imageAnalysis = "";
             if (!string.IsNullOrEmpty(imageBase64))
             {
-                var analysisResult = await AnalyzeImage(imageBase64);
-                if (!string.IsNullOrEmpty(analysisResult))
-                {
-                    message = $"Image analysis: {analysisResult}\n\n{message}";
-                }
+                imageAnalysis = await AnalyzeImage(imageBase64);
+                message = $"[Image context: {imageAnalysis}]\n{message}";
             }
 
             string bookResults = "";
@@ -138,9 +136,12 @@ namespace LibrarySystem_WebService.Chatbot
 
         private static async Task<string> AnalyzeImage(string imageBase64)
         {
+            var logPath = HostingEnvironment.MapPath("~/App_Data/chatbot_log.txt");
             var apiKey = ConfigurationManager.AppSettings["OpenRouter_ApiKey"]?.Trim();
+
             using (var client = new HttpClient())
             {
+                client.Timeout = TimeSpan.FromSeconds(30);
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
                 client.DefaultRequestHeaders.Add("X-Title", "Library Image Analysis");
 
@@ -159,14 +160,40 @@ namespace LibrarySystem_WebService.Chatbot
                         }
                     }
                 },
-                    max_tokens = 500,
+                    max_tokens = 2000,
                     temperature = 0.2
                 };
+
+                var loggableBody = new
+                {
+                    requestBody.model,
+                    messages = new[]
+            {
+                new
+                {
+                    role = "user",
+                    content = new object[]
+                    {
+                        new { type = "text", text = "Describe this image in detail" },
+                        new { type = "image", image = $"[TRUNCATED BASE64: {imageBase64.Length} chars]" }
+                    }
+                }
+            },
+                    requestBody.max_tokens,
+                    requestBody.temperature
+                };
+
+                File.AppendAllText(logPath, $"{DateTime.UtcNow} - R1 Image Request:\n{JsonConvert.SerializeObject(loggableBody, Formatting.Indented)}\n\n");
+
 
                 var response = await client.PostAsync(
                     "https://openrouter.ai/api/v1/chat/completions",
                     new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json")
                 );
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                File.AppendAllText(logPath, $"{DateTime.UtcNow} - R1 Response (Status: {response.StatusCode}):\n{responseContent}\n\n");
+
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -275,14 +302,13 @@ namespace LibrarySystem_WebService.Chatbot
         private static string BuildPrompt(List<Message> history, string bookData)
         {
             var prompt = new StringBuilder();
-            prompt.AppendLine("You are a helpful library assistant. Remember:");
-            prompt.AppendLine("- Maintain conversation context");
-            prompt.AppendLine("- Use book database when available");
-            prompt.AppendLine("- Keep responses concise and library-focused");
-            prompt.AppendLine("- When asked about books from our database, just give some answers first then ask about specifics if needed");
-            prompt.AppendLine("- Dont ask for specifics immediately, give a few books from the database then ask if the user wants anything specific.");
-            prompt.AppendLine("- When asked about a book always assume the user means in the database first, unless the user specifies");
-            prompt.AppendLine("Always prioritise giving the answer from the database.");
+            prompt.AppendLine("You are a helpful library assistant. Follow these rules:");
+            prompt.AppendLine("1. When asked about books, ALWAYS use our database first");
+            prompt.AppendLine("2. For book requests: Provide 3-5 relevant books from database");
+            prompt.AppendLine("3. If user asks for general recommendations, show popular books");
+            prompt.AppendLine("4. Never mention you're checking a database - respond naturally");
+            prompt.AppendLine("5. If no books match, suggest alternatives or ask for clarification");
+            prompt.AppendLine("6. Maintain conversation context between questions");
 
             int startIndex = Math.Max(0, history.Count - 8);
             for (int i = startIndex; i < history.Count; i++)
