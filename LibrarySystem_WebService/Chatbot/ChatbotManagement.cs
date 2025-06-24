@@ -114,7 +114,7 @@ namespace LibrarySystem_WebService.Chatbot
                     {
                         assistantResponse = $"Error: API returned {response.StatusCode}";
                     }
-
+                    
                     SaveMessageToDatabase(chatId.ToString(), "assistant", assistantResponse);
                     return assistantResponse;
                 }
