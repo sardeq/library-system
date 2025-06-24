@@ -36,9 +36,9 @@ namespace LibrarySystem_API.Models
             return Instance.GetChatSessions(clientId).ToList();
         }
 
-        public static async Task<string> GetChatbotResponseAsync(string message, Guid chatId, int clientId)
+        public static async Task<string> GetChatbotResponseAsync(string message, Guid chatId, int clientId, string ImageBase64)
         {
-            var response = await Task.Run(() => Instance.GetChatbotResponse(message, chatId, clientId));
+            var response = await Task.Run(() => Instance.GetChatbotResponse(message, chatId, clientId, ImageBase64));
             return response.Message;
         }
 

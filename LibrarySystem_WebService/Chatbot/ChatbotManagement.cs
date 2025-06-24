@@ -28,7 +28,7 @@ namespace LibrarySystem_WebService.Chatbot
             public string Content { get; set; }
         }
 
-        public static async Task<string> GetChatbotResponse(string message, int clientId, Guid chatId)
+        public static async Task<string> GetChatbotResponse(string message, int clientId, Guid chatId, string imageBase64)
         {
             var apiKey = ConfigurationManager.AppSettings["OpenRouter_ApiKey"]?.Trim();
             var logPath = HostingEnvironment.MapPath("~/App_Data/chatbot_log.txt");
@@ -37,6 +37,15 @@ namespace LibrarySystem_WebService.Chatbot
 
             SaveMessageToDatabase(chatId.ToString(), "user", message);
             history.Add(new Message { Role = "user", Content = message });
+
+            if (!string.IsNullOrEmpty(imageBase64))
+            {
+                var analysisResult = await AnalyzeImage(imageBase64);
+                if (!string.IsNullOrEmpty(analysisResult))
+                {
+                    message = $"Image analysis: {analysisResult}\n\n{message}";
+                }
+            }
 
             string bookResults = "";
             if (IsBookRelated(message))
@@ -127,20 +136,63 @@ namespace LibrarySystem_WebService.Chatbot
             }
         }
 
-        private static void SaveMessageToDatabase(string chatId, string role, string content)
+        private static async Task<string> AnalyzeImage(string imageBase64)
+        {
+            var apiKey = ConfigurationManager.AppSettings["OpenRouter_ApiKey"]?.Trim();
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+                client.DefaultRequestHeaders.Add("X-Title", "Library Image Analysis");
+
+                var requestBody = new
+                {
+                    model = "deepseek/deepseek-r1-0528:free",
+                    messages = new[]
+                    {
+                    new
+                    {
+                        role = "user",
+                        content = new object[]
+                        {
+                            new { type = "text", text = "Describe this image in detail" },
+                            new { type = "image", image = $"data:image/jpeg;base64,{imageBase64}" }
+                        }
+                    }
+                },
+                    max_tokens = 500,
+                    temperature = 0.2
+                };
+
+                var response = await client.PostAsync(
+                    "https://openrouter.ai/api/v1/chat/completions",
+                    new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json")
+                );
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<OpenRouterResponse>(content);
+                    return result?.choices?[0]?.message?.content?.Trim() ?? "Couldn't analyze image";
+                }
+                return "Image analysis failed";
+            }
+        }
+
+        private static void SaveMessageToDatabase(string chatId, string role, string content, string imageBase64 = null)
         {
             try
             {
                 Guid chatGuid = Guid.Parse(chatId); // Convert string to GUID
 
                 string query = @"
-                INSERT INTO ChatMessages (ChatID, Role, Content) 
-                VALUES (@ChatID, @Role, @Content)";
+                    INSERT INTO ChatMessages (ChatID, Role, Content, ImageData) 
+                    VALUES (@ChatID, @Role, @Content, @ImageData)";
 
-                        SqlParameter[] parameters = {
+                SqlParameter[] parameters = {
                     new SqlParameter("@ChatID", SqlDbType.UniqueIdentifier) { Value = chatGuid }, // Use Guid
                     new SqlParameter("@Role", role),
-                    new SqlParameter("@Content", content)
+                    new SqlParameter("@Content", content),
+                    new SqlParameter("@ImageData", string.IsNullOrEmpty(imageBase64) ? DBNull.Value : (object)imageBase64)
                 };
 
                 var db = new DatabaseService();

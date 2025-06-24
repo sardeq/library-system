@@ -60,15 +60,29 @@
                 </div>
                 
                 <div class="input-group mt-3">
+                    <label class="btn btn-outline-secondary" for="fileUploadImage">
+                        <i class="fas fa-image"></i>
+                        <asp:FileUpload ID="fileUploadImage" runat="server" style="display:none" />
+                    </label>
+
                     <asp:TextBox ID="txtMessage" runat="server"
                         CssClass="form-control" placeholder="Type your question..." 
                         autocomplete="off"
                         onkeypress="if(event.keyCode==13) {document.getElementById('<%= btnSend.ClientID %>').click(); return false;}" />
+                    
                     <div class="input-group-append">
                         <asp:Button ID="btnSend" runat="server" Text="Send"
                             CssClass="btn btn-primary" OnClick="btnSend_Click" />
                     </div>
                 </div>
+
+                <div id="imagePreview" class="mt-2" style="display:none;">
+                    <img id="previewImg" src="#" alt="Preview" style="max-height: 100px; border: 1px solid #ddd; padding: 5px;"/>
+                    <button type="button" class="btn btn-sm btn-danger ml-2" onclick="clearImage()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
             </div>
         </div>
     </div>
@@ -180,6 +194,17 @@
             animation: typing 1s infinite 0.4s;
         }
 
+        .chat-image-preview {
+            border: 1px solid #eee;
+            padding: 5px;
+            border-radius: 5px;
+            background: #f8f9fa;
+            margin-top: 5px;
+        }
+        .user-message-container .chat-image-preview {
+            float: right;
+        }
+
         @keyframes typing {
             0%, 100% {
                 transform: translateY(0);
@@ -216,5 +241,21 @@
             scrollToBottom();
             focusInput();
         };
+
+        document.getElementById('<%= fileUploadImage.ClientID %>').addEventListener('change', function (e) {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('previewImg').src = e.target.result;
+                    document.getElementById('imagePreview').style.display = 'flex';
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+
+        function clearImage() {
+            document.getElementById('<%= fileUploadImage.ClientID %>').value = '';
+        document.getElementById('imagePreview').style.display = 'none';
+    }
     </script>
 </asp:Content>

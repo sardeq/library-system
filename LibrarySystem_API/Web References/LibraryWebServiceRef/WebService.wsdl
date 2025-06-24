@@ -554,6 +554,7 @@
             <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
             <s:element minOccurs="1" maxOccurs="1" name="chatId" type="s1:guid" />
             <s:element minOccurs="1" maxOccurs="1" name="clientId" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="ImageBase64" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>

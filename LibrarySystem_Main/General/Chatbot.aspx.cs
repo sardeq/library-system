@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -110,29 +111,39 @@ namespace LibrarySystem_Main.General
         protected async void btnSend_Click(object sender, EventArgs e)
         {
             var messageText = txtMessage.Text.Trim();
-            if (string.IsNullOrEmpty(messageText)) return;
+            string imageBase64 = null;
+
+            if (fileUploadImage.HasFile)
+            {
+                using (var stream = new MemoryStream())
+                {
+                    fileUploadImage.PostedFile.InputStream.CopyTo(stream);
+                    imageBase64 = Convert.ToBase64String(stream.ToArray());
+                }
+            }
+
+            if (string.IsNullOrEmpty(messageText) && string.IsNullOrEmpty(imageBase64)) return;
 
             SaveMessageToHistory(new ChatMessage
             {
                 Sender = "You",
-                Text = messageText,
+                Text = !string.IsNullOrEmpty(messageText) ? messageText : "[Image Attachment]",
                 CssClass = "user-message",
                 Timestamp = DateTime.Now.ToString("hh:mm tt")
             });
 
             txtMessage.Text = "";
+            fileUploadImage.Attributes.Clear();
             RenderChatHistory();
-            ScriptManager.RegisterStartupScript(this, GetType(), "showTyping",
-                "showTypingIndicator();", true);
-            ScriptManager.RegisterStartupScript(this, GetType(), "focusInput",
-                "focusInput();", true);
+            ScriptManager.RegisterStartupScript(this, GetType(), "showTyping", "showTypingIndicator();", true);
+            ScriptManager.RegisterStartupScript(this, GetType(), "focusInput", "focusInput();", true);
 
             try
             {
-                // Add API call to get bot response
                 var requestData = new
                 {
                     Message = messageText,
+                    ImageBase64 = imageBase64,
                     ChatId = CurrentChatId,
                     ClientId = CurrentUser.ClientID
                 };
@@ -311,6 +322,13 @@ namespace LibrarySystem_Main.General
                 sb.Append($@"<div class=""{containerClass}"">");
                 sb.Append($@"<div class=""chat-message {msg.CssClass}"">");
                 sb.Append($@"<div>{Server.HtmlEncode(msg.Text ?? "").Replace("\n", "<br />")}</div>");
+
+                if (!string.IsNullOrEmpty(msg.ImageData))
+                {
+                        sb.Append($@"<div class='chat-image-preview mt-2'>
+                    <img src='data:image/jpeg;base64,{msg.ImageData}' alt='Attached image' style='max-width: 200px;'/>
+                </div>");
+                }
 
                 if (!string.IsNullOrEmpty(msg.Timestamp))
                 {

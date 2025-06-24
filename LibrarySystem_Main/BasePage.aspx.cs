@@ -152,6 +152,7 @@ namespace LibrarySystem_Main
     {
         public string Sender { get; set; }
         public string Text { get; set; }
+        public string ImageData { get; set; }
         public string CssClass { get; set; }
         public string Timestamp { get; set; }
     }
