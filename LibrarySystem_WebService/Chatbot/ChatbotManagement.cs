@@ -73,24 +73,20 @@ namespace LibrarySystem_WebService.Chatbot
                 }
             }
 
-            var prompt = BuildPrompt(history, bookResults);
+            var messagesList = BuildMessages(history, bookResults, imageAnalysis);
 
             using (var client = new HttpClient())
             {
                 try
                 {
-                    client.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue("Bearer", apiKey);
-
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
                     client.DefaultRequestHeaders.Add("X-Title", "Library Chatbot");
                     client.DefaultRequestHeaders.Add("User-Agent", "LibrarySystem/1.0");
 
                     var requestBody = new
                     {
-                        //model = "google/gemma-3n-e4b-it:free",
                         model = "deepseek/deepseek-chat-v3-0324:free",
-                        //model = "meta-llama/llama-4-maverick:free",
-                        messages = new[] { new { role = "user", content = prompt } },
+                        messages = messagesList,
                         max_tokens = 2000,
                         temperature = 0.8
                     };
@@ -106,10 +102,7 @@ namespace LibrarySystem_WebService.Chatbot
                     );
 
                     var responseContent = await response.Content.ReadAsStringAsync();
-
-                    File.AppendAllText(logPath,
-                        $"{DateTime.UtcNow} - Status: {response.StatusCode}\n" +
-                        $"Response: {responseContent}\n\n");
+                    File.AppendAllText(logPath, $"{DateTime.UtcNow} - Status: {response.StatusCode}\nResponse: {responseContent}\n\n");
 
                     string assistantResponse = "";
                     if (response.IsSuccessStatusCode)
@@ -123,7 +116,6 @@ namespace LibrarySystem_WebService.Chatbot
                     }
 
                     SaveMessageToDatabase(chatId.ToString(), "assistant", assistantResponse);
-
                     return assistantResponse;
                 }
                 catch (Exception ex)
@@ -132,6 +124,48 @@ namespace LibrarySystem_WebService.Chatbot
                     return "Sorry, I'm experiencing technical difficulties.";
                 }
             }
+        }
+
+        private static List<Dictionary<string, string>> BuildMessages(List<Message> history, string bookData, string imageAnalysis = "")
+        {
+            var messages = new List<Dictionary<string, string>>();
+
+            // System message with instructions
+            messages.Add(new Dictionary<string, string>
+    {
+        {"role", "system"},
+        {"content", @"You are a helpful library assistant. Follow these rules:
+1. When asked about books, ALWAYS use our database first
+2. For book requests: Provide 3-5 relevant books from database
+3. If user asks for general recommendations, show popular books
+4. Never mention you're checking a database - respond naturally
+5. If no books match, suggest alternatives or ask for clarification
+6. Maintain conversation context between questions
+7. If the user message includes an [Image context], incorporate that information into your response"}
+    });
+
+            // Add conversation history
+            int startIndex = Math.Max(0, history.Count - 8); // Limit to last 8 messages
+            for (int i = startIndex; i < history.Count; i++)
+            {
+                messages.Add(new Dictionary<string, string>
+        {
+            {"role", history[i].Role},
+            {"content", history[i].Content}
+        });
+            }
+
+            // Add book data as a system message if present
+            if (!string.IsNullOrEmpty(bookData))
+            {
+                messages.Add(new Dictionary<string, string>
+        {
+            {"role", "system"},
+            {"content", bookData}
+        });
+            }
+
+            return messages;
         }
 
         private static async Task<string> AnalyzeImage(string imageBase64)
