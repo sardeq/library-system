@@ -1123,22 +1123,23 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/GetChatbotResponse", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public ChatbotResponse GetChatbotResponse(string message, System.Guid chatId, int clientId, string ImageBase64) {
+        public ChatbotResponse GetChatbotResponse(string message, System.Guid chatId, int clientId, string ImageBase64, string imageMimeType) {
             object[] results = this.Invoke("GetChatbotResponse", new object[] {
                         message,
                         chatId,
                         clientId,
-                        ImageBase64});
+                        ImageBase64,
+                        imageMimeType});
             return ((ChatbotResponse)(results[0]));
         }
         
         /// <remarks/>
-        public void GetChatbotResponseAsync(string message, System.Guid chatId, int clientId, string ImageBase64) {
-            this.GetChatbotResponseAsync(message, chatId, clientId, ImageBase64, null);
+        public void GetChatbotResponseAsync(string message, System.Guid chatId, int clientId, string ImageBase64, string imageMimeType) {
+            this.GetChatbotResponseAsync(message, chatId, clientId, ImageBase64, imageMimeType, null);
         }
         
         /// <remarks/>
-        public void GetChatbotResponseAsync(string message, System.Guid chatId, int clientId, string ImageBase64, object userState) {
+        public void GetChatbotResponseAsync(string message, System.Guid chatId, int clientId, string ImageBase64, string imageMimeType, object userState) {
             if ((this.GetChatbotResponseOperationCompleted == null)) {
                 this.GetChatbotResponseOperationCompleted = new System.Threading.SendOrPostCallback(this.OnGetChatbotResponseOperationCompleted);
             }
@@ -1146,7 +1147,8 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
                         message,
                         chatId,
                         clientId,
-                        ImageBase64}, this.GetChatbotResponseOperationCompleted, userState);
+                        ImageBase64,
+                        imageMimeType}, this.GetChatbotResponseOperationCompleted, userState);
         }
         
         private void OnGetChatbotResponseOperationCompleted(object arg) {

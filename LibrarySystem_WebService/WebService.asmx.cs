@@ -496,11 +496,12 @@ namespace LibrarySystem_WebService
 
 
         [WebMethod(EnableSession = true)]
-        public ChatbotResponse GetChatbotResponse(string message, Guid chatId, int clientId, string ImageBase64)
+        public ChatbotResponse GetChatbotResponse(string message, Guid chatId, int clientId, 
+            string ImageBase64, string imageMimeType)
         {
             try
             {
-                return Task.Run(() => GetChatbotResponseAsync(message, clientId, chatId, ImageBase64)).Result;
+                return Task.Run(() => GetChatbotResponseAsync(message, clientId, chatId, ImageBase64, imageMimeType)).Result;
             }
             catch (Exception ex)
             {
@@ -512,13 +513,15 @@ namespace LibrarySystem_WebService
             }
         }
 
-        private async Task<ChatbotResponse> GetChatbotResponseAsync(string message, int clientId, Guid chatId, string ImageBase64)
+        private async Task<ChatbotResponse> GetChatbotResponseAsync(string message, int clientId, Guid chatId, 
+            string ImageBase64, string imageMimeType)
         {
             var response = await ChatbotManagement.GetChatbotResponse(
                 message,
                 clientId,
                 chatId,
-                ImageBase64
+                ImageBase64,
+                imageMimeType
             );
 
             if (ChatbotManagement.IsFirstUserMessage(chatId.ToString()))

@@ -19,7 +19,8 @@ namespace LibrarySystem_API.Controllers
             try
             {
                 var response = await WebServiceClient.GetChatbotResponseAsync(
-                    request.Message, request.ChatId, request.ClientId, request.ImageBase64
+                    request.Message, request.ChatId, request.ClientId, 
+                    request.ImageBase64, request.ImageMimeType
                 );
 
                 return new HttpResponseMessage
@@ -106,6 +107,7 @@ namespace LibrarySystem_API.Controllers
     {
         public string SessionId { get; set; }
         public string ImageBase64 { get; set; }
+        public string ImageMimeType { get; set; }
         public Guid ChatId { get; set; }
         public string Message { get; set; }
         public int ClientId { get; set; }

@@ -5,6 +5,7 @@ using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -112,6 +113,7 @@ namespace LibrarySystem_Main.General
         {
             var messageText = txtMessage.Text.Trim();
             string imageBase64 = null;
+            string imageMimeType = null;
 
             if (fileUploadImage.HasFile)
             {
@@ -119,6 +121,12 @@ namespace LibrarySystem_Main.General
                 {
                     fileUploadImage.PostedFile.InputStream.CopyTo(stream);
                     imageBase64 = Convert.ToBase64String(stream.ToArray());
+                    imageMimeType = fileUploadImage.PostedFile.ContentType;
+
+                    if (string.IsNullOrEmpty(imageMimeType))
+                    {
+                        imageMimeType = MimeMapping.GetMimeMapping(fileUploadImage.FileName);
+                    }
                 }
             }
 
@@ -144,6 +152,7 @@ namespace LibrarySystem_Main.General
                 {
                     Message = messageText,
                     ImageBase64 = imageBase64,
+                    ImageMimeType = imageMimeType,
                     ChatId = CurrentChatId,
                     ClientId = CurrentUser.ClientID
                 };
@@ -325,9 +334,9 @@ namespace LibrarySystem_Main.General
 
                 if (!string.IsNullOrEmpty(msg.ImageData))
                 {
-                        sb.Append($@"<div class='chat-image-preview mt-2'>
-                    <img src='data:image/jpeg;base64,{msg.ImageData}' alt='Attached image' style='max-width: 200px;'/>
-                </div>");
+                            sb.Append($@"<div class='chat-image-preview mt-2'>
+                        <img src='{msg.ImageData}' alt='Attached image' style='max-width: 200px;'/>
+                    </div>");
                 }
 
                 if (!string.IsNullOrEmpty(msg.Timestamp))

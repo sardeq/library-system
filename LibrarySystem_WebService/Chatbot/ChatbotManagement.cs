@@ -28,20 +28,21 @@ namespace LibrarySystem_WebService.Chatbot
             public string Content { get; set; }
         }
 
-        public static async Task<string> GetChatbotResponse(string message, int clientId, Guid chatId, string imageBase64)
+        public static async Task<string> GetChatbotResponse(string message, int clientId, Guid chatId, 
+            string imageBase64, string imageMimeType)
         {
             var apiKey = ConfigurationManager.AppSettings["OpenRouter_ApiKey"]?.Trim();
             var logPath = HostingEnvironment.MapPath("~/App_Data/chatbot_log.txt");
 
             var history = GetChatHistory(chatId.ToString());
 
-            SaveMessageToDatabase(chatId.ToString(), "user", message);
+            SaveMessageToDatabase(chatId.ToString(), "user", message, imageBase64, imageMimeType);
             history.Add(new Message { Role = "user", Content = message });
 
             string imageAnalysis = "";
             if (!string.IsNullOrEmpty(imageBase64))
             {
-                imageAnalysis = await AnalyzeImage(imageBase64);
+                imageAnalysis = await AnalyzeImage(imageBase64, imageMimeType);
                 message = $"[Image context: {imageAnalysis}]\n{message}";
             }
 
@@ -90,7 +91,7 @@ namespace LibrarySystem_WebService.Chatbot
                         max_tokens = 2000,
                         temperature = 0.8
                     };
-
+                    
                     File.AppendAllText(logPath, $"{DateTime.UtcNow} - Request:\n{JsonConvert.SerializeObject(requestBody)}\n\n");
 
                     var response = await client.PostAsync(
@@ -130,22 +131,20 @@ namespace LibrarySystem_WebService.Chatbot
         {
             var messages = new List<Dictionary<string, string>>();
 
-            // System message with instructions
             messages.Add(new Dictionary<string, string>
     {
         {"role", "system"},
         {"content", @"You are a helpful library assistant. Follow these rules:
-1. When asked about books, ALWAYS use our database first
-2. For book requests: Provide 3-5 relevant books from database
-3. If user asks for general recommendations, show popular books
-4. Never mention you're checking a database - respond naturally
-5. If no books match, suggest alternatives or ask for clarification
-6. Maintain conversation context between questions
-7. If the user message includes an [Image context], incorporate that information into your response"}
-    });
+            1. When asked about books, ALWAYS use our database first
+            2. For book requests: Provide 3-5 relevant books from database
+            3. If user asks for general recommendations, show popular books
+            4. Never mention you're checking a database - respond naturally
+            5. If no books match, suggest alternatives or ask for clarification
+            6. Maintain conversation context between questions
+            7. If the user message includes an [Image context], incorporate that information into your response"}
+         });
 
-            // Add conversation history
-            int startIndex = Math.Max(0, history.Count - 8); // Limit to last 8 messages
+            int startIndex = Math.Max(0, history.Count - 8);
             for (int i = startIndex; i < history.Count; i++)
             {
                 messages.Add(new Dictionary<string, string>
@@ -155,7 +154,6 @@ namespace LibrarySystem_WebService.Chatbot
         });
             }
 
-            // Add book data as a system message if present
             if (!string.IsNullOrEmpty(bookData))
             {
                 messages.Add(new Dictionary<string, string>
@@ -168,7 +166,7 @@ namespace LibrarySystem_WebService.Chatbot
             return messages;
         }
 
-        private static async Task<string> AnalyzeImage(string imageBase64)
+        private static async Task<string> AnalyzeImage(string imageBase64, string mimeType)
         {
             var logPath = HostingEnvironment.MapPath("~/App_Data/chatbot_log.txt");
             var apiKey = ConfigurationManager.AppSettings["OpenRouter_ApiKey"]?.Trim();
@@ -184,40 +182,51 @@ namespace LibrarySystem_WebService.Chatbot
                     model = "deepseek/deepseek-r1-0528:free",
                     messages = new[]
                     {
-                    new
-                    {
-                        role = "user",
-                        content = new object[]
+                        new
                         {
-                            new { type = "text", text = "Describe this image in detail" },
-                            new { type = "image", image = $"data:image/jpeg;base64,{imageBase64}" }
+                            role = "user",
+                            content = new object[]
+                            {
+                                new { type = "text", text = "Describe this image in detail" },
+                                 new {
+                                    type = "image_url",
+                                    image_url = new {
+                                        url = $"data:{mimeType};base64,{imageBase64}"
+                                    }
+                                }
+                            }
                         }
-                    }
                 },
-                    max_tokens = 2000,
+                max_tokens = 2000,
                     temperature = 0.2
                 };
 
-                var loggableBody = new
+                var loggableRequestBody = new
                 {
                     requestBody.model,
                     messages = new[]
-            {
-                new
-                {
-                    role = "user",
-                    content = new object[]
                     {
-                        new { type = "text", text = "Describe this image in detail" },
-                        new { type = "image", image = $"[TRUNCATED BASE64: {imageBase64.Length} chars]" }
-                    }
-                }
-            },
+                        new
+                        {
+                            role = "user",
+                            content = new object[]
+                            {
+                                new { type = "text", text = "Describe this image in detail" },
+                                new {
+                                    type = "image_url",
+                                    image_url = new {
+                                        url = $"data:{mimeType};base64,[TRUNCATED BASE64: {imageBase64.Length} chars]"
+                                    }
+                                }
+                            }
+                        }
+                    },
                     requestBody.max_tokens,
                     requestBody.temperature
                 };
 
-                File.AppendAllText(logPath, $"{DateTime.UtcNow} - R1 Image Request:\n{JsonConvert.SerializeObject(loggableBody, Formatting.Indented)}\n\n");
+
+                File.AppendAllText(logPath, $"{DateTime.UtcNow} - R1 Image Request:\n{JsonConvert.SerializeObject(loggableRequestBody, Formatting.Indented)}\n\n");
 
 
                 var response = await client.PostAsync(
@@ -239,22 +248,26 @@ namespace LibrarySystem_WebService.Chatbot
             }
         }
 
-        private static void SaveMessageToDatabase(string chatId, string role, string content, string imageBase64 = null)
+        private static void SaveMessageToDatabase(string chatId, string role, string content, 
+            string imageBase64 = null, string mimeType = null)
         {
             try
             {
-                Guid chatGuid = Guid.Parse(chatId); // Convert string to GUID
+                Guid chatGuid = Guid.Parse(chatId);
+
+                string imageData = string.IsNullOrEmpty(imageBase64) ?
+                    null : $"data:{mimeType};base64,{imageBase64}";
 
                 string query = @"
-                    INSERT INTO ChatMessages (ChatID, Role, Content, ImageData) 
-                    VALUES (@ChatID, @Role, @Content, @ImageData)";
+            INSERT INTO ChatMessages (ChatID, Role, Content, ImageData) 
+            VALUES (@ChatID, @Role, @Content, @ImageData)";
 
                 SqlParameter[] parameters = {
-                    new SqlParameter("@ChatID", SqlDbType.UniqueIdentifier) { Value = chatGuid }, // Use Guid
-                    new SqlParameter("@Role", role),
-                    new SqlParameter("@Content", content),
-                    new SqlParameter("@ImageData", string.IsNullOrEmpty(imageBase64) ? DBNull.Value : (object)imageBase64)
-                };
+            new SqlParameter("@ChatID", SqlDbType.UniqueIdentifier) { Value = chatGuid },
+            new SqlParameter("@Role", role),
+            new SqlParameter("@Content", content),
+            new SqlParameter("@ImageData", imageData ?? (object)DBNull.Value) 
+        };
 
                 var db = new DatabaseService();
                 db.ExecuteNonQuery(query, parameters);
@@ -361,7 +374,7 @@ namespace LibrarySystem_WebService.Chatbot
 
         public static bool IsFirstUserMessage(string chatId)
         {
-            Guid chatGuid = Guid.Parse(chatId); // Convert to GUID
+            Guid chatGuid = Guid.Parse(chatId);
 
             string query = @"
                 SELECT COUNT(*) 
@@ -369,7 +382,7 @@ namespace LibrarySystem_WebService.Chatbot
                 WHERE ChatID = @ChatID AND Role = 'user'";
 
                     SqlParameter[] parameters = {
-                new SqlParameter("@ChatID", SqlDbType.UniqueIdentifier) { Value = chatGuid } // Use Guid
+                new SqlParameter("@ChatID", SqlDbType.UniqueIdentifier) { Value = chatGuid }
             };
 
             var db = new DatabaseService();
