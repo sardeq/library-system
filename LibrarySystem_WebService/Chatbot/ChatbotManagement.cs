@@ -36,15 +36,21 @@ namespace LibrarySystem_WebService.Chatbot
 
             var history = GetChatHistory(chatId.ToString());
 
-            SaveMessageToDatabase(chatId.ToString(), "user", message, imageBase64, imageMimeType);
-            history.Add(new Message { Role = "user", Content = message });
-
             string imageAnalysis = "";
             if (!string.IsNullOrEmpty(imageBase64))
             {
-                imageAnalysis = await AnalyzeImage(imageBase64, imageMimeType);
-                message = $"[Image context: {imageAnalysis}]\n{message}";
+                imageAnalysis = await AnalyzeImageWithVisionModel(imageBase64, imageMimeType, logPath, apiKey);
+
+                if (!string.IsNullOrEmpty(imageAnalysis) && !imageAnalysis.Contains("failed"))
+                {
+                    message = string.IsNullOrEmpty(message)
+                        ? $"[Image uploaded: {imageAnalysis}]"
+                        : $"[Image context: {imageAnalysis}] {message}";
+                }
             }
+
+            SaveMessageToDatabase(chatId.ToString(), "user", message, imageBase64, imageMimeType);
+            history.Add(new Message { Role = "user", Content = message });
 
             string bookResults = "";
             if (IsBookRelated(message))
@@ -132,17 +138,18 @@ namespace LibrarySystem_WebService.Chatbot
             var messages = new List<Dictionary<string, string>>();
 
             messages.Add(new Dictionary<string, string>
-    {
-        {"role", "system"},
-        {"content", @"You are a helpful library assistant. Follow these rules:
-            1. When asked about books, ALWAYS use our database first
-            2. For book requests: Provide 3-5 relevant books from database
-            3. If user asks for general recommendations, show popular books
-            4. Never mention you're checking a database - respond naturally
-            5. If no books match, suggest alternatives or ask for clarification
-            6. Maintain conversation context between questions
-            7. If the user message includes an [Image context], incorporate that information into your response"}
-         });
+            {
+                {"role", "system"},
+                {"content", @"You are a helpful library assistant. Follow these rules:
+                1. When asked about books, ALWAYS use our database first
+                2. For book requests: Provide 3-5 relevant books from database
+                3. If user asks for general recommendations, show popular books
+                4. Never mention you're checking a database - respond naturally
+                5. If no books match, suggest alternatives or ask for clarification
+                6. Maintain conversation context between questions
+                7. If the user message includes image context or uploaded an image, acknowledge and respond to it appropriately
+                8. Be helpful and conversational"}
+            });
 
             int startIndex = Math.Max(0, history.Count - 8);
             for (int i = startIndex; i < history.Count; i++)
@@ -166,11 +173,9 @@ namespace LibrarySystem_WebService.Chatbot
             return messages;
         }
 
-        private static async Task<string> AnalyzeImage(string imageBase64, string mimeType)
+        /*
+        private static async Task<string> AnalyzeImage(string imageBase64, string mimeType, string logPath, string apiKey)
         {
-            var logPath = HostingEnvironment.MapPath("~/App_Data/chatbot_log.txt");
-            var apiKey = ConfigurationManager.AppSettings["OpenRouter_ApiKey"]?.Trim();
-
             using (var client = new HttpClient())
             {
                 client.Timeout = TimeSpan.FromSeconds(30);
@@ -187,8 +192,8 @@ namespace LibrarySystem_WebService.Chatbot
                             role = "user",
                             content = new object[]
                             {
-                                new { type = "text", text = "Describe this image in detail" },
-                                 new {
+                                new { type = "text", text = "Describe this image in detail, focusing on any text, book covers, or library-related content you can see." },
+                                new {
                                     type = "image_url",
                                     image_url = new {
                                         url = $"data:{mimeType};base64,{imageBase64}"
@@ -196,56 +201,118 @@ namespace LibrarySystem_WebService.Chatbot
                                 }
                             }
                         }
-                },
-                max_tokens = 2000,
+                    },
+                    max_tokens = 2000,
                     temperature = 0.2
                 };
 
-                var loggableRequestBody = new
+                File.AppendAllText(logPath, $"{DateTime.UtcNow} - R1 Image Request\n\n");
+
+                try
                 {
-                    requestBody.model,
-                    messages = new[]
+                    var response = await client.PostAsync(
+                        "https://openrouter.ai/api/v1/chat/completions",
+                        new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json")
+                    );
+
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    File.AppendAllText(logPath, $"{DateTime.UtcNow} - R1 Response (Status: {response.StatusCode}):\n{responseContent}\n\n");
+
+                    if (response.IsSuccessStatusCode)
                     {
-                        new
+                        var result = JsonConvert.DeserializeObject<OpenRouterResponse>(responseContent);
+                        var content = result?.choices?[0]?.message?.content?.Trim() ?? "";
+
+                        // Check if the model actually processed the image
+                        if (content.Contains("can't directly view") || content.Contains("I can't view") ||
+                            content.Contains("provide a detailed text description"))
                         {
-                            role = "user",
-                            content = new object[]
-                            {
-                                new { type = "text", text = "Describe this image in detail" },
-                                new {
-                                    type = "image_url",
-                                    image_url = new {
-                                        url = $"data:{mimeType};base64,[TRUNCATED BASE64: {imageBase64.Length} chars]"
-                                    }
-                                }
-                            }
+                            return "R1 model cannot process images";
                         }
-                    },
-                    requestBody.max_tokens,
-                    requestBody.temperature
-                };
 
-
-                File.AppendAllText(logPath, $"{DateTime.UtcNow} - R1 Image Request:\n{JsonConvert.SerializeObject(loggableRequestBody, Formatting.Indented)}\n\n");
-
-
-                var response = await client.PostAsync(
-                    "https://openrouter.ai/api/v1/chat/completions",
-                    new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json")
-                );
-                var responseContent = await response.Content.ReadAsStringAsync();
-
-                File.AppendAllText(logPath, $"{DateTime.UtcNow} - R1 Response (Status: {response.StatusCode}):\n{responseContent}\n\n");
-
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsStringAsync();
-                    var result = JsonConvert.DeserializeObject<OpenRouterResponse>(content);
-                    return result?.choices?[0]?.message?.content?.Trim() ?? "Couldn't analyze image";
+                        return content;
+                    }
                 }
+                catch (Exception ex)
+                {
+                    File.AppendAllText(logPath, $"{DateTime.UtcNow} - R1 ERROR: {ex.Message}\n\n");
+                }
+
                 return "Image analysis failed";
             }
+        }
+        */
+        private static async Task<string> AnalyzeImageWithVisionModel(string imageBase64, string mimeType, string logPath, string apiKey)
+        {
+            var visionModels = new[]
+            {
+                "meta-llama/llama-3.2-11b-vision-instruct:free",
+            };
+
+            using (var client = new HttpClient())
+            {
+                client.Timeout = TimeSpan.FromSeconds(45);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+                client.DefaultRequestHeaders.Add("X-Title", "Library Vision Analysis");
+
+                foreach (var model in visionModels)
+                {
+                    try
+                    {
+                        var requestBody = new
+                        {
+                            model = model,
+                            messages = new[]
+                            {
+                                new
+                                {
+                                    role = "user",
+                                    content = new object[]
+                                    {
+                                        new { type = "text", text = "Describe what you see in this image, especially any text, book titles, or library-related content." },
+                                        new {
+                                            type = "image_url",
+                                            image_url = new {
+                                                url = $"data:{mimeType};base64,{imageBase64}"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            max_tokens = 1000,
+                            temperature = 0.1
+                        };
+
+                        File.AppendAllText(logPath, $"{DateTime.UtcNow} - Vision Model ({model}) Request\n\n");
+
+                        var response = await client.PostAsync(
+                            "https://openrouter.ai/api/v1/chat/completions",
+                            new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json")
+                        );
+
+                        var responseContent = await response.Content.ReadAsStringAsync();
+                        File.AppendAllText(logPath, $"{DateTime.UtcNow} - Vision Model ({model}) Response (Status: {response.StatusCode}):\n{responseContent}\n\n");
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var result = JsonConvert.DeserializeObject<OpenRouterResponse>(responseContent);
+                            var content = result?.choices?[0]?.message?.content?.Trim() ?? "";
+
+                            if (!string.IsNullOrEmpty(content) && !content.Contains("can't") && !content.Contains("unable"))
+                            {
+                                return content;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        File.AppendAllText(logPath, $"{DateTime.UtcNow} - Vision Model ({model}) ERROR: {ex.Message}\n\n");
+                        continue;
+                    }
+                }
+            }
+
+            return "Unable to analyze image with available vision models";
         }
 
         private static void SaveMessageToDatabase(string chatId, string role, string content, 
