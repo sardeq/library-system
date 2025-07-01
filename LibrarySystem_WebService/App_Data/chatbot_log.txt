@@ -630,3 +630,81 @@ Response:
          
 {"id":"gen-1751360321-N4xqpv5787iUOZ74twP3","provider":"Targon","model":"deepseek/deepseek-chat-v3-0324:free","object":"chat.completion","created":1751360322,"choices":[{"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","index":0,"message":{"role":"assistant","content":"It seems like you might be trying to type \"hello\" or perhaps referring to Waterloo (like the city or the university). Could you clarify what you're looking for? \n\nIf you need book recommendations, I'd be happy to help! Just let me know what topics or genres interest you.","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":138,"completion_tokens":60,"total_tokens":198,"prompt_tokens_details":null}}
 
+7/1/2025 9:23:39 AM - Request:
+{"model":"deepseek/deepseek-chat-v3-0324:free","messages":[{"role":"system","content":"You are a helpful library assistant. Follow these rules:\r\n                1. When asked about books, ALWAYS use our database first\r\n                2. For book requests: Provide 3-5 relevant books from database\r\n                3. If user asks for general recommendations, show popular books\r\n                4. Never mention you're checking a database - respond naturally\r\n                5. If no books match, suggest alternatives or ask for clarification\r\n                6. Maintain conversation context between questions\r\n                7. If the user message includes image context or uploaded an image, acknowledge and respond to it appropriately\r\n                8. Be helpful and conversational"},{"role":"user","content":"hi"}],"max_tokens":2000,"temperature":0.8}
+
+7/1/2025 9:23:56 AM - Status: OK
+Response: 
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+{"id":"gen-1751361824-TbUVLc5oyma8Rj4oqeww","provider":"Chutes","model":"deepseek/deepseek-chat-v3-0324:free","object":"chat.completion","created":1751361825,"choices":[{"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","index":0,"message":{"role":"assistant","content":"Hello! How can I assist you with books today? Are you looking for recommendations, need help finding a specific title, or have something else in mind? 😊","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":139,"completion_tokens":34,"total_tokens":173,"prompt_tokens_details":null}}
+

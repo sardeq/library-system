@@ -26,6 +26,7 @@ namespace LibrarySystem_WebService.Chatbot
         {
             public string Role { get; set; }
             public string Content { get; set; }
+            public string ImageData { get; set; }
         }
 
         public static async Task<string> GenerateImageAsync(string prompt)
@@ -364,7 +365,7 @@ namespace LibrarySystem_WebService.Chatbot
             return "Unable to analyze image with available vision models";
         }
 
-        private static void SaveMessageToDatabase(string chatId, string role, string content, 
+        public static void SaveMessageToDatabase(string chatId, string role, string content, 
             string imageBase64 = null, string mimeType = null)
         {
             try
@@ -400,10 +401,10 @@ namespace LibrarySystem_WebService.Chatbot
             Guid chatGuid = Guid.Parse(chatId);
 
             string query = @"
-                SELECT Role, Content 
-                FROM ChatMessages 
-                WHERE ChatID = @ChatID 
-                ORDER BY Timestamp";
+        SELECT Role, Content, ImageData 
+        FROM ChatMessages 
+        WHERE ChatID = @ChatID 
+        ORDER BY Timestamp";
 
             SqlParameter[] parameters = {
                 new SqlParameter("@ChatID", SqlDbType.UniqueIdentifier) {
@@ -417,7 +418,8 @@ namespace LibrarySystem_WebService.Chatbot
             return dt.AsEnumerable().Select(row => new Message
             {
                 Role = row["Role"].ToString(),
-                Content = row["Content"].ToString()
+                Content = row["Content"].ToString(),
+                ImageData = row["ImageData"] != DBNull.Value ? row["ImageData"].ToString() : null
             }).ToList();
         }
 

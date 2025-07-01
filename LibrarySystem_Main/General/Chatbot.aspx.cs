@@ -301,6 +301,7 @@ namespace LibrarySystem_Main.General
                         {
                             Sender = msg.Role == "user" ? "You" : "Library Bot",
                             Text = msg.Content,
+                            ImageData = msg.ImageData,
                             CssClass = msg.Role == "user" ? "user-message" : "bot-message"
                         });
                     }
@@ -314,6 +315,7 @@ namespace LibrarySystem_Main.General
         {
             public string Role { get; set; }
             public string Content { get; set; }
+            public string ImageData { get; set; }
         }
 
         private void RenderChatHistory()

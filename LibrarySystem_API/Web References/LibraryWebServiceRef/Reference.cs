@@ -1363,6 +1363,8 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
         
         private string contentField;
         
+        private string imageDataField;
+        
         /// <remarks/>
         public string Role {
             get {
@@ -1380,6 +1382,16 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
             }
             set {
                 this.contentField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ImageData {
+            get {
+                return this.imageDataField;
+            }
+            set {
+                this.imageDataField = value;
             }
         }
     }

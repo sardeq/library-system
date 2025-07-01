@@ -506,6 +506,13 @@ namespace LibrarySystem_WebService
                 {
                     string prompt = message.Substring(7).Trim();
                     string imageData = Task.Run(() => GenerateImageAsync(prompt)).Result;
+
+                    ChatbotManagement.SaveMessageToDatabase(chatId.ToString(), "user", message);
+
+                    string mimeType = "image/png";
+                    string base64 = imageData.Split(',')[1];
+                    ChatbotManagement.SaveMessageToDatabase(chatId.ToString(), "assistant", "Here's your generated image:", base64, mimeType);
+
                     return new ChatbotResponse
                     {
                         Success = true,
