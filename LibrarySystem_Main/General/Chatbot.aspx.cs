@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using LibrarySystem_Shared.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -115,18 +116,13 @@ namespace LibrarySystem_Main.General
             string imageBase64 = null;
             string imageMimeType = null;
 
-            if (fileUploadImage.HasFile)
+            if (fileUploadImage.HasFile && !messageText.StartsWith("/image "))
             {
                 using (var stream = new MemoryStream())
                 {
                     fileUploadImage.PostedFile.InputStream.CopyTo(stream);
                     imageBase64 = Convert.ToBase64String(stream.ToArray());
                     imageMimeType = fileUploadImage.PostedFile.ContentType;
-
-                    if (string.IsNullOrEmpty(imageMimeType))
-                    {
-                        imageMimeType = MimeMapping.GetMimeMapping(fileUploadImage.FileName);
-                    }
                 }
             }
 
@@ -163,27 +159,30 @@ namespace LibrarySystem_Main.General
                     "application/json"
                 );
 
-                var response = await APIClient.Instance.PostAsync(
-                    "api/chatbot/respond", content
-                );
+                var response = await APIClient.Instance.PostAsync("api/chatbot/respond", content);
 
-                string botResponseText = "";
                 if (response.IsSuccessStatusCode)
                 {
-                    botResponseText = await response.Content.ReadAsStringAsync();
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var botResponse = JsonConvert.DeserializeObject<ChatbotResponse>(responseContent);
+                    SaveMessageToHistory(new ChatMessage
+                    {
+                        Sender = "Library Bot",
+                        Text = botResponse.Message,
+                        ImageData = botResponse.ImageData,
+                        CssClass = "bot-message",
+                        Timestamp = DateTime.Now.ToString("hh:mm tt")
+                    });
                 }
                 else
                 {
-                    botResponseText = "Error: " + response.ReasonPhrase;
+                    SaveMessageToHistory(new ChatMessage
+                    {
+                        Sender = "System",
+                        Text = "Error: " + response.ReasonPhrase,
+                        CssClass = "error-message"
+                    });
                 }
-
-                SaveMessageToHistory(new ChatMessage
-                {
-                    Sender = "Library Bot",
-                    Text = botResponseText,
-                    CssClass = "bot-message",
-                    Timestamp = DateTime.Now.ToString("hh:mm tt")
-                });
             }
             catch (Exception ex)
             {

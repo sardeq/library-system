@@ -15,6 +15,8 @@ using LibrarySystem_Shared.Models;
 using LibrarySystem_WebService.Chatbot;
 using System.Collections.Concurrent;
 using static LibrarySystem_WebService.Chatbot.ChatbotManagement;
+using System.Web.Hosting;
+using System.IO;
 
 namespace LibrarySystem_WebService
 {
@@ -496,19 +498,34 @@ namespace LibrarySystem_WebService
 
 
         [WebMethod(EnableSession = true)]
-        public ChatbotResponse GetChatbotResponse(string message, Guid chatId, int clientId, 
-            string ImageBase64, string imageMimeType)
+        public ChatbotResponse GetChatbotResponse(string message, Guid chatId, int clientId, string ImageBase64, string imageMimeType)
         {
             try
             {
-                return Task.Run(() => GetChatbotResponseAsync(message, clientId, chatId, ImageBase64, imageMimeType)).Result;
+                if (message.StartsWith("/image ", StringComparison.OrdinalIgnoreCase))
+                {
+                    string prompt = message.Substring(7).Trim();
+                    string imageData = Task.Run(() => GenerateImageAsync(prompt)).Result;
+                    return new ChatbotResponse
+                    {
+                        Success = true,
+                        Message = "Here's your generated image:",
+                        ImageData = imageData
+                    };
+                }
+                else
+                {
+                    return Task.Run(() => GetChatbotResponseAsync(message, clientId, chatId, ImageBase64, imageMimeType)).Result;
+                }
             }
             catch (Exception ex)
             {
+                var logPath = HostingEnvironment.MapPath("~/App_Data/image_log.txt");
+                File.AppendAllText(logPath, $"{DateTime.UtcNow} - GetChatbotResponse Exception: {ex.Message}\n");
                 return new ChatbotResponse
                 {
                     Success = false,
-                    Message = ex.Message
+                    Message = $"Error: {ex.Message}"
                 };
             }
         }
@@ -575,6 +592,7 @@ namespace LibrarySystem_WebService
         {
             public bool Success { get; set; }
             public string Message { get; set; }
+            public string ImageData { get; set; }
         }
 
 

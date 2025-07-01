@@ -377,3 +377,256 @@ Response:
          
 {"id":"gen-1751187039-lZbWCOILX4HhXQzlQKEa","provider":"Chutes","model":"deepseek/deepseek-chat-v3-0324:free","object":"chat.completion","created":1751187040,"choices":[{"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","index":0,"message":{"role":"assistant","content":"Thank you for sharing that image about eLearning design! It sounds like a well-designed presentation focusing on visual learning techniques. Since you're interested in combining text and images in educational design, I can suggest some excellent books on instructional design, eLearning, and visual communication:\n\n1. \"The Non-Designer's Design Book\" by Robin Williams - Great for learning fundamental design principles for combining text and visuals\n\n2. \"Design for How People Learn\" by Julie Dirksen - Focuses on effective learning experiences including visual elements\n\n3. \"eLearning and the Science of Instruction\" by Ruth Clark and Richard Mayer - Covers evidence-based practices for multimedia learning\n\nWould you like recommendations more focused on graphic design aspects, or more on the educational theory behind effective eLearning materials? I'd be happy to refine these suggestions based on your specific needs.","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":427,"completion_tokens":171,"total_tokens":598,"prompt_tokens_details":null}}
 
+6/29/2025 9:07:49 AM - Request:
+{"model":"deepseek/deepseek-chat-v3-0324:free","messages":[{"role":"system","content":"You are a helpful library assistant. Follow these rules:\r\n                1. When asked about books, ALWAYS use our database first\r\n                2. For book requests: Provide 3-5 relevant books from database\r\n                3. If user asks for general recommendations, show popular books\r\n                4. Never mention you're checking a database - respond naturally\r\n                5. If no books match, suggest alternatives or ask for clarification\r\n                6. Maintain conversation context between questions\r\n                7. If the user message includes image context or uploaded an image, acknowledge and respond to it appropriately\r\n                8. Be helpful and conversational"},{"role":"user","content":"what books do we have"},{"role":"system","content":"Here's a selection of books from our library:\n- \"The Gene\" by Siddhartha Mukherjee  (13 available)\r\n- \"20th Century Boys\" by Naoki Urasawa (39 available)\r\n- \"dih\" by sadeq (1 available)\r\n- \"Dream Count\" by Chimamanda Ngozi Adichie  (25 available)\r\n- \"Codex Seraphinianus\" by Luigi Serafini (1 available)\r\n- \"Gate of the Sun\" by Elias Khoury (1 available)\r\n- \"Gintama\" by Hideaki Sorachi  (160 available)\r\n"}],"max_tokens":2000,"temperature":0.8}
+
+6/29/2025 9:07:55 AM - Status: OK
+Response: 
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+{"id":"gen-1751188070-Sa75Dz3ztLg2y94qPTxv","provider":"Targon","model":"deepseek/deepseek-chat-v3-0324:free","object":"chat.completion","created":1751188071,"choices":[{"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","index":0,"message":{"role":"assistant","content":"Here are some interesting books available in our library:\n\n1. **\"The Gene\" by Siddhartha Mukherjee** - A fascinating exploration of genetics (13 copies available)\n2. **\"20th Century Boys\" by Naoki Urasawa** - A gripping manga series (39 copies)\n3. **\"Dream Count\" by Chimamanda Ngozi Adichie** - Thought-provoking fiction (25 copies)\n4. **\"Gintama\" by Hideaki Sorachi** - Popular comedic manga series (160 copies available)\n5. **\"Codex Seraphinianus\" by Luigi Serafini** - A unique illustrated encyclopedia of an imaginary world (only 1 copy)\n\nWould you like more details about any of these, or are you looking for something specific?","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":283,"completion_tokens":164,"total_tokens":447,"prompt_tokens_details":null}}
+
+6/29/2025 9:09:47 AM - Request:
+{"model":"deepseek/deepseek-chat-v3-0324:free","messages":[{"role":"system","content":"You are a helpful library assistant. Follow these rules:\r\n                1. When asked about books, ALWAYS use our database first\r\n                2. For book requests: Provide 3-5 relevant books from database\r\n                3. If user asks for general recommendations, show popular books\r\n                4. Never mention you're checking a database - respond naturally\r\n                5. If no books match, suggest alternatives or ask for clarification\r\n                6. Maintain conversation context between questions\r\n                7. If the user message includes image context or uploaded an image, acknowledge and respond to it appropriately\r\n                8. Be helpful and conversational"},{"role":"user","content":"hi"}],"max_tokens":2000,"temperature":0.8}
+
+6/29/2025 9:09:52 AM - Status: OK
+Response: 
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+{"id":"gen-1751188188-OwjXfJFwHNxKP1HWyLVX","provider":"Targon","model":"deepseek/deepseek-chat-v3-0324:free","object":"chat.completion","created":1751188189,"choices":[{"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","index":0,"message":{"role":"assistant","content":"Hello! Welcome to the library. How can I help you today? Are you looking for a specific book, genre, or perhaps some general recommendations? 😊","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":137,"completion_tokens":33,"total_tokens":170,"prompt_tokens_details":null}}
+
+6/29/2025 9:10:29 AM - Vision Model (meta-llama/llama-3.2-11b-vision-instruct:free) Request
+
+6/29/2025 9:10:36 AM - Vision Model (meta-llama/llama-3.2-11b-vision-instruct:free) Response (Status: OK):
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+{"id":"gen-1751188229-EyCNLYNJJLnOHKLcuGVy","provider":"Together","model":"meta-llama/llama-3.2-11b-vision-instruct:free","object":"chat.completion","created":1751188230,"choices":[{"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","index":0,"message":{"role":"assistant","content":"The image depicts a whimsical scene featuring a sloth riding a pizza through space, surrounded by flying burritos and a rainbow. The sloth is positioned in the center of the image, with its arms outstretched and a contented expression on its face. It is sitting on top of a large pizza, which appears to be made of pepperoni and cheese.\n\nThe background of the image is a vibrant, starry night sky, with a mix of pink, purple, and blue hues. The overall atmosphere of the image is playful and humorous, suggesting that it may be a meme or a piece of fan art. The use of a sloth, a pizza, and a rainbow creates a sense of wonder and magic, while the flying burritos add a touch of absurdity to the scene. Overall, the image is a lighthearted and entertaining depiction of a fantastical scenario.","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":31,"completion_tokens":182,"total_tokens":213}}
+
+6/29/2025 9:10:36 AM - Request:
+{"model":"deepseek/deepseek-chat-v3-0324:free","messages":[{"role":"system","content":"You are a helpful library assistant. Follow these rules:\r\n                1. When asked about books, ALWAYS use our database first\r\n                2. For book requests: Provide 3-5 relevant books from database\r\n                3. If user asks for general recommendations, show popular books\r\n                4. Never mention you're checking a database - respond naturally\r\n                5. If no books match, suggest alternatives or ask for clarification\r\n                6. Maintain conversation context between questions\r\n                7. If the user message includes image context or uploaded an image, acknowledge and respond to it appropriately\r\n                8. Be helpful and conversational"},{"role":"user","content":"hi"},{"role":"assistant","content":"Hello! Welcome to the library. How can I help you today? Are you looking for a specific book, genre, or perhaps some general recommendations? 😊"},{"role":"user","content":"[Image context: The image depicts a whimsical scene featuring a sloth riding a pizza through space, surrounded by flying burritos and a rainbow. The sloth is positioned in the center of the image, with its arms outstretched and a contented expression on its face. It is sitting on top of a large pizza, which appears to be made of pepperoni and cheese.\n\nThe background of the image is a vibrant, starry night sky, with a mix of pink, purple, and blue hues. The overall atmosphere of the image is playful and humorous, suggesting that it may be a meme or a piece of fan art. The use of a sloth, a pizza, and a rainbow creates a sense of wonder and magic, while the flying burritos add a touch of absurdity to the scene. Overall, the image is a lighthearted and entertaining depiction of a fantastical scenario.] describe this image"}],"max_tokens":2000,"temperature":0.8}
+
+6/29/2025 9:10:44 AM - Status: OK
+Response: 
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+{"id":"gen-1751188237-lGdH5gPNDoy3TQctrbI1","provider":"Targon","model":"deepseek/deepseek-chat-v3-0324:free","object":"chat.completion","created":1751188238,"choices":[{"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","index":0,"message":{"role":"assistant","content":"What a delightful and whimsical scene! 😄 \n\nThis image shows a wonderfully absurd cosmic adventure featuring:\n- A relaxed sloth riding a giant pizza (pepperoni and cheese, of course!) through outer space\n- Flying burritos zooming through a vibrant, starry sky with pink, purple, and blue hues\n- A rainbow adding extra magic to this already surreal journey\n- The sloth looks absolutely content, arms outstretched as if embracing this delicious interstellar ride\n\nIt's like someone combined the best parts of the internet into one glorious scene – space travel, comfort food, adorable animals, and rainbows! Perfect meme material or possibly amazing book cover art for a quirky children's story or humorous sci-fi tale. \n\nWould you like me to recommend some books that match this fun, imaginative vibe? Maybe some lighthearted fantasy or humorous animal stories? 😊","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":356,"completion_tokens":177,"total_tokens":533,"prompt_tokens_details":null}}
+
+7/1/2025 8:10:41 AM - Request:
+{"model":"deepseek/deepseek-chat-v3-0324:free","messages":[{"role":"system","content":"You are a helpful library assistant. Follow these rules:\r\n                1. When asked about books, ALWAYS use our database first\r\n                2. For book requests: Provide 3-5 relevant books from database\r\n                3. If user asks for general recommendations, show popular books\r\n                4. Never mention you're checking a database - respond naturally\r\n                5. If no books match, suggest alternatives or ask for clarification\r\n                6. Maintain conversation context between questions\r\n                7. If the user message includes image context or uploaded an image, acknowledge and respond to it appropriately\r\n                8. Be helpful and conversational"},{"role":"user","content":"hi"}],"max_tokens":2000,"temperature":0.8}
+
+7/1/2025 8:10:57 AM - Status: OK
+Response: 
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+{"id":"gen-1751357447-qKOsAfhPzY2LCYjypd1C","provider":"Targon","model":"deepseek/deepseek-chat-v3-0324:free","object":"chat.completion","created":1751357448,"choices":[{"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","index":0,"message":{"role":"assistant","content":"Hello! Welcome to the library. How can I assist you today? Are you looking for a specific book, genre, or just browsing for recommendations? Let me know what you're interested in!","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":137,"completion_tokens":40,"total_tokens":177,"prompt_tokens_details":null}}
+
+7/1/2025 8:23:59 AM - Request:
+{"model":"deepseek/deepseek-chat-v3-0324:free","messages":[{"role":"system","content":"You are a helpful library assistant. Follow these rules:\r\n                1. When asked about books, ALWAYS use our database first\r\n                2. For book requests: Provide 3-5 relevant books from database\r\n                3. If user asks for general recommendations, show popular books\r\n                4. Never mention you're checking a database - respond naturally\r\n                5. If no books match, suggest alternatives or ask for clarification\r\n                6. Maintain conversation context between questions\r\n                7. If the user message includes image context or uploaded an image, acknowledge and respond to it appropriately\r\n                8. Be helpful and conversational"},{"role":"user","content":"hi"}],"max_tokens":2000,"temperature":0.8}
+
+7/1/2025 8:24:05 AM - Status: OK
+Response: 
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+{"id":"gen-1751358243-JkwLco9p0kmNM5ZMfv8S","provider":"Chutes","model":"deepseek/deepseek-chat-v3-0324:free","object":"chat.completion","created":1751358244,"choices":[{"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","index":0,"message":{"role":"assistant","content":"Hello! How can I assist you today? Are you looking for book recommendations, need help finding a specific title, or have a question about our library services? Let me know how I can help!","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":139,"completion_tokens":41,"total_tokens":180,"prompt_tokens_details":null}}
+
+7/1/2025 8:58:36 AM - Request:
+{"model":"deepseek/deepseek-chat-v3-0324:free","messages":[{"role":"system","content":"You are a helpful library assistant. Follow these rules:\r\n                1. When asked about books, ALWAYS use our database first\r\n                2. For book requests: Provide 3-5 relevant books from database\r\n                3. If user asks for general recommendations, show popular books\r\n                4. Never mention you're checking a database - respond naturally\r\n                5. If no books match, suggest alternatives or ask for clarification\r\n                6. Maintain conversation context between questions\r\n                7. If the user message includes image context or uploaded an image, acknowledge and respond to it appropriately\r\n                8. Be helpful and conversational"},{"role":"user","content":"hrloo"}],"max_tokens":2000,"temperature":0.8}
+
+7/1/2025 8:58:42 AM - Status: OK
+Response: 
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+{"id":"gen-1751360321-N4xqpv5787iUOZ74twP3","provider":"Targon","model":"deepseek/deepseek-chat-v3-0324:free","object":"chat.completion","created":1751360322,"choices":[{"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","index":0,"message":{"role":"assistant","content":"It seems like you might be trying to type \"hello\" or perhaps referring to Waterloo (like the city or the university). Could you clarify what you're looking for? \n\nIf you need book recommendations, I'd be happy to help! Just let me know what topics or genres interest you.","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":138,"completion_tokens":60,"total_tokens":198,"prompt_tokens_details":null}}
+

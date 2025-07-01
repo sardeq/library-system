@@ -14,23 +14,19 @@ namespace LibrarySystem_API.Controllers
     {
         [HttpPost]
         [Route("respond")]
-        public async Task<HttpResponseMessage> Respond([FromBody] ChatRequest request)
+        public async Task<IHttpActionResult> Respond([FromBody] ChatRequest request)
         {
             try
             {
                 var response = await WebServiceClient.GetChatbotResponseAsync(
-                    request.Message, request.ChatId, request.ClientId, 
+                    request.Message, request.ChatId, request.ClientId,
                     request.ImageBase64, request.ImageMimeType
                 );
-
-                return new HttpResponseMessage
-                {
-                    Content = new StringContent(response, Encoding.UTF8, "text/plain")
-                };
+                return Ok(response);
             }
             catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+                return InternalServerError(ex);
             }
         }
 

@@ -28,9 +28,58 @@ namespace LibrarySystem_WebService.Chatbot
             public string Content { get; set; }
         }
 
+        public static async Task<string> GenerateImageAsync(string prompt)
+        {
+            var logPath = HostingEnvironment.MapPath("~/App_Data/image_log.txt");
+            string apiKey = ConfigurationManager.AppSettings["HuggingFace_ApiKey"];
+            string model = ConfigurationManager.AppSettings["ImageGenerationModel"] ?? "runwayml/stable-diffusion-v1-5";
+            string endpoint = $"https://api-inference.huggingface.co/models/{model}";
+
+            using (var client = new HttpClient())
+            {
+                try
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+                    HttpResponseMessage response = null;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        var requestBody = new { inputs = prompt };
+                        var content = new StringContent(JsonConvert.SerializeObject(requestBody), Encoding.UTF8, "application/json");
+                        response = await client.PostAsync(endpoint, content);
+                        File.AppendAllText(logPath, $"{DateTime.UtcNow} - Attempt {i + 1} Status: {response.StatusCode}\n");
+                        if (response.IsSuccessStatusCode) break;
+                        if (i < 2) await Task.Delay(2000);
+                    }
+
+                    File.AppendAllText(logPath, $"{DateTime.UtcNow} - Final Status: {response.StatusCode}\n");
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var imageBytes = await response.Content.ReadAsByteArrayAsync();
+                        string base64Image = Convert.ToBase64String(imageBytes);
+                        File.AppendAllText(logPath, $"{DateTime.UtcNow} - Image generated successfully\n");
+                        File.AppendAllText(logPath, $"data:image/png;base64,{base64Image}");
+                        return $"data:image/png;base64,{base64Image}";
+                    }
+                    else
+                    {
+                        var errorContent = await response.Content.ReadAsStringAsync();
+                        File.AppendAllText(logPath, $"{DateTime.UtcNow} - Error response: {errorContent}\n\n");
+                        throw new Exception($"Image generation failed: {response.StatusCode} - {errorContent}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    File.AppendAllText(logPath, $"{DateTime.UtcNow} - Exception: {ex.Message}\n");
+                    throw;
+                }
+            }
+        }
+
         public static async Task<string> GetChatbotResponse(string message, int clientId, Guid chatId, 
             string imageBase64, string imageMimeType)
-        {
+        {     
+
             var apiKey = ConfigurationManager.AppSettings["OpenRouter_ApiKey"]?.Trim();
             var logPath = HostingEnvironment.MapPath("~/App_Data/chatbot_log.txt");
 

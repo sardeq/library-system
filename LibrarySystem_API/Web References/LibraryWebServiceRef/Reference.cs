@@ -1441,6 +1441,8 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
         
         private string messageField;
         
+        private string imageDataField;
+        
         /// <remarks/>
         public bool Success {
             get {
@@ -1458,6 +1460,16 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
             }
             set {
                 this.messageField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public string ImageData {
+            get {
+                return this.imageDataField;
+            }
+            set {
+                this.imageDataField = value;
             }
         }
     }
