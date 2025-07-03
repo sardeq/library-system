@@ -30,11 +30,12 @@
 
                                         <asp:LinkButton runat="server" CommandName="DeleteChat"
                                             CommandArgument='<%# Eval("ChatId") %>'
-                                            CssClass="btn btn-sm btn-link text-danger p-0"
-                                            OnClientClick="return confirm('Are you sure you want to delete this chat?');"
-                                            Style="z-index: 2;">
-                                            <i class="fas fa-trash-alt">❌</i>
+                                            CssClass="btn btn-sm btn-icon text-danger"
+                                            ToolTip="Delete Chat"
+                                            OnClientClick="return confirm('Are you sure you want to delete this chat?');">
+                                            <img src="delete.png" alt="Delete Icon" style="height:16px; width:16px;" />
                                         </asp:LinkButton>
+
                                     </div>
                                 </div>
                             </ItemTemplate>
@@ -44,176 +45,191 @@
             </div>
             
             <div class="col-md-9 d-flex flex-column" style="min-height: 80vh;">
-                <div class="card flex-grow-1 d-flex flex-column">
+                <div class="card flex-grow-1 d-flex flex-column shadow-sm">
                     <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Chat</h5>
-                        <div class="badge bg-primary rounded-pill">
-                            <asp:Literal ID="litActiveChatTitle" runat="server"></asp:Literal>
-                        </div>
+                        <h5 class="mb-0">
+                            <i class="fas fa-comments text-primary me-2"></i>
+                            <asp:Literal ID="litActiveChatTitle" runat="server" Text="Chat"></asp:Literal>
+                        </h5>
                     </div>
-                    <div class="card-body chat-container flex-grow-1" 
-                        style="overflow-y: auto; display: flex; flex-direction: column;" 
-                        id="chatScrollContainer">
+                    <div class="card-body chat-container flex-grow-1" id="chatScrollContainer">
+                        <asp:PlaceHolder ID="phEmptyChat" runat="server" Visible="false">
+                            <div class="empty-chat-placeholder">
+                                <i class="fas fa-robot fa-3x mb-3 text-muted"></i>
+                                <h4>Welcome to the Library Bot!</h4>
+                                <p>Select a chat on the left or start a new one.</p>
+                            </div>
+                        </asp:PlaceHolder>
                         <asp:Literal ID="litChatHistory" runat="server"></asp:Literal>
                     </div>
-                </div>
-                
-                <div class="input-group mt-3">
-                    <label class="btn btn-outline-secondary" for="fileUploadImage">
-                        <i class="fas fa-image"></i>
-                        <asp:FileUpload ID="fileUploadImage" runat="server" />
-                    </label>
-
-                    <asp:TextBox ID="txtMessage" runat="server"
-                        CssClass="form-control" placeholder="Type your question..." 
-                        autocomplete="off"
-                        onkeypress="if(event.keyCode==13) {document.getElementById('<%= btnSend.ClientID %>').click(); return false;}" />
-                    
-                    <div class="input-group-append">
-                        <asp:Button ID="btnSend" runat="server" Text="Send"
-                            CssClass="btn btn-primary" OnClick="btnSend_Click" />
+                    <div class="card-footer bg-white">
+                        <div id="imagePreview" class="mt-2" style="display:none;">
+                            <img id="previewImg" src="#" alt="Preview" />
+                            <button type="button" class="btn btn-sm btn-icon btn-danger" onclick="clearImage()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="input-group">
+                           <label class="btn btn-outline-secondary" title="Upload Image" 
+                                onclick="document.getElementById('<%= fileUploadImage.ClientID %>').click();">
+                                <img src="file.png" alt="Attach Icon" style="height:16px; width:16px;" />
+                            </label>
+                            <asp:FileUpload ID="fileUploadImage" runat="server" Style="display:none;" />
+                            <asp:TextBox ID="txtMessage" runat="server"
+                                CssClass="form-control" placeholder="Type your message..."
+                                autocomplete="off"
+                                onkeypress="if(event.keyCode==13 && !event.shiftKey) {document.getElementById('<%= btnSend.ClientID %>').click(); return false;}" />
+                            <asp:Button ID="btnSend" runat="server" Text="Send"
+                                CssClass="btn btn-primary" OnClick="btnSend_Click" />
+                        </div>
                     </div>
                 </div>
-
-                <div id="imagePreview" class="mt-2" style="display:none;">
-                    <img id="previewImg" src="#" alt="Preview" style="max-height: 100px; border: 1px solid #ddd; padding: 5px;"/>
-                    <button type="button" class="btn btn-sm btn-danger ml-2" onclick="clearImage()">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-
-            </div>
         </div>
     </div>
+        </div>
 
     <style>
+    :root {
+        --primary-color: #007bff;
+        --light-primary: #e3f2fd;
+        --secondary-color: #6c757d;
+        --text-color: #343a40;
+        --border-color: #dee2e6;
+        --bg-light: #f8f9fa;
+        --user-msg-bg: #007bff;
+        --bot-msg-bg: #e9ecef;
+    }
 
-        chat-session-item .active-indicator {
-    display: none;
-}
+    .card {
+        border: none;
+        border-radius: 0.75rem;
+    }
 
-.chat-session-item.active-chat .active-indicator {
-    display: block;
-}
+    .shadow-sm {
+        box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;
+    }
 
+    .chat-session-item {
+        transition: background-color 0.2s ease-in-out;
+        cursor: pointer;
+    }
 
-        .chat-session-item {
-            transition: background-color 0.2s;
-            cursor: pointer;
-        }
-        .chat-session-item:hover {
-            background-color: #f8f9fa;
-        }
-        .active-chat {
-            background-color: #e3f2fd;
-        }
-        .chat-title {
-            font-size: 0.9rem;
-        }
+    .chat-session-item:hover {
+        background-color: var(--light-primary);
+    }
 
-        .chat-date {
-            font-size: 0.7rem;
-        }
+    .active-chat {
+        background-color: var(--primary-color) !important;
+        color: white;
+    }
 
-        .chat-message-container {
-            display: flex;
-            margin-bottom: 0.75rem;
-        }
+    .active-chat .chat-title, .active-chat .chat-date {
+        color: white;
+    }
 
-        .chat-message { 
-            padding: 12px 16px; 
-            border-radius: 18px; 
-            max-width: 85%;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            position: relative;
-            animation: fadeIn 0.3s ease;
-        }
+    .btn-icon {
+        background: transparent;
+        border: none;
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    .chat-container {
+        padding: 1.5rem;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        background-color: var(--bg-light);
+    }
 
-        .user-message-container {
+    .empty-chat-placeholder {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        height: 100%;
+        color: #6c757d;
+    }
 
-            justify-content: flex-end;
-        }
+    .chat-message-container {
+        display: flex;
+        margin-bottom: 1rem;
+        animation: fadeIn 0.4s ease;
+    }
 
-        .user-message { 
-            background-color: #0d6efd; 
-            color: white;
-            border-bottom-right-radius: 4px;
-        }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(15px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 
-        .bot-message-container {
-            justify-content: flex-start;
-        }
+    .chat-message {
+        padding: 0.75rem 1rem;
+        border-radius: 1.1rem;
+        max-width: 80%;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+    }
 
-        .bot-message { 
-            background-color: #f0f2f5; 
-            border-bottom-left-radius: 4px;
-        }
+    .user-message-container {
+        justify-content: flex-end;
+    }
 
-        .error-message { 
-            background-color: #f8d7da; 
-            margin: 0 auto;
-            text-align: center;
-            max-width: 90%;
-        }
-        .message-time {
-            font-size: 0.65rem;
-            opacity: 0.7;
-            margin-top: 4px;
-            text-align: right;
-        }
-        .typing-indicator {
-            display: inline-block;
-            padding: 12px 16px;
-            background-color: #f0f2f5;
-            border-radius: 18px;
-            border-bottom-left-radius: 4px;
-        }
-        .typing-indicator span {
-            height: 8px;
-            width: 8px;
-            float: left;
-            margin: 0 1px;
-            background-color: #9E9EA1;
-            display: block;
-            border-radius: 50%;
-            opacity: 0.4;
-        }
-        .typing-indicator span:nth-of-type(1) {
-            animation: typing 1s infinite;
-        }
-        .typing-indicator span:nth-of-type(2) {
-            animation: typing 1s infinite 0.2s;
-        }
-        .typing-indicator span:nth-of-type(3) {
-            animation: typing 1s infinite 0.4s;
-        }
+    .user-message {
+        background-color: var(--user-msg-bg);
+        color: white;
+        border-bottom-right-radius: 0.25rem;
+    }
 
-        .chat-image-preview {
-            border: 1px solid #eee;
-            padding: 5px;
-            border-radius: 5px;
-            background: #f8f9fa;
-            margin-top: 5px;
-        }
-        .user-message-container .chat-image-preview {
-            float: right;
-        }
+    .bot-message-container {
+        justify-content: flex-start;
+    }
 
-        @keyframes typing {
-            0%, 100% {
-                transform: translateY(0);
-            }
+    .bot-message {
+        background-color: var(--bot-msg-bg);
+        color: var(--text-color);
+        border-bottom-left-radius: 0.25rem;
+    }
 
-            50% {
-                transform: translateY(-5px);
-            }
-        }
-    </style>
+    .message-time {
+        font-size: 0.7rem;
+        opacity: 0.8;
+        margin-top: 0.25rem;
+        text-align: right;
+    }
+
+    #imagePreview {
+        position: relative;
+        display: none;
+        margin-bottom: 0.5rem;
+    }
+
+    #imagePreview img {
+        max-height: 80px;
+        border: 1px solid var(--border-color);
+        padding: 5px;
+        border-radius: 0.5rem;
+    }
+
+    #imagePreview .btn-danger {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        background: white;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .card-footer .input-group .form-control {
+        border-right: none;
+    }
+    
+    .card-footer .input-group .btn {
+        z-index: 2;
+    }
+</style>
 
     <script>
         function scrollToBottom() {
@@ -254,7 +270,19 @@
 
         function clearImage() {
             document.getElementById('<%= fileUploadImage.ClientID %>').value = '';
-        document.getElementById('imagePreview').style.display = 'none';
-    }
+            document.getElementById('previewImg').src = '';
+            document.getElementById('imagePreview').style.display = 'none';
+        }
+
+        document.getElementById('<%= fileUploadImage.ClientID %>').addEventListener('change', function (e) {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('previewImg').src = e.target.result;
+                    document.getElementById('imagePreview').style.display = 'flex';
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
     </script>
 </asp:Content>

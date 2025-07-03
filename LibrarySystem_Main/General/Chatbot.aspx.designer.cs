@@ -40,6 +40,15 @@ namespace LibrarySystem_Main.General {
         protected global::System.Web.UI.WebControls.Literal litActiveChatTitle;
         
         /// <summary>
+        /// phEmptyChat control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.PlaceHolder phEmptyChat;
+        
+        /// <summary>
         /// litChatHistory control.
         /// </summary>
         /// <remarks>

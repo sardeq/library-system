@@ -36,6 +36,8 @@ namespace LibrarySystem_Main.General
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Page.Form.Enctype = "multipart/form-data";
+
             if (!IsPostBack)
             {
                 if (CurrentChatId == Guid.Empty)
@@ -161,7 +163,7 @@ namespace LibrarySystem_Main.General
             });
 
             txtMessage.Text = "";
-            fileUploadImage.Attributes.Clear();
+            //fileUploadImage.Attributes.Clear();
             RenderChatHistory();
             ScriptManager.RegisterStartupScript(this, GetType(), "showTyping", "showTypingIndicator();", true);
             ScriptManager.RegisterStartupScript(this, GetType(), "focusInput", "focusInput();", true);
@@ -349,34 +351,45 @@ namespace LibrarySystem_Main.General
         private void RenderChatHistory()
         {
             var messages = LoadMessagesFromDatabase(CurrentChatId);
-            var sb = new StringBuilder();
 
-            foreach (var msg in messages)
+            // Show placeholder if there are no messages
+            if (messages.Count == 0)
             {
-                string containerClass = msg.CssClass == "user-message"
-                    ? "chat-message-container user-message-container"
-                    : "chat-message-container bot-message-container";
+                phEmptyChat.Visible = true;
+                litChatHistory.Text = "";
+            }
+            else
+            {
+                phEmptyChat.Visible = false;
+                var sb = new StringBuilder();
 
-                sb.Append($@"<div class=""{containerClass}"">");
-                sb.Append($@"<div class=""chat-message {msg.CssClass}"">");
-                sb.Append($@"<div>{Server.HtmlEncode(msg.Text ?? "").Replace("\n", "<br />")}</div>");
-
-                if (!string.IsNullOrEmpty(msg.ImageData))
+                foreach (var msg in messages)
                 {
-                            sb.Append($@"<div class='chat-image-preview mt-2'>
-                        <img src='{msg.ImageData}' alt='Attached image' style='max-width: 200px;'/>
-                    </div>");
-                }
+                    string containerClass = msg.CssClass == "user-message"
+                        ? "chat-message-container user-message-container"
+                        : "chat-message-container bot-message-container";
 
-                if (!string.IsNullOrEmpty(msg.Timestamp))
-                {
-                    sb.Append($@"<div class=""message-time"">{msg.Timestamp}</div>");
-                }
+                    sb.Append($@"<div class='{containerClass}'>");
+                    sb.Append($@"<div class='chat-message {msg.CssClass}'>");
+                    sb.Append($@"<div>{Server.HtmlEncode(msg.Text ?? "").Replace("\n", "<br />")}</div>");
 
-                sb.Append("</div></div>");
+                    if (!string.IsNullOrEmpty(msg.ImageData))
+                    {
+                        sb.Append($@"<div class='chat-image-preview mt-2'>
+                                <img src='{msg.ImageData}' alt='Attached image' style='max-width: 200px;'/>
+                             </div>");
+                    }
+
+                    if (!string.IsNullOrEmpty(msg.Timestamp))
+                    {
+                        sb.Append($@"<div class='message-time'>{msg.Timestamp}</div>");
+                    }
+
+                    sb.Append("</div></div>");
+                }
+                litChatHistory.Text = sb.ToString();
             }
 
-            litChatHistory.Text = sb.ToString();
             litActiveChatTitle.Text = GetActiveChatTitle();
 
             ScriptManager.RegisterStartupScript(this, GetType(), "scrollChat",
