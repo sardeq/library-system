@@ -15,27 +15,26 @@
                     <div class="card-body p-0 flex-grow-1" style="overflow-y: auto;">
                         <asp:Repeater ID="rptChatSessions" runat="server" OnItemCommand="rptChatSessions_ItemCommand">
                             <ItemTemplate>
-                                <div class='chat-session-item p-2 border-bottom position-relative <%# GetChatItemCss(Eval("ChatId")) %>'>
-            
-                                    <asp:LinkButton runat="server" CommandName="SelectChat"
-                                        CommandArgument='<%# Eval("ChatId") %>'
-                                        CssClass="text-decoration-none text-dark d-block">
-                
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="chat-title font-weight-bold text-truncate me-2"><%# Eval("Title") %></div>
-                                            <asp:LinkButton runat="server" CommandName="DeleteChat"
-                                                CommandArgument='<%# Eval("ChatId") %>'
-                                                CssClass="btn btn-sm btn-link text-danger p-0"
-                                                OnClientClick="return confirm('Delete this chat?');">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </asp:LinkButton>
-                                        </div>
-                                        <div class="chat-date small text-muted"><%# Eval("CreatedDate", "{0:g}") %></div>
-                                    </asp:LinkButton>
-            
-                                    <%-- 3. Remove the inline style and add the new class to the indicator div --%>
-                                    <div class="position-absolute top-0 end-0 h-100 active-indicator" 
-                                         style="width: 4px; background-color: #0d6efd;">
+                                <div class='chat-session-item p-2 border-bottom <%# GetChatItemCss(Eval("ChatId")) %>'>
+                                    <div class="d-flex justify-content-between align-items-center w-100">
+                                        <asp:LinkButton runat="server" CommandName="SelectChat"
+                                            CommandArgument='<%# Eval("ChatId") %>'
+                                            CssClass="text-decoration-none text-dark flex-grow-1 me-2">
+                                            <div class="chat-title font-weight-bold text-truncate">
+                                                <%# Eval("Title") %>
+                                            </div>
+                                            <div class="chat-date small text-muted">
+                                                <%# Eval("CreatedDate", "{0:g}") %>
+                                            </div>
+                                        </asp:LinkButton>
+
+                                        <asp:LinkButton runat="server" CommandName="DeleteChat"
+                                            CommandArgument='<%# Eval("ChatId") %>'
+                                            CssClass="btn btn-sm btn-link text-danger p-0"
+                                            OnClientClick="return confirm('Are you sure you want to delete this chat?');"
+                                            Style="z-index: 2;">
+                                            <i class="fas fa-trash-alt">❌</i>
+                                        </asp:LinkButton>
                                     </div>
                                 </div>
                             </ItemTemplate>
@@ -62,7 +61,7 @@
                 <div class="input-group mt-3">
                     <label class="btn btn-outline-secondary" for="fileUploadImage">
                         <i class="fas fa-image"></i>
-                        <asp:FileUpload ID="fileUploadImage" runat="server" style="display:none" />
+                        <asp:FileUpload ID="fileUploadImage" runat="server" />
                     </label>
 
                     <asp:TextBox ID="txtMessage" runat="server"

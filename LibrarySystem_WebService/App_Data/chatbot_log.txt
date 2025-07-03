@@ -708,3 +708,210 @@ Response:
          
 {"id":"gen-1751361824-TbUVLc5oyma8Rj4oqeww","provider":"Chutes","model":"deepseek/deepseek-chat-v3-0324:free","object":"chat.completion","created":1751361825,"choices":[{"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","index":0,"message":{"role":"assistant","content":"Hello! How can I assist you with books today? Are you looking for recommendations, need help finding a specific title, or have something else in mind? 😊","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":139,"completion_tokens":34,"total_tokens":173,"prompt_tokens_details":null}}
 
+7/3/2025 7:20:59 AM - Request:
+{"model":"deepseek/deepseek-chat-v3-0324:free","messages":[{"role":"system","content":"You are a helpful library assistant. Follow these rules:\r\n                1. When asked about books, ALWAYS use our database first\r\n                2. For book requests: Provide 3-5 relevant books from database\r\n                3. If user asks for general recommendations, show popular books\r\n                4. Never mention you're checking a database - respond naturally\r\n                5. If no books match, suggest alternatives or ask for clarification\r\n                6. Maintain conversation context between questions\r\n                7. If the user message includes image context or uploaded an image, acknowledge and respond to it appropriately\r\n                8. Be helpful and conversational"},{"role":"assistant","content":"Hello! How can I help you with library services today?"},{"role":"user","content":"hi"}],"max_tokens":2000,"temperature":0.8}
+
+7/3/2025 7:21:15 AM - Status: OK
+Response: 
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+{"id":"gen-1751527268-XZKyMy1cZ9a8tFE2GWSx","provider":"Chutes","model":"deepseek/deepseek-chat-v3-0324:free","object":"chat.completion","created":1751527269,"choices":[{"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","index":0,"message":{"role":"assistant","content":"Hello! Welcome to the library. Are you looking for a specific book or genre today? Or perhaps you'd like recommendations based on popular titles? Let me know how I can help!","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":153,"completion_tokens":38,"total_tokens":191,"prompt_tokens_details":null}}
+
+7/3/2025 7:33:15 AM - Request:
+{"model":"deepseek/deepseek-chat-v3-0324:free","messages":[{"role":"system","content":"You are a helpful library assistant. Follow these rules:\r\n                1. When asked about books, ALWAYS use our database first\r\n                2. For book requests: Provide 3-5 relevant books from database\r\n                3. If user asks for general recommendations, show popular books\r\n                4. Never mention you're checking a database - respond naturally\r\n                5. If no books match, suggest alternatives or ask for clarification\r\n                6. Maintain conversation context between questions\r\n                7. If the user message includes image context or uploaded an image, acknowledge and respond to it appropriately\r\n                8. Be helpful and conversational"},{"role":"assistant","content":"Hello! How can I help you with library services today?"},{"role":"user","content":"recommend me some books"},{"role":"system","content":"I found these matching books:\nNo matching books found.\n"}],"max_tokens":2000,"temperature":0.8}
+
+7/3/2025 7:33:22 AM - Status: OK
+Response: 
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+{"id":"gen-1751528003-LZUohtOKugNLz0AiJq1B","provider":"Targon","model":"deepseek/deepseek-chat-v3-0324:free","object":"chat.completion","created":1751528004,"choices":[{"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","index":0,"message":{"role":"assistant","content":"I'd be happy to recommend some popular books across different genres! Here are some great choices:  \n\n### **Fiction**  \n- **\"The Silent Patient\" by Alex Michaelides** – A psychological thriller about a woman who shoots her husband and then stops speaking.  \n- **\"Where the Crawdads Sing\" by Delia Owens** – A beautifully written novel about a young girl growing up alone in the marshes of North Carolina.  \n\n### **Fantasy/Sci-Fi**  \n- **\"Project Hail Mary\" by Andy Weir** – A gripping sci-fi adventure from the author of *The Martian*.  \n- **\"The House in the Cerulean Sea\" by T.J. Klune** – A heartwarming fantasy about a caseworker inspecting a magical orphanage.  \n\n### **Nonfiction**  \n- **\"Educated\" by Tara Westover** – A memoir about a woman who leaves her survivalist family to pursue education.  \n- **\"Atomic Habits\" by James Clear** – A practical guide to building good habits and breaking bad ones.  \n\nWould you like recommendations in a specific genre or mood? 😊","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":166,"completion_tokens":234,"total_tokens":400,"prompt_tokens_details":null}}
+
+7/3/2025 7:33:44 AM - Request:
+{"model":"deepseek/deepseek-chat-v3-0324:free","messages":[{"role":"system","content":"You are a helpful library assistant. Follow these rules:\r\n                1. When asked about books, ALWAYS use our database first\r\n                2. For book requests: Provide 3-5 relevant books from database\r\n                3. If user asks for general recommendations, show popular books\r\n                4. Never mention you're checking a database - respond naturally\r\n                5. If no books match, suggest alternatives or ask for clarification\r\n                6. Maintain conversation context between questions\r\n                7. If the user message includes image context or uploaded an image, acknowledge and respond to it appropriately\r\n                8. Be helpful and conversational"},{"role":"user","content":"what do you do"}],"max_tokens":2000,"temperature":0.8}
+
+7/3/2025 7:33:49 AM - Status: OK
+Response: 
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+{"id":"gen-1751528031-ZT6YOHFGwwmvQQGg7lu0","provider":"Targon","model":"deepseek/deepseek-chat-v3-0324:free","object":"chat.completion","created":1751528032,"choices":[{"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","index":0,"message":{"role":"assistant","content":"Great question! I'm here to help you discover books, recommend great reads, and assist with anything related to our library. Whether you're looking for a specific title, need recommendations based on your interests, or want to explore popular books, I'm your go-to assistant!  \n\nWhat can I help you with today? Are you looking for something specific, or would you like recommendations? 😊","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":140,"completion_tokens":80,"total_tokens":220,"prompt_tokens_details":null}}
+
+7/3/2025 7:46:27 AM - Vision Model (meta-llama/llama-3.2-11b-vision-instruct:free) Request
+
+7/3/2025 7:46:35 AM - Vision Model (meta-llama/llama-3.2-11b-vision-instruct:free) Response (Status: OK):
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+{"id":"gen-1751528794-3syS0yGIZjsi6oMECME4","provider":"Together","model":"meta-llama/llama-3.2-11b-vision-instruct:free","object":"chat.completion","created":1751528795,"choices":[{"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","index":0,"message":{"role":"assistant","content":"The image depicts a whimsical scene featuring a sloth riding a pizza through space, surrounded by flying burritos and a rainbow. The sloth is positioned in the center of the image, with its arms outstretched and a contented expression on its face. It is sitting on top of a large pizza, which appears to be made of pepperoni and cheese.\n\nThe background of the image is a vibrant, starry night sky, with planets and galaxies visible in the distance. The overall atmosphere of the image is playful and humorous, suggesting that it may be a meme or a piece of fan art. The use of a sloth, a creature often associated with laziness, riding a pizza through space adds to the comedic effect of the image. The inclusion of flying burritos and a rainbow further enhances the sense of whimsy and fantasy. Overall, the image is a lighthearted and entertaining depiction of a fantastical scenario.","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":31,"completion_tokens":191,"total_tokens":222}}
+
+7/3/2025 7:46:36 AM - Request:
+{"model":"deepseek/deepseek-chat-v3-0324:free","messages":[{"role":"system","content":"You are a helpful library assistant. Follow these rules:\r\n                1. When asked about books, ALWAYS use our database first\r\n                2. For book requests: Provide 3-5 relevant books from database\r\n                3. If user asks for general recommendations, show popular books\r\n                4. Never mention you're checking a database - respond naturally\r\n                5. If no books match, suggest alternatives or ask for clarification\r\n                6. Maintain conversation context between questions\r\n                7. If the user message includes image context or uploaded an image, acknowledge and respond to it appropriately\r\n                8. Be helpful and conversational"},{"role":"assistant","content":"Hello! How can I help you with library services today?"},{"role":"user","content":"[Image uploaded: The image depicts a whimsical scene featuring a sloth riding a pizza through space, surrounded by flying burritos and a rainbow. The sloth is positioned in the center of the image, with its arms outstretched and a contented expression on its face. It is sitting on top of a large pizza, which appears to be made of pepperoni and cheese.\n\nThe background of the image is a vibrant, starry night sky, with planets and galaxies visible in the distance. The overall atmosphere of the image is playful and humorous, suggesting that it may be a meme or a piece of fan art. The use of a sloth, a creature often associated with laziness, riding a pizza through space adds to the comedic effect of the image. The inclusion of flying burritos and a rainbow further enhances the sense of whimsy and fantasy. Overall, the image is a lighthearted and entertaining depiction of a fantastical scenario.]"}],"max_tokens":2000,"temperature":0.8}
+
+7/3/2025 7:46:45 AM - Status: OK
+Response: 
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+
+         
+{"id":"gen-1751528802-0M5sejv8RSS8xebUoVsC","provider":"Targon","model":"deepseek/deepseek-chat-v3-0324:free","object":"chat.completion","created":1751528803,"choices":[{"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","index":0,"message":{"role":"assistant","content":"What a wonderfully whimsical image! A sloth riding a pizza through space with flying burritos and rainbows definitely sparks the imagination. This makes me think you might enjoy some quirky, humorous, or fantastical books. Here are a few that match this playful spirit:\n\n1. **\"The Hitchhiker's Guide to the Galaxy\" by Douglas Adams** - A sci-fi comedy classic featuring absurd cosmic adventures\n2. **\"Good Omens\" by Neil Gaiman & Terry Pratchett** - A hilarious apocalyptic tale with angels, demons, and eccentric characters\n3. **\"The Last Unicorn\" by Peter S. Beagle** - A beautiful fantasy with both whimsy and depth\n4. **\"The Hollow Chocolate Bunnies of the Apocalypse\" by Robert Rankin** - A delightfully bizarre detective story in Toy City\n5. **\"Space Opera\" by Catherynne M. Valente** - A Eurovision-style competition... in space!\n\nWould you like something specifically about sloths, food-themed adventures, or perhaps more space oddities?","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":340,"completion_tokens":221,"total_tokens":561,"prompt_tokens_details":null}}
+

@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,10 +15,12 @@ namespace LibrarySystem_Main.General
 {
     public partial class Chatbot : BasePage
     {
+        private List<ChatInfo> _chatSessions;
+
         private Guid CurrentChatId
         {
-            get => (Guid)(ViewState["CurrentChatId"] ?? Guid.Empty);
-            set => ViewState["CurrentChatId"] = value;
+            get => Session["CurrentChatId"] == null ? Guid.Empty : (Guid)Session["CurrentChatId"];
+            set => Session["CurrentChatId"] = value;
         }
 
         private Dictionary<Guid, List<ChatMessage>> ChatHistories
@@ -35,15 +38,21 @@ namespace LibrarySystem_Main.General
         {
             if (!IsPostBack)
             {
-                InitializeChatSession();
+                if (CurrentChatId == Guid.Empty)
+                {
+                    InitializeChatSession();
+                }
                 LoadChatSessions();
             }
         }
+
+
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
             RenderChatHistory();
         }
+
 
         public bool IsActiveChat(object chatIdObj)
         {
@@ -54,14 +63,36 @@ namespace LibrarySystem_Main.General
 
         private void InitializeChatSession()
         {
-            CurrentChatId = CreateNewChat();
-            var initialMessage = new ChatMessage
+            if (CurrentChatId == Guid.Empty)
             {
-                Sender = "Library Bot",
-                Text = "Hello! How can I help you with library services today?",
-                CssClass = "bot-message"
-            };
-            SaveMessageToHistory(initialMessage);
+                CurrentChatId = CreateNewChat();
+            }
+
+            if (!ChatHistories.ContainsKey(CurrentChatId) || ChatHistories[CurrentChatId].Count == 0)
+            {
+                var initialMessage = new ChatMessage
+                {
+                    Sender = "Library Bot",
+                    Text = "Hello! How can I help you with library services today?",
+                    CssClass = "bot-message"
+                };
+
+                var requestData = new
+                {
+                    ChatId = CurrentChatId,
+                    Role = "assistant",
+                    Content = initialMessage.Text
+                };
+                var content = new StringContent(JsonConvert.SerializeObject(requestData), Encoding.UTF8, "application/json");
+                var response = APIClient.Instance.PostAsync("api/chatbot/addmessage", content).Result;
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    System.Diagnostics.Debug.WriteLine("Failed to save initial message: " + response.ReasonPhrase);
+                }
+
+                SaveMessageToHistory(initialMessage);
+            }
         }
 
         private Guid CreateNewChat()
@@ -91,23 +122,16 @@ namespace LibrarySystem_Main.General
         {
             try
             {
-                var response = APIClient.Instance.GetAsync(
-                    $"api/chatbot/chats?clientId={CurrentUser.ClientID}"
-                ).Result;
-
+                var response = APIClient.Instance.GetAsync($"api/chatbot/chats?clientId={CurrentUser.ClientID}").Result;
                 if (response.IsSuccessStatusCode)
                 {
-                    var chats = JsonConvert.DeserializeObject<List<ChatInfo>>(
-                        response.Content.ReadAsStringAsync().Result
-                    );
-                    rptChatSessions.DataSource = chats;
+                    var chats = JsonConvert.DeserializeObject<List<ChatInfo>>(response.Content.ReadAsStringAsync().Result);
+                    _chatSessions = chats; 
+                    rptChatSessions.DataSource = _chatSessions;
                     rptChatSessions.DataBind();
                 }
             }
-            catch
-            {
-                // Handle error
-            }
+            catch { /* Handle error */ }
         }
 
         protected async void btnSend_Click(object sender, EventArgs e)
@@ -200,67 +224,58 @@ namespace LibrarySystem_Main.General
         protected void btnNewChat_Click(object sender, EventArgs e)
         {
             try
-            { 
-                var requestData = new {
-                    ClientId = CurrentUser.ClientID
-                };
-                var content = new StringContent(
-                    JsonConvert.SerializeObject(requestData),
-                    Encoding.UTF8,
-                    "application/json"
-                );
-
-                var response = APIClient.Instance.PostAsync("api/chatbot/newchat", content).Result;
-
-                if (response.IsSuccessStatusCode)
+            {
+                Guid newChatId = CreateNewChat();
+                if (newChatId != Guid.Empty)
                 {
-                    var result = JsonConvert.DeserializeAnonymousType(
-                        response.Content.ReadAsStringAsync().Result,
-                        new { ChatId = Guid.Empty } 
-                    );
-                    CurrentChatId = result.ChatId;
+                    CurrentChatId = newChatId;
+
+                    var initialMessage = "Hello! How can I help you with library services today?";
+                    var requestData = new
+                    {
+                        ChatId = CurrentChatId,
+                        Role = "assistant",
+                        Content = initialMessage
+                    };
+                    var content = new StringContent(JsonConvert.SerializeObject(requestData), Encoding.UTF8, "application/json");
+                    var response = APIClient.Instance.PostAsync("api/chatbot/addmessage", content).Result;
+
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        System.Diagnostics.Debug.WriteLine("Failed to save initial message for new chat.");
+                    }
+
+                    LoadChatSessions();
+                    RenderChatHistory();
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // later
+                System.Diagnostics.Debug.WriteLine("New chat creation failed: " + ex.Message);
             }
-
         }
 
         protected async void rptChatSessions_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
-            if (e.CommandName == "SelectChat")
+            if (Guid.TryParse(e.CommandArgument.ToString(), out Guid chatId))
             {
-                if (Guid.TryParse(e.CommandArgument.ToString(), out Guid chatId))
+                if (e.CommandName == "SelectChat")
                 {
                     CurrentChatId = chatId;
+                    LoadChatSessions(); 
+                    RenderChatHistory(); 
                 }
-                else
+                else if (e.CommandName == "DeleteChat")
                 {
-                    CurrentChatId = CreateNewChat();
-                }
-                RenderChatHistory();
-            }
-            else if (e.CommandName == "DeleteChat")
-            {
-                if (Guid.TryParse(e.CommandArgument.ToString(), out Guid chatId))
-                {
-                    var response = await APIClient.Instance.DeleteAsync(
-                        $"api/chatbot/delete/{chatId}"
-                    );
-
+                    var response = await APIClient.Instance.DeleteAsync($"api/chatbot/delete/{chatId}");
                     if (response.IsSuccessStatusCode)
                     {
                         if (chatId == CurrentChatId)
                         {
                             CurrentChatId = CreateNewChat();
                         }
-
-                        if (ChatHistories.ContainsKey(chatId))
-                        {
-                            ChatHistories.Remove(chatId);
-                        }
+                        LoadChatSessions();
+                        RenderChatHistory();
                     }
                 }
             }
@@ -357,23 +372,10 @@ namespace LibrarySystem_Main.General
 
         private string GetActiveChatTitle()
         {
-            foreach (RepeaterItem item in rptChatSessions.Items)
+            if (_chatSessions != null)
             {
-                if (item.ItemType == ListItemType.Item ||
-                    item.ItemType == ListItemType.AlternatingItem)
-                {
-                    object chatIdObj = DataBinder.Eval(item.DataItem, "ChatId");
-                    if (chatIdObj != null)
-                    {
-                        string chatId = chatIdObj.ToString();
-                        if (Guid.TryParse(chatId, out Guid parsedId) &&
-                            parsedId == CurrentChatId)
-                        {
-                            object titleObj = DataBinder.Eval(item.DataItem, "Title");
-                            return titleObj?.ToString() ?? "New Chat";
-                        }
-                    }
-                }
+                var activeChat = _chatSessions.FirstOrDefault(c => Guid.Parse(c.ChatId) == CurrentChatId);
+                return activeChat?.Title ?? "New Chat";
             }
             return "New Chat";
         }

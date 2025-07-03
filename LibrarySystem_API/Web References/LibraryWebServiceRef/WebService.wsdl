@@ -601,6 +601,18 @@
           </s:sequence>
         </s:complexType>
       </s:element>
+      <s:element name="AddMessageToChat">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="chatId" type="s1:guid" />
+            <s:element minOccurs="0" maxOccurs="1" name="role" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="content" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddMessageToChatResponse">
+        <s:complexType />
+      </s:element>
       <s:element name="GetChatSessions">
         <s:complexType>
           <s:sequence>
@@ -860,6 +872,12 @@
   <wsdl:message name="CreateNewChatSoapOut">
     <wsdl:part name="parameters" element="tns:CreateNewChatResponse" />
   </wsdl:message>
+  <wsdl:message name="AddMessageToChatSoapIn">
+    <wsdl:part name="parameters" element="tns:AddMessageToChat" />
+  </wsdl:message>
+  <wsdl:message name="AddMessageToChatSoapOut">
+    <wsdl:part name="parameters" element="tns:AddMessageToChatResponse" />
+  </wsdl:message>
   <wsdl:message name="GetChatSessionsSoapIn">
     <wsdl:part name="parameters" element="tns:GetChatSessions" />
   </wsdl:message>
@@ -1004,6 +1022,10 @@
     <wsdl:operation name="CreateNewChat">
       <wsdl:input message="tns:CreateNewChatSoapIn" />
       <wsdl:output message="tns:CreateNewChatSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddMessageToChat">
+      <wsdl:input message="tns:AddMessageToChatSoapIn" />
+      <wsdl:output message="tns:AddMessageToChatSoapOut" />
     </wsdl:operation>
     <wsdl:operation name="GetChatSessions">
       <wsdl:input message="tns:GetChatSessionsSoapIn" />
@@ -1306,6 +1328,15 @@
     </wsdl:operation>
     <wsdl:operation name="CreateNewChat">
       <soap:operation soapAction="http://tempuri.org/CreateNewChat" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMessageToChat">
+      <soap:operation soapAction="http://tempuri.org/AddMessageToChat" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -1624,6 +1655,15 @@
     </wsdl:operation>
     <wsdl:operation name="CreateNewChat">
       <soap12:operation soapAction="http://tempuri.org/CreateNewChat" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddMessageToChat">
+      <soap12:operation soapAction="http://tempuri.org/AddMessageToChat" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

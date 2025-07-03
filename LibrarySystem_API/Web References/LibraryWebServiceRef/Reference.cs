@@ -96,6 +96,8 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
         
         private System.Threading.SendOrPostCallback CreateNewChatOperationCompleted;
         
+        private System.Threading.SendOrPostCallback AddMessageToChatOperationCompleted;
+        
         private System.Threading.SendOrPostCallback GetChatSessionsOperationCompleted;
         
         private System.Threading.SendOrPostCallback GetChatHistoryOperationCompleted;
@@ -236,6 +238,9 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
         
         /// <remarks/>
         public event CreateNewChatCompletedEventHandler CreateNewChatCompleted;
+        
+        /// <remarks/>
+        public event AddMessageToChatCompletedEventHandler AddMessageToChatCompleted;
         
         /// <remarks/>
         public event GetChatSessionsCompletedEventHandler GetChatSessionsCompleted;
@@ -1213,6 +1218,38 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
             if ((this.CreateNewChatCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.CreateNewChatCompleted(this, new CreateNewChatCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/AddMessageToChat", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void AddMessageToChat(System.Guid chatId, string role, string content) {
+            this.Invoke("AddMessageToChat", new object[] {
+                        chatId,
+                        role,
+                        content});
+        }
+        
+        /// <remarks/>
+        public void AddMessageToChatAsync(System.Guid chatId, string role, string content) {
+            this.AddMessageToChatAsync(chatId, role, content, null);
+        }
+        
+        /// <remarks/>
+        public void AddMessageToChatAsync(System.Guid chatId, string role, string content, object userState) {
+            if ((this.AddMessageToChatOperationCompleted == null)) {
+                this.AddMessageToChatOperationCompleted = new System.Threading.SendOrPostCallback(this.OnAddMessageToChatOperationCompleted);
+            }
+            this.InvokeAsync("AddMessageToChat", new object[] {
+                        chatId,
+                        role,
+                        content}, this.AddMessageToChatOperationCompleted, userState);
+        }
+        
+        private void OnAddMessageToChatOperationCompleted(object arg) {
+            if ((this.AddMessageToChatCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.AddMessageToChatCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -3014,6 +3051,10 @@ namespace LibrarySystem_API.LibraryWebServiceRef {
             }
         }
     }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9037.0")]
+    public delegate void AddMessageToChatCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9037.0")]

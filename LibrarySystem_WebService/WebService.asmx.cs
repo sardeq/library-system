@@ -584,6 +584,12 @@ namespace LibrarySystem_WebService
         }
 
         [WebMethod(EnableSession = true)]
+        public void AddMessageToChat(Guid chatId, string role, string content)
+        {
+            ChatbotManagement.SaveMessageToDatabase(chatId.ToString(), role, content);
+        }
+
+        [WebMethod(EnableSession = true)]
         public List<ChatInfo> GetChatSessions(int clientId)
         {
             return ChatbotManagement.GetChatSessions(clientId);

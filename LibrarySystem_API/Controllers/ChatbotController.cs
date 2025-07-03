@@ -67,14 +67,16 @@ namespace LibrarySystem_API.Controllers
         {
             try
             {
-                var _client = WebServiceClient.Instance;
-                var result = _client.DeleteChat(chatId);
+                bool wasDeleted = WebServiceClient.Instance.DeleteChat(chatId);
 
-                return Ok(new
+                if (wasDeleted)
                 {
-                    Success = true,
-                    Message = "Book deleted successfully!"
-                });
+                    return Ok(new { Success = true, Message = "Chat deleted successfully." });
+                }
+                else
+                {
+                    return Content(HttpStatusCode.InternalServerError, new { Success = false, Message = "Failed to delete the chat in the backend service." });
+                }
             }
             catch (Exception ex)
             {
@@ -97,6 +99,28 @@ namespace LibrarySystem_API.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("addmessage")]
+        public IHttpActionResult AddMessage([FromBody] AddMessageRequest request)
+        {
+            try
+            {
+                WebServiceClient.Instance.AddMessageToChat(request.ChatId, request.Role, request.Content);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+        }
+    }
+
+    public class AddMessageRequest
+    {
+        public Guid ChatId { get; set; }
+        public string Role { get; set; }
+        public string Content { get; set; }
     }
 
     public class ChatRequest
