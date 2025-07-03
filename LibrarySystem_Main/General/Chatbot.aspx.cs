@@ -262,20 +262,33 @@ namespace LibrarySystem_Main.General
                 if (e.CommandName == "SelectChat")
                 {
                     CurrentChatId = chatId;
-                    LoadChatSessions(); 
-                    RenderChatHistory(); 
+                    LoadChatSessions();
+                    RenderChatHistory();
                 }
                 else if (e.CommandName == "DeleteChat")
                 {
-                    var response = await APIClient.Instance.DeleteAsync($"api/chatbot/delete/{chatId}");
+                    //var response = await APIClient.Instance.DeleteAsync($"chatbot/delete/{chatId}");
+
+                    var response = await APIClient.Instance.PostAsync(
+                        $"api/chatbot/delete/{chatId}",
+                        null
+                    );
+
                     if (response.IsSuccessStatusCode)
                     {
                         if (chatId == CurrentChatId)
                         {
-                            CurrentChatId = CreateNewChat();
+                            LoadChatSessions();
+                            CurrentChatId = (_chatSessions != null && _chatSessions.Any())
+                                            ? Guid.Parse(_chatSessions.First().ChatId)
+                                            : CreateNewChat();
                         }
                         LoadChatSessions();
                         RenderChatHistory();
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Failed to delete chat {chatId}. Status: {response.StatusCode}");
                     }
                 }
             }

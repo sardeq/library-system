@@ -61,7 +61,7 @@ namespace LibrarySystem_API.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpPost]
         [Route("delete/{chatId}")]
         public IHttpActionResult DeleteChat(Guid chatId)
         {

@@ -585,7 +585,7 @@ namespace LibrarySystem_WebService.Chatbot
                 db.ExecuteNonQuery(query, parameters);
                 return true;
             }
-            catch
+            catch(Exception ex)
             {
                 return false;
             }
